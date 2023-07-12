@@ -1,19 +1,21 @@
 import React from 'react'
-import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import { ListItemButton } from '@mui/material';
+import { ItemCountButton } from './ItemCountButton';
+import LocalMallIcon from '@mui/icons-material/LocalMall';
 export const CartItemCard = ({ data, value }) => {
     return (
         <>
             <Divider variant="inset" component="li" />
-            <ListItem alignItems="flex-start">
+            <ListItem alignItems="flex-start" secondaryAction={
+                <ItemCountButton value={value} data={data} />
+            }>
                 <ListItemAvatar>
-                    <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
+                    <Avatar alt={data?.name} src={data?.photo} ><LocalMallIcon /></Avatar>
                 </ListItemAvatar>
                 <ListItemText
                     primary={data?.name}
@@ -25,25 +27,11 @@ export const CartItemCard = ({ data, value }) => {
                                 variant="body2"
                                 color="text.primary"
                             >
-                                Sandra Adams
+                                {data?.description}
                             </Typography>
-                            {data?.description}
                         </React.Fragment>
                     }
                 />
-                <ListItemButton>
-                    {value == 0 ? (
-                        <Button disabled={data?.published == false} className="addbtn" onClick={() => { dispatch({ id: data?._id, value: 1 }) }}>
-                            ADD ITEM +
-                        </Button>
-                    ) : (
-                        <>
-                            <Button className="decrement" onClick={() => { dispatch({ id: data?._id, value: value - 1 }) }}>-</Button>
-                            <span>{count}</span>
-                            <Button className="increment" onClick={() => { dispatch({ id: data?._id, value: value + 1 }) }}>+</Button>
-                        </>
-                    )}
-                </ListItemButton>
             </ListItem>
         </>
     )

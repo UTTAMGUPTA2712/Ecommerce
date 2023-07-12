@@ -1,27 +1,12 @@
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
-import { fade } from '@material-ui/core/styles/colorManipulator';
+import { alpha } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
-import { Menu, Search } from '@mui/icons-material';
-// import { Drawer } from '@mui/material';
-import { useState } from 'react';
-import Button from '@mui/material/Button';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import Box from '@mui/material/Box';
-
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import { Search, Store } from '@mui/icons-material';
 import DrawerComponent from './DrawerComponent';
-// import  from '@material-ui/icons/Search';
 
 const styles = theme => ({
   root: {
@@ -42,9 +27,9 @@ const styles = theme => ({
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
     '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
+      backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
     marginLeft: 0,
     width: '100%',
@@ -89,7 +74,7 @@ const SearchAppBar = (props) => {
         <Toolbar>
           <DrawerComponent />
           <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-            Material-UI
+           E-Commerce
           </Typography>
           <div className={classes.grow} />
           <div className={classes.search}>

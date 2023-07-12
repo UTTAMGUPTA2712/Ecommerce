@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
-import { AddUser } from '../../services/AddUser'
-import { GoogleAuth } from '../../utils/googleAuth.js'
+import { AddUser } from '../services/AddUser'
+import { GoogleAuth } from '../utils/googleAuth.js'
 import userIcon from "../assets/Images/user.png"
 import { Button, TextField } from '@material-ui/core'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { saveUser } from '../../redux/slice/authSlice'
-import { userAlreadyExist } from '../../data/constants'
-import { setMessage } from '../../redux/slice/messageSlice'
+import { saveUser } from '../redux/slice/authSlice'
+import { userAlreadyExist } from '../data/constants'
+import { setMessage } from '../redux/slice/messageSlice'
 const Signup = () => {
     const [password, setPassword] = useState("")
     const [formData, setFormData] = useState({})
@@ -28,6 +28,7 @@ const Signup = () => {
                     } else {
                         dispatch(setMessage({ message: "Successfully Logged In", severity: "success" }))
                         dispatch(saveUser(data))
+                        navigate("/")
                     }
                 } else {
                     dispatch(setMessage({ message: "Password do not match", severity: "info" }))
@@ -43,6 +44,7 @@ const Signup = () => {
         const data = await GoogleAuth()
         dispatch(setMessage({ message: "Successfully Logged In", severity: "success" }))
         dispatch(saveUser(data))
+        navigate("/")
     }
     console.log(formData)
     const handlephonenumber = (e) => {

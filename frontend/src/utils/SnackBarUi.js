@@ -1,17 +1,21 @@
-import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { Snackbar } from '@material-ui/core';
+import { cleanMessage } from '../redux/slice/messageSlice';
+import { Alert } from '@mui/material';
 const SnackBarUi = () => {
     const curMessage=useSelector(state=>state.message.message)
-    const [state, setState] = React.useState({
+    const [state, setState] = useState({
         open: false,
         message: 'Successfull',
         severity: 'success',
     });
     const { message, severity, open } = state;
-
+    const dispatch=useDispatch()
     useEffect(()=>{
+        if (curMessage){
         setState({ ...curMessage, open: true });
+        dispatch(cleanMessage())}
     },[curMessage])
 
     const handleClose = () => {
@@ -21,14 +25,13 @@ const SnackBarUi = () => {
     return (
         <>
             <Snackbar
-                // anchorOrigin=( 'top', 'center' )
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
                 open={open}
                 autoHideDuration={3000}
-                onClose={handleClose}
-                message={message}
-                severity={severity}
-                // key={vertical + horizontal}
-            />
+                onClose={handleClose}>
+                {/* // key={vertical + horizontal}> */}
+                <Alert severity={severity}>{message}</Alert>
+            </Snackbar>
         </>
     );
 }

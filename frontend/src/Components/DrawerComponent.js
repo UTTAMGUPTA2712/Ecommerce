@@ -1,27 +1,13 @@
-// import React from 'react'
-import PropTypes from 'prop-types';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
-import { fade } from '@material-ui/core/styles/colorManipulator';
-import { withStyles } from '@material-ui/core/styles';
-import { Menu, Search } from '@mui/icons-material';
-import { Drawer } from '@mui/material';
+import { AddToPhotos, Home, Logout, Menu, Person, ShoppingCart } from '@mui/icons-material';
+import { Drawer, ListItem, ListItemIcon, ListItemText, ListSubheader } from '@mui/material';
 import { useState } from 'react';
-import Button from '@mui/material/Button';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
 import Box from '@mui/material/Box';
-
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import AddItems from './AddItem';
+import { LogoutUser } from './Logout';
+import { useNavigate } from 'react-router-dom';
+import { Divider, List } from '@mui/material'
+
 // import AddItems from './AdDItems';
 const menuButton = {
     marginLeft: -12,
@@ -30,29 +16,44 @@ const menuButton = {
 
 const DrawerComponent = () => {
     const [open, setopen] = useState(false);
-
-    return(<>
-        <Drawer
-        open={open}
-        onClose={() => setopen(false)}
-    >
-        <Box
-            sx={{
-                width: "25rem",
-                flexShrink: 0,
-                '& .MuiDrawer-paper': {
-                    width: "25rem",
-                    boxSizing: 'border-box',
-                },
-            }}
-            variant="persistent"
-            anchor="left"
-            open={open}
-        >
-            <AddItems/>
-
-        </Box>
-    </Drawer>
+    const navigate = useNavigate()
+    const listdata=[
+        {
+            icon:<Person/>,
+            component:<ListItemText onClick={() => navigate("/profile")} primary="PROFILE"/>
+        },
+        {
+            icon:<Home/>,
+            component:<ListItemText onClick={() => navigate("/")} primary="HOME"/>
+        },
+        {
+            icon:<AddToPhotos/>,
+            component:<AddItems />
+        },
+        {
+            icon:<ShoppingCart/>,
+            component:<ListItemText onClick={() => navigate("/cart")} primary="CART"/>
+        },
+        {
+            icon:<Logout/>,
+            component:<LogoutUser />
+        },
+    ]
+    return (<>
+        <Drawer open={open} onClose={() => setopen(false)}>
+            <Box sx={{ width: "22rem", flexShrink: 0, '& .MuiDrawer-paper': { width: "25rem", boxSizing: 'border-box', }, }} variant="persistent" anchor="left" open={open}>
+                <List sx={{ width: '100%', bgcolor: 'background.paper' }} subheader={<ListSubheader>NAVIGATION</ListSubheader>}>
+                    {listdata.map(item=><>
+                    <Divider/>
+                    <ListItem sx={{cursor:"pointer"}}>
+                        <ListItemIcon>{item.icon}
+                        </ListItemIcon>
+                        {item.component}
+                    </ListItem></>)}
+                    <Divider/>
+                </List>
+            </Box>
+        </Drawer>
         <IconButton onClick={() => setopen(true)} className={menuButton} color="inherit" aria-label="Open drawer" >
             <Menu />
         </IconButton>

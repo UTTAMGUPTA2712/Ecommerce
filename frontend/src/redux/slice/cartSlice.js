@@ -8,6 +8,7 @@ export const cartSLice=createSlice({
     initialState:initialValue,
     reducers:{
         savecart:(state,action)=>{
+            console.log("slice");
             state.cart[action.payload.id]=action.payload.value
         },
         cleancart:(state)=>{

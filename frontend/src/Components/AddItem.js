@@ -9,7 +9,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import { Upload } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { InputAdornment, TextField } from "@mui/material";
+import { InputAdornment, ListItemText, TextField } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
 import AddItemButton from "./AddItemButton";
 
@@ -22,9 +22,9 @@ const AddItems = ({ itemData }) => {
     // const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
-    const [data, setData] = useState(itemData??{rating:0,reviews:[]})
-    const changeData=(title,value)=>{
-        setData(p=>({...p,[title]:value}));
+    const [data, setData] = useState(itemData ?? { rating: 0, reviews: [] })
+    const changeData = (title, value) => {
+        setData(p => ({ ...p, [title]: value }));
     }
     // const currentUser = useSelector((state) => state.auth.authDetail)
     // const id = uniqid()
@@ -85,7 +85,7 @@ const AddItems = ({ itemData }) => {
         <>
 
             <Dialog
-            id="additem"
+                id="additem"
                 fullScreen
                 open={open}
                 onClose={() => setOpen(false)}
@@ -104,53 +104,55 @@ const AddItems = ({ itemData }) => {
                         <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
                             {itemData ? "Edit Item" : "Add Item"}
                         </Typography>
-                        <AddItemButton value={itemData ? "Save" : "Add"} handleCancel={handleCancel} data={data}/>
+                        <AddItemButton value={itemData ? "Save" : "Add"} handleCancel={handleCancel} data={data} />
                     </Toolbar>
                 </AppBar>
                 <div id="formGrid">
-                <Upload
-                    action="http://localhost:1000/upload"
-                    listType="picture-card"
-                    fileList={fileList}
-                    onChange={handleChange}>
-                    {fileList.length >= 4 ? null : uploadButton}
-                </Upload>
+                    <Upload
+                        action="http://localhost:1000/upload"
+                        listType="picture-card"
+                        fileList={fileList}
+                        onChange={handleChange}>
+                        {fileList.length >= 4 ? null : uploadButton}
+                    </Upload>
 
-                <TextField
-                    required
-                    onChange={(e)=>changeData("name",e.target.value)}
-                    id="filled-required"
-                    label="Required"
-                    defaultValue="Hello World"
-                    variant="filled"
-                />
-                <TextField
-                    id="input-with-icon-textfield"
-                    label="TextField"
-                    onChange={(e)=>changeData("price",e.target.value)}
+                    <TextField
+                        required
+                        onChange={(e) => changeData("name", e.target.value)}
+                        id="filled-required"
+                        label="Required"
+                        defaultValue="Hello World"
+                        variant="filled"
+                    />
+                    <TextField
+                        id="input-with-icon-textfield"
+                        label="TextField"
+                        onChange={(e) => changeData("price", e.target.value)}
+                        type="number"
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    ₨
+                                </InputAdornment>
+                            ),
+                        }}
+                        variant="filled"
+                    />
+                    <TextField
+                        id="filled-multiline-static"
+                        label="Multiline"
+                        onChange={(e) => changeData("description", e.target.value)}
 
-                    InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                ₨
-                            </InputAdornment>
-                        ),
-                    }}
-                    variant="filled"
-                />
-                <TextField
-                    id="filled-multiline-static"
-                    label="Multiline"
-                    onChange={(e)=>changeData("description",e.target.value)}
-
-                    multiline
-                    rows={4}
-                    defaultValue="Default Value"
-                    variant="filled"
-                />
+                        multiline
+                        rows={4}
+                        defaultValue="Default Value"
+                        variant="filled"
+                    />
                 </div>
             </Dialog>
-            <button onClick={() => setOpen(true)}>ADD ITEM</button>
+            {/* <button onClick={() => setOpen(true)}>ADD ITEM</button> */}
+            <ListItemText onClick={() => setOpen(true)} id="switch-list-label-wifi" primary="ADD ITEM" />
+
         </>
     )
 }

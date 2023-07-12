@@ -1,44 +1,35 @@
-
-import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, CardActions } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { CardActionArea, CardActions } from '@mui/material';
+import { ItemCountButton } from './ItemCountButton';
+import { useNavigate } from 'react-router-dom';
 export const ItemCard = ({ data, value }) => {
-    const dispatch=useDispatch()
+    const navigate=useNavigate()
     return (
         <>
             <Card sx={{ maxWidth: 345 }}>
-                <CardActionArea>
+                <CardActionArea onClick={()=>navigate("/productDetail",{state:data})}>
                     <CardMedia
+                        fullWidth={true}
                         component="img"
                         height="140"
-                        image="/static/images/cards/contemplative-reptile.jpg"
-                        alt="green iguana"
+                        image={data?.image}
+                        alt={data?.name}
                     />
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
                             {data?.name}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
+                            {data?.price}
                             {data?.description}
                         </Typography>
                     </CardContent>
                 </CardActionArea>
                 <CardActions>
-                    {value == 0 ? (
-                        <Button disabled={data?.published == false} className="addbtn" onClick={() => { dispatch({id:data?._id,value:1}) }}>
-                            ADD ITEM +
-                        </Button>
-                    ) : (
-                        <>
-                            <Button className="decrement" onClick={() => { dispatch({id:data?._id,value:value-1}) }}>-</Button>
-                            <span>{count}</span>
-                            <Button className="increment" onClick={() => { dispatch({id:data?._id,value:value+1}) }}>+</Button>
-                        </>
-                    )}
+                    <ItemCountButton value={value} data={data} />
                 </CardActions>
             </Card>
         </>

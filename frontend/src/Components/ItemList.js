@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { GetItemService } from '../services/GetItemService'
-import { setProduct } from '../redux/slice/productSlice'
-import { ItemCard } from './ItemCard'
+import { useSelector } from 'react-redux'
+import  {ItemCard}  from './ItemCard'
 
 const ItemList = () => {
     const productList = useSelector(state => state.product.product)
@@ -11,7 +9,7 @@ const ItemList = () => {
     const cart = useSelector(state => state.cart.cart)
     let list;
     useEffect(() => {
-        list = productList.filter((product) => product?.name.includes(filter?.search) && product?.rate >= filter?.rate)
+        list = productList.filter((product) => product?.name?.includes(filter?.search) && product?.price >= filter?.upperLimit && filter?.lowerLimit<=product?.price)
         switch (filter?.sorting) {
             case "price":
                 list = list.sort((a, b) => a.price > b.price)
@@ -29,9 +27,11 @@ const ItemList = () => {
     }, [filter])
     return (
         <>
-            {productList.map((product, index) => {
-                return (user?._id === product?.user) && <div key={index}><ItemCard data={product} value={cart?.[product?._id]} /></div>
-            })}
+            <div id='itemList'>
+                {productList.map((product) => {
+                    return (user?._id !== product?.user) && <ItemCard data={product} value={cart?.[product?._id]} />
+                })}
+            </div>
         </>
     )
 }

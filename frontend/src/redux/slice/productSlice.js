@@ -12,14 +12,15 @@ export const productSLice=createSlice({
             state.product.push(action.payload)
         },
     },
-    extraReducers:(builder)=>{
+    extraReducers: (builder) => {
         builder.addCase(fetchProduct.fulfilled, (state, action) => {
             action.pending = false;
-            state.Fact = action.payload;
+            console.log("",action.payload)
+            state.product = action.payload;
         });
         builder.addCase(fetchProduct.rejected, (state, action) => {
             action.pending = false;
-            action.error = "FACT API REJECTED";
+            action.error = "PRODUCT API REJECTED";
         });
         builder.addCase(fetchProduct.pending, (state, action) => {
             action.pending = true;

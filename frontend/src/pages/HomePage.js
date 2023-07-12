@@ -1,8 +1,6 @@
 import React from 'react'
-import SearchAppBar from '../SearchAppBar'
-import Container from '@mui/material/Container';
-import { Box } from '@mui/material';
-import ItemList from '../ItemList';
+import ItemList from '../Components/ItemList';
+import SearchAppBar from '../Components/SearchAppBar';
 const HomePage = () => {
   return (
     <>

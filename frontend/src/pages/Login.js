@@ -8,6 +8,7 @@ import { Button } from '@material-ui/core';
 import { saveUser } from '../redux/slice/authSlice';
 import { setMessage } from '../redux/slice/messageSlice';
 import { userNotFound, wrongPassword } from '../data/constants';
+import { fetchProduct } from '../redux/reducer/getProducts';
 
 const Login = () => {
   const [user, setuser] = useState("")
@@ -19,13 +20,14 @@ const Login = () => {
     try {
       const response = await LoginService({ user: user, password: password })
       console.log(response)
-      if (response === userNotFound) {
-        dispatch(setMessage({ message: userNotFound, severity: "danger" }))
-      } else if (response === wrongPassword) {
-        dispatch(setMessage({ message: wrongPassword, severity: "danger" }))
+      if (response.data === userNotFound) {
+        dispatch(setMessage({ message: userNotFound, severity: "error" }))
+      } else if (response.data === wrongPassword) {
+        dispatch(setMessage({ message: wrongPassword, severity: "error" }))
       } else {
         dispatch(setMessage({ message: "Successfully Logged In", severity: "success" }))
-        dispatch(saveUser(response))
+        dispatch(saveUser(response.data))
+        dispatch(fetchProduct())
       }
     } catch (err) {
       console.log(err)
@@ -35,11 +37,11 @@ const Login = () => {
     const data = await GoogleAuth()
     dispatch(setMessage({ message: "Successfully Logged In", severity: "success" }))
     dispatch(saveUser(data))
+    dispatch(fetchProduct())
   }
   return (
     <>
       <div className='flexcontainer'>
-        {/* <SnackBarUi/> */}
         <div className='formdiv' id='login'>
           <h1>
             Welcome back<span className="blue">!</span>

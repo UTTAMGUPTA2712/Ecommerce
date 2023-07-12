@@ -12,7 +12,10 @@ export const messageSlice=createSlice({
             state.notifications.push({message:action.payload.message,time:new Date()})
             state.message=action.payload
         },
+        cleanMessage:(state)=>{
+            state.message=null
+        }
     }
 })
-export const {setMessage} = messageSlice.actions
+export const {setMessage,cleanMessage} = messageSlice.actions
 export default messageSlice.reducer
