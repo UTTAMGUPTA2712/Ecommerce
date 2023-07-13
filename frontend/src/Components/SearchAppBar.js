@@ -74,7 +74,7 @@ const SearchAppBar = (props) => {
         <Toolbar>
           <DrawerComponent />
           <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-           E-Commerce
+            E-Commerce
           </Typography>
           <div className={classes.grow} />
           <div className={classes.search}>

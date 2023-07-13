@@ -11,28 +11,29 @@ const images = [
     "https://media.istockphoto.com/id/1197832105/vector/male-hand-holding-megaphone-with-new-product-speech-bubble-loudspeaker-banner-for-business.jpg?s=612x612&w=0&k=20&c=INIM5M-N2DZh6pS6DUBSGh7x9ItOBSC3atZOVJtQf7M="
 ]
 const ProductDetail = () => {
-    const [pic, setPic] = useState(images[0])
+    const cart=useSelector(state=>state.cart.cart)
     const location = useLocation()
     const data = location.state
-    const cart=useSelector(state=>state.cart.cart)
+    const [pic, setPic] = useState(data?.image?.[0])
+
     return (
         <>
             <div id='productdetail'>
                 <SearchAppBar />
                 <div id='usercarousal'>
                     {/* <div style={{backgroundImage:`url${pic}`}} className='mainpic'/> */}
-                    <img src={pic} className='mainpic' />
-                    {images?.map(photo => {
-                        return <img onClick={() => setPic(photo)} className='thumbpic' src={photo} />
+                    <div style={{backgroundImage:`url('${pic}')`}} className='mainpic' />
+                    {data?.image?.map((photo,index) => {
+                        return <div  className='thumbpic'  onClick={() => setPic(photo)} style={{gridColumn:index+2 ,backgroundImage:`url('${photo}')`}} />
                     }
                     )}
                 </div>
                 <div id='productSpecs'>
                     <div id='specsCard'>
                     <h1>{data?.name}</h1>
-                    <h2>{data?.price}</h2>
+                    <h2>₨. {data?.price}/-</h2>
                     <h3>{data?.description}</h3>
-                    <ItemCountButton value={cart[data._id]} data={data} />
+                    <ItemCountButton value={cart[data._id]?.value} data={data} />
                     </div>
                     <SuggestionList id={data?._id} data={data?.category}/>
                 </div>

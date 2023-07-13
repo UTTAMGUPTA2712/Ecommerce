@@ -9,12 +9,15 @@ export const cartSLice=createSlice({
     reducers:{
         savecart:(state,action)=>{
             console.log("slice");
-            state.cart[action.payload.id]=action.payload.value
+            state.cart[action.payload.id]={value:action.payload.value,price:action.payload.price};
         },
         cleancart:(state)=>{
             state.cart={}
         },
+        removeItem:(state,action)=>{
+            state.cart[action.payload].value=0
+        },
     }
 })
-export const {savecart,cleancart} = cartSLice.actions
+export const {savecart,cleancart,removeItem} = cartSLice.actions
 export default cartSLice.reducer

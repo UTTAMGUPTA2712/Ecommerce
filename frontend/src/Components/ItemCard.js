@@ -6,25 +6,24 @@ import { CardActionArea, CardActions } from '@mui/material';
 import { ItemCountButton } from './ItemCountButton';
 import { useNavigate } from 'react-router-dom';
 export const ItemCard = ({ data, value }) => {
-    const navigate=useNavigate()
+    const navigate = useNavigate()
     return (
         <>
             <Card sx={{ maxWidth: 345 }}>
-                <CardActionArea onClick={()=>navigate("/productDetail",{state:data})}>
+                <CardActionArea onClick={() => navigate("/productDetail", { state: data })}>
                     <CardMedia
                         fullWidth={true}
                         component="img"
                         height="140"
-                        image={data?.image}
+                        image={data?.image?.[0]}
                         alt={data?.name}
                     />
-                    <CardContent>
+                    <CardContent sx={{ margin: "0.7rem" }}>
                         <Typography gutterBottom variant="h5" component="div">
                             {data?.name}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                            {data?.price}
-                            {data?.description}
+                            ₨. {data?.price}/-
                         </Typography>
                     </CardContent>
                 </CardActionArea>

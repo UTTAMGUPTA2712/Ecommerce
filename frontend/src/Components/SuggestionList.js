@@ -7,13 +7,14 @@ const SuggestionList = ({data,id}) => {
     const navigate=useNavigate()
     return (
         <>
+        <h2>Suggestions For You</h2>
         <div id='suggestion'>
             {products.map(product => {
                 return (product?.category===data)&&(product._id!==id)&&<>
                     <div onClick={()=>navigate("/productDetail",{state:product})} className='suggestItem'>
-                        <div style={{backgroundImage:`url(${product?.photo})`}}/>
+                        <img src={product?.image?.[0]} style={{height:"6rem",width:"6rem"}}/>
                         <h3>{product?.name}</h3>
-                        <p>{product?.price}</p>
+                        <p>₨. {product?.price}/-</p>
                     </div>
                 </>
             })}

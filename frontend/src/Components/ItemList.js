@@ -8,6 +8,7 @@ const ItemList = () => {
     const filter = useSelector(state => state.filter.filter)
     const cart = useSelector(state => state.cart.cart)
     let list;
+    console.log(productList);
     useEffect(() => {
         list = productList.filter((product) => product?.name?.includes(filter?.search) && product?.price >= filter?.upperLimit && filter?.lowerLimit<=product?.price)
         switch (filter?.sorting) {
@@ -29,7 +30,7 @@ const ItemList = () => {
         <>
             <div id='itemList'>
                 {productList.map((product) => {
-                    return (user?._id !== product?.user) && <ItemCard data={product} value={cart?.[product?._id]} />
+                    return (user?._id !== product?.user) && <ItemCard data={product} value={cart?.[product?._id]?.value} />
                 })}
             </div>
         </>
