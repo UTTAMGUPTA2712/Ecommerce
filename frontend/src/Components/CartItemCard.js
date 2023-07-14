@@ -13,9 +13,9 @@ import { removeItem } from '../redux/slice/cartSlice';
 import { setMessage } from '../redux/slice/messageSlice';
 export const CartItemCard = ({ data, value }) => {
     const dispatch = useDispatch()
-    const handleRemoveItem=()=>{
+    const handleRemoveItem = () => {
         dispatch(removeItem(data?._id))
-        dispatch(setMessage({message:"An Item Removed",severity:"info"}))
+        dispatch(setMessage({ message: "An Item Removed", severity: "info" }))
     }
     return (
         <>
@@ -27,24 +27,11 @@ export const CartItemCard = ({ data, value }) => {
                         <ItemCountButton value={value} data={data} />
                     </div>
                 </div>
-                <ListItemText
-                    primary={data?.name}
-                    secondary={
-                        <>
-                            <Typography
-                                sx={{ display: 'inline' }}
-                                component="span"
-                                variant="body2"
-                                color="text.primary"
-                            >
-                                ₨. {data?.price}/-
-                            </Typography>
-
-                        </>
-                    }
-
-                />
-                <Button onClick={handleRemoveItem}>Remove</Button>
+                <div>
+                    <h1>{data?.name}</h1>
+                    <h2>₨. {data?.price}/-</h2>
+                </div>
+                <Button variant='error' onClick={handleRemoveItem}>Remove</Button>
             </ListItem>
         </>
     )

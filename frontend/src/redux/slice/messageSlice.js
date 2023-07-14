@@ -9,7 +9,7 @@ export const messageSlice=createSlice({
     initialState:initialValue,
     reducers:{
         setMessage:(state,action)=>{
-            state.notifications.push({message:action.payload.message,time:new Date()})
+            // state.notifications.push({message:action.payload.message,time:new Date()})
             state.message=action.payload
         },
         cleanMessage:(state)=>{

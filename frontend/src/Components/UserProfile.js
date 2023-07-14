@@ -42,7 +42,7 @@ const UserProfile = ({ data }) => {
         <>
             <div>
                 <Avatar sx={{ bgcolor: "blue", fontSize: "5rem", height: "6rem", width: "6rem" }} src={data?.photo} >{(data?.name?.[0])?.toUpperCase()}</Avatar>
-                {(edit) ? <h1>{(data?.name).toUpperCase()}</h1> : <TextField onChange={(e) => setName(e.target.value)} value={username} label="EDIT NAME" variant='outlined' />}
+                {(edit) ? <h1>{(data?.name).toUpperCase()}</h1> : <><TextField onChange={(e) => setName(e.target.value)} value={username} label="EDIT NAME" variant='outlined' /><br /></>}
                 {(edit) ? <Button variant='contained' sx={{ bgcolor: "grey" }} onClick={() => setEdit(false)}>ADD/UPDATE ADDRESS</Button> :
                     <Button variant='contained' sx={{ bgcolor: "grey" }} onClick={savedata}>SAVE</Button>}
             </div>
@@ -65,7 +65,6 @@ const UserProfile = ({ data }) => {
                         <TextField id="filled-basic" type='number' label="ADD PINCODE" onChange={(e) => changeAddress("pincode", e.target.value)} value={address?.pincode ?? ""} variant="filled" />
                         <TextField id="filled-basic" label="ADD STATE" onChange={(e) => changeAddress("state", e.target.value)} value={address?.state ?? ""} variant="filled" />
                         <IconButton onClick={() => handleAddress()}><Add /></IconButton>
-
                     </div>
                 }
             </div>

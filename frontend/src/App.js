@@ -10,6 +10,8 @@ import Profile from './pages/Profile';
 import UserOrder from './pages/UserOrder';
 import ProductDetail from './pages/ProductDetail';
 import PageNotFound from './pages/PageNotFound';
+import UserList from './pages/UserList';
+import CheckOut from './pages/Checkout';
 
 function App() {
   const user = useSelector(state => state.user.user)
@@ -31,6 +33,10 @@ function App() {
     {
       path: "/cart",
       component: <Cart/>
+    },
+    {
+      path: "/checkout",
+      component: <CheckOut/>
     },
     {
       path: "/profile",
@@ -57,8 +63,8 @@ function App() {
   ]
   const adminRouter = [
     {
-      path: "/vendor",
-      component: ""
+      path: "/allusers",
+      component: <UserList/>
     },
     {
       path: "/products",

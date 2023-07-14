@@ -156,13 +156,6 @@ body {
             width: 8rem;
         }
     }
-
-    /* & .MuiFormControl-root{
-        height: 3rem;
-    }
-    & .MuiInputBase-root{
-        height: AUTO;
-    } */
 }
 
 #productdetail {
@@ -235,7 +228,22 @@ body {
     }
 
 }
+#checkout{
+    display: grid;
+    grid-template-rows: auto 1fr;
+    grid-template-columns: 1fr 8fr 1fr;
 
+    height: 100vh;
+    width: 100vw;
+    & #searchbar{
+        grid-column: 1/span 3;
+
+    }
+    & #checkoutbox{
+        min-width: 600px;
+        grid-column: 2;
+    }
+}
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;

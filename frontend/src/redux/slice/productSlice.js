@@ -15,7 +15,6 @@ export const productSLice=createSlice({
     extraReducers: (builder) => {
         builder.addCase(fetchProduct.fulfilled, (state, action) => {
             action.pending = false;
-            console.log("",action.payload)
             state.product = action.payload;
         });
         builder.addCase(fetchProduct.rejected, (state, action) => {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { savecart } from '../redux/slice/cartSlice'
+import { cleancart, savecart } from '../redux/slice/cartSlice'
 import { Button } from '@mui/material'
 
 export const ItemCountButton = ({ value, data }) => {

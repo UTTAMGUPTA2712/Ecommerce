@@ -21,7 +21,6 @@ const SnackBarUi = () => {
     const handleClose = () => {
         setState({ ...state, open: false });
     };
-
     return (
         <>
             <Snackbar
@@ -29,7 +28,6 @@ const SnackBarUi = () => {
                 open={open}
                 autoHideDuration={3000}
                 onClose={handleClose}>
-                {/* // key={vertical + horizontal}> */}
                 <Alert severity={severity}>{message}</Alert>
             </Snackbar>
         </>

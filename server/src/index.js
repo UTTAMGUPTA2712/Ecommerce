@@ -11,19 +11,19 @@ const cors = require("cors");
 const app = express()
 const client = require("mongodb").MongoClient
 const storage = multer.diskStorage({
-    destination:'./uploads/',
-    
-      // Specify the destination folder where uploaded files will be saved
+    destination: './uploads',
+
+    // Specify the destination folder where uploaded files will be saved
     filename: function (req, file, cb) {
         cb(null, Date.now() + '-' + file.originalname); // Set the filename to be unique (using the current timestamp) and preserve the original filename
-    }   
+    }
 });
 const upload = multer({ storage });
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.text())
 app.use(cors())
-app.use(express.static(path.join(__dirname,"/uploads")))
+app.use(express.static(path.join(__dirname, "/uploads")))
 client.connect(mongoString).then(database => {
     db = database.db("Ecommerce")
     Users = db.collection("Users")
@@ -31,15 +31,11 @@ client.connect(mongoString).then(database => {
     Orders = db.collection("Orders")
 }).catch(err => console.log(err))
 // app.use("/auth")
-app.get("/",(req,res)=>{
+app.get("/", (req, res) => {
     res.send("1000")
 })
 app.post('/upload', upload.single('image'), (req, res) => {
     const pic = req.file
-    console.log(pic)
-    // Access the uploaded file using req.file
-    // Process the file or save it to the desired location
-    // Send a response indicating the success or failure of the upload
     res.send(pic.filename);
 });
 
@@ -50,6 +46,15 @@ app.post("/additem", async (req, res) => {
 app.get("/product", async (req, res) => {
     const response = await Products.find({}).toArray()
     res.send(response);
+})
+app.get("/getAllUser", async (req, res) => {
+    const response = await Users.find({}).toArray()
+    res.send(response)
+})
+app.post("/placeorder", async (req, res) => {
+    const response = await Orders.insertOne(req.body)
+    const data = await Users.updateOne({ email: req.body.email }, { $push: { orders: response.insertedId } })
+    res.send(response.insertedId)
 })
 app.post("/Login", async (req, res) => {
     // checking if file doesnot exist
@@ -96,5 +101,11 @@ app.post("/Google", async (req, res) => {
 app.post("/editprofile", async (req, res) => {
     await Users.updateOne({ email: req.body.email }, { $set: { name: req.body.name, address: req.body.address } })
     res.send(success)
+})
+app.post("/orders",async (req, res) => {
+    console.log("body",req.body);
+    const response=await Orders.find({_id:{$in:req.body}}).toArray()
+    console.log(response)
+    res.send([])
 })
 app.listen(1000, console.log("Working on port 1000"))
