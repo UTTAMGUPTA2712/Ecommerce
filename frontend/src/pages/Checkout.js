@@ -19,9 +19,10 @@ const Checkout = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const user = useSelector(state => state.user.user)
+  const cart = useSelector(state => state.cart.cart)
   const [activeStep, setActiveStep] = useState(1);
   const component = [
-    <UserDetails data={user} />, <OrderDetail placeOrder={"working"} />
+    <UserDetails data={user} />, <OrderDetail cart={cart} />
   ]
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -77,7 +78,7 @@ const Checkout = () => {
                   </Button>
                   <Box sx={{ flex: '1 1 auto' }} />
                   {activeStep === steps.length - 1 ?
-                    <PlaceOrderButton handleNext={handleNext}/>
+                    <PlaceOrderButton handleNext={handleNext} />
                     :
                     <Button onClick={handleNext}>
                       Next

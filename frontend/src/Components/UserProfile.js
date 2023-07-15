@@ -50,6 +50,7 @@ const UserProfile = ({ data }) => {
                 {dataAddress.map((userAddress, index) => {
                     return <>
                         <div className='address'>
+                            <TextField disabled={edit} id="filled-basic" onChange={(e) => changeExistingAddress(index, "phone", e.target.value)} label="PHONE NUMBER" value={userAddress?.phone} variant="filled" />
                             <TextField disabled={edit} id="filled-basic" onChange={(e) => changeExistingAddress(index, "location", e.target.value)} label="ADDRESS" value={userAddress?.location} variant="filled" />
                             <TextField disabled={edit} id="filled-basic" onChange={(e) => changeExistingAddress(index, "city", e.target.value)} label="CITY" value={userAddress?.city} variant="filled" />
                             <TextField disabled={edit} id="filled-basic" type='number' onChange={(e) => changeExistingAddress(index, "pincode", e.target.value)} label="PINCODE" value={userAddress?.pincode} variant="filled" />
@@ -60,6 +61,7 @@ const UserProfile = ({ data }) => {
                 })}
                 {(!edit) &&
                     <div className='address'>
+                        <TextField id="filled-basic" label="ADD A PHONE NUMBER" onChange={(e) => changeAddress("phone", e.target.value)} value={address?.phone ?? ""} variant="filled" />
                         <TextField id="filled-basic" label="ADD NEW ADDRESS" onChange={(e) => changeAddress("location", e.target.value)} value={address?.location ?? ""} variant="filled" />
                         <TextField id="filled-basic" label="ADD CITY" onChange={(e) => changeAddress("city", e.target.value)} value={address?.city ?? ""} variant="filled" />
                         <TextField id="filled-basic" type='number' label="ADD PINCODE" onChange={(e) => changeAddress("pincode", e.target.value)} value={address?.pincode ?? ""} variant="filled" />

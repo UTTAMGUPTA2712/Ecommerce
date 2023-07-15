@@ -23,11 +23,11 @@ const Signup = () => {
             if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData?.email)) {
                 if (formData?.password === password) {
                     const data = await AddUser(formData)
-                    if (data === userAlreadyExist) {
+                    if (data.data === userAlreadyExist) {
                         dispatch(setMessage({ message: userAlreadyExist, severity: "warning" }))
                     } else {
                         dispatch(setMessage({ message: "Successfully Logged In", severity: "success" }))
-                        dispatch(saveUser(data))
+                        dispatch(saveUser(data.data))
                         navigate("/")
                     }
                 } else {
@@ -56,7 +56,6 @@ const Signup = () => {
     return (
         <>
             <div className='flexcontainer'>
-                {/* <SnackBarUi /> */}
                 <div className='formdiv' id='Signup'>
                     <h1>
                         Create new account<span className="blue">.</span>

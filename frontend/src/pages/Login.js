@@ -8,7 +8,6 @@ import { Button } from '@material-ui/core';
 import { saveUser } from '../redux/slice/authSlice';
 import { setMessage } from '../redux/slice/messageSlice';
 import { userNotFound, wrongPassword } from '../data/constants';
-import { fetchProduct } from '../redux/reducer/getProducts';
 
 const Login = () => {
   const [user, setuser] = useState("")
@@ -27,7 +26,6 @@ const Login = () => {
       } else {
         dispatch(setMessage({ message: "Successfully Logged In", severity: "success" }))
         dispatch(saveUser(response.data))
-        dispatch(fetchProduct())
       }
     } catch (err) {
       console.log(err)
@@ -37,7 +35,6 @@ const Login = () => {
     const data = await GoogleAuth()
     dispatch(setMessage({ message: "Successfully Logged In", severity: "success" }))
     dispatch(saveUser(data))
-    dispatch(fetchProduct())
   }
   return (
     <>

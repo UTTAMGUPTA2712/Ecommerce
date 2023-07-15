@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit"
-import { fetchProduct } from "../reducer/getProducts"
+import { createAction, createSlice } from "@reduxjs/toolkit"
+import { setMessage } from "./messageSlice"
 
 const initialValue = {
     user: null,
@@ -18,6 +18,7 @@ export const authSLice = createSlice({
         },
         saveAddress: (state, action) => {
             state.user.address = action.payload
+            state.address=action.payload[0]
         },
         addOrder: (state, action) => {
             if (state.user.orders) {
@@ -33,6 +34,13 @@ export const authSLice = createSlice({
             state.user = null
         },
     },
+    extraReducers: (builder) => {
+        builder.addCase(saveUser, (state, action) => {
+            const { dispatch } = action.thunkApi
+            console.log("here");
+            dispatch(setMessage({ message: "It worked", severity: "info" }))
+        })
+    }
 })
 export const { saveUser, logoutUser, saveAddress, saveName, setAddress, addOrder } = authSLice.actions
 export default authSLice.reducer
