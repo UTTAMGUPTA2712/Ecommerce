@@ -3,14 +3,15 @@ import { AddItemService } from "../services/AddItemService"
 import { addproduct } from "../redux/slice/productSlice"
 import { Button } from "@mui/material"
 import { setMessage } from "../redux/slice/messageSlice"
+import { enableProduct } from "../data/constants"
 
 const AddItemButton = ({ data, value, handleCancel }) => {
     const dispatch = useDispatch()
     const handleSave = async () => {
         if ((data?.image)?.length === 4 && data.name && data.description && data.price) {
             try {
-                const saveItem = await AddItemService(data)
-                dispatch(addproduct({...data,_id:saveItem.data.insertedId}))
+                const saveItem = await AddItemService({ ...data, status: enableProduct })
+                dispatch(addproduct({ ...data, _id: saveItem.data.insertedId }))
                 dispatch(setMessage({ message: "Product Added Successfully", severity: "success" }))
                 handleCancel()
             } catch (err) {
@@ -32,5 +33,4 @@ const AddItemButton = ({ data, value, handleCancel }) => {
         </>
     )
 }
-
 export default AddItemButton

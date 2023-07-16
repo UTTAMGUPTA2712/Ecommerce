@@ -53,11 +53,13 @@ body {
     grid-template-columns: 1fr 40vw;
     grid-template-rows: auto 1fr;
     height: 100vh;
-    & .MuiDivider-root{
+
+    & .MuiDivider-root {
         margin-left: 0;
     }
+
     & .cartmedia {
-        & .btn{
+        & .btn {
             width: 100%;
             display: flex;
             justify-content: space-between;
@@ -206,7 +208,6 @@ body {
         text-align: center;
         overflow-x: hidden;
 
-        /* min-width: 25rem; */
         & #specsCard {
             height: 40em;
             width: 100%;
@@ -228,20 +229,60 @@ body {
     }
 
 }
-#checkout{
+
+#checkout {
     display: grid;
     grid-template-rows: auto 1fr;
     grid-template-columns: 1fr 8fr 1fr;
-
     height: 100vh;
     width: 100vw;
-    & #searchbar{
-        grid-column: 1/span 3;
 
+    & #searchbar {
+        grid-column: 1/span 3;
     }
-    & #checkoutbox{
+
+    & #checkoutbox {
         min-width: 600px;
         grid-column: 2;
+    }
+}
+#alluserlist{
+    display: grid;
+    grid-template-rows: auto 1fr;
+    height: 100vh;
+    width: 100vw;
+    & #list{
+        padding: 2rem;
+    }
+}
+#order {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    height: 100vh;
+    width: 100vw;
+    & #searchbar {
+        grid-column: 1/span 3;
+    }
+    & #orderGrid1 {
+        margin: 1rem;
+        display: grid;
+        grid-template-columns: 20rem auto;
+        width: 90vw;
+        border: 2px solid black;
+        padding: 1rem;
+        border-radius: 10px;
+    }
+    & #orderGrid2 {
+        margin: 1rem;
+        display: grid;
+        grid-template-columns: 20rem auto;
+        width: 90vw;
+        border: 2px solid black;
+        padding: 1rem;
+        border-radius: 10px;
+        & #user{
+            grid-column: 1/span 2;
+        }
     }
 }
 input::-webkit-outer-spin-button,
@@ -269,4 +310,10 @@ input::-webkit-inner-spin-button {
 .addbtn:hover {
     background-color: rgba(255, 0, 0, 0.5) !important;
     color: white;
+}
+
+.nocartitem{
+    background-image: url("./Images/emptycart.png");
+    background-size: cover;
+    background-position: center;
 }

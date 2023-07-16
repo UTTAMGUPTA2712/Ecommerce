@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { fetchProduct } from "../reducer/getProducts"
 
 const initialValue={
     product:[],
@@ -11,20 +10,17 @@ export const productSLice=createSlice({
         addproduct:(state,action)=>{
             state.product.push(action.payload)
         },
-    },
-    extraReducers: (builder) => {
-        builder.addCase(fetchProduct.fulfilled, (state, action) => {
-            action.pending = false;
-            state.product = action.payload;
-        });
-        builder.addCase(fetchProduct.rejected, (state, action) => {
-            action.pending = false;
-            action.error = "PRODUCT API REJECTED";
-        });
-        builder.addCase(fetchProduct.pending, (state, action) => {
-            action.pending = true;
-        });
+        setProduct:(state,action)=>{
+            state.product=action.payload
+        },
+        setProductStatus:(state,action)=>{
+            for(let item in state.product) {
+                if(state.product[item]._id===action.payload._id){
+                    state.product[item].status=action.payload.status
+                }
+            }
+        }
     }
 })
-export const {addproduct,setProduct} = productSLice.actions
+export const {addproduct,setProduct,setProductStatus} = productSLice.actions
 export default productSLice.reducer

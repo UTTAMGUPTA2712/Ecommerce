@@ -1,5 +1,10 @@
 import axios from 'axios'
-
+import { serverError } from '../data/constants'
 export const GetUserList = () => {
-  return axios.get("http://localhost:1000/getAllUser")
+  try{
+  return axios.get("http://localhost:1000/user/getAllUser")
+} catch (error) {
+  console.log(error);
+  return serverError
+}
 }

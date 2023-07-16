@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 const initialValue={
-    notifications:[],
     message:null,
 }
 export const messageSlice=createSlice({
@@ -9,7 +8,6 @@ export const messageSlice=createSlice({
     initialState:initialValue,
     reducers:{
         setMessage:(state,action)=>{
-            // state.notifications.push({message:action.payload.message,time:new Date()})
             state.message=action.payload
         },
         cleanMessage:(state)=>{

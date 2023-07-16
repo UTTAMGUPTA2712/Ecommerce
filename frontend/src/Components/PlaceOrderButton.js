@@ -6,6 +6,7 @@ import { PlaceOrderService } from '../services/PlaceOrderService';
 import { addOrder, saveUser } from '../redux/slice/authSlice';
 import { cleancart } from '../redux/slice/cartSlice';
 import { setMessage } from '../redux/slice/messageSlice';
+import { orderPlaced } from '../data/constants';
 
 const PlaceOrderButton = ({ handleNext }) => {
     const dispatch = useDispatch()
@@ -17,7 +18,7 @@ const PlaceOrderButton = ({ handleNext }) => {
     useEffect(() => {
         let sum = 0;
         for (let item in cart) {
-            let val = cart[item]?.value * +(cart[item]?.price)
+            let val = cart[item]?.value * +(cart[item]?.data?.price)
             if (val) {
                 sum = +sum + +val
             }
@@ -29,7 +30,7 @@ const PlaceOrderButton = ({ handleNext }) => {
             name: user.user.name,
             email: user.user.email,
             price: data,
-            orderAt: (new Date()).toLocaleString()
+            status: orderPlaced,
         }
         setOrder(orderData)
     }, [cart])
@@ -39,7 +40,6 @@ const PlaceOrderButton = ({ handleNext }) => {
         } else {
             const response = await PlaceOrderService(order);
             console.log(response)
-            // dispatch(saveUser(response.data.value));
             dispatch(addOrder(response.data))
             dispatch(cleancart());
             dispatch(setMessage({ message: "Order Placed Sucessfully", severity: "success" }));

@@ -7,9 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 import { saveUser } from '../redux/slice/authSlice';
 import { setMessage } from '../redux/slice/messageSlice';
-import { userNotFound, wrongPassword } from '../data/constants';
-import { fetchProduct } from '../redux/reducer/getProducts';
-
+import { userNotFound, userconst, wrongPassword } from '../data/constants';
 const Login = () => {
   const [user, setuser] = useState("")
   const [password, setpassword] = useState("")
@@ -19,7 +17,6 @@ const Login = () => {
   const handleManualLogin = async () => {
     try {
       const response = await LoginService({ user: user, password: password })
-      console.log(response)
       if (response.data === userNotFound) {
         dispatch(setMessage({ message: userNotFound, severity: "error" }))
       } else if (response.data === wrongPassword) {
@@ -27,17 +24,18 @@ const Login = () => {
       } else {
         dispatch(setMessage({ message: "Successfully Logged In", severity: "success" }))
         dispatch(saveUser(response.data))
-        dispatch(fetchProduct())
+        navigate("/")
       }
     } catch (err) {
       console.log(err)
     }
   }
   const googleLogin = async () => {
-    const data = await GoogleAuth()
+    const data = await GoogleAuth(userconst)
     dispatch(setMessage({ message: "Successfully Logged In", severity: "success" }))
     dispatch(saveUser(data))
-    dispatch(fetchProduct())
+    navigate("/")
+
   }
   return (
     <>

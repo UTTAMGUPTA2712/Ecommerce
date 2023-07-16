@@ -62,7 +62,7 @@
 ### Products list
 - User will be able to see all the products
 - All order from products
-- User can edit product
+- User can edit product 
 - User can delete products
 ### Profile
 - User can change the profile pic

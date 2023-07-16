@@ -5,8 +5,11 @@ import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import { alpha } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
-import { Search, Store } from '@mui/icons-material';
+import { Search, ShoppingCart, Store } from '@mui/icons-material';
 import DrawerComponent from './DrawerComponent';
+import { Avatar, Badge, IconButton } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const styles = theme => ({
   root: {
@@ -67,13 +70,15 @@ const styles = theme => ({
   },
 });
 const SearchAppBar = (props) => {
+  const navigate=useNavigate()
+  const pic=useSelector(state=>state.user.user?.image)
   const { classes } = props;
   return (
     <div id='searchbar' className={classes.root}>
       <AppBar position="static">
         <Toolbar>
           <DrawerComponent />
-          <Typography className={classes.title} variant="h6" color="inherit" noWrap>
+          <Typography onClick={()=>navigate("/")} className={classes.title} variant="h6" color="inherit" noWrap>
             E-Commerce
           </Typography>
           <div className={classes.grow} />
@@ -89,6 +94,12 @@ const SearchAppBar = (props) => {
               }}
             />
           </div>
+          <IconButton  onClick={()=>navigate("/cart")}>
+            <Badge badgeContent={4} color='error' sx={{color:"white"}} >
+              <ShoppingCart />
+            </Badge>
+          </IconButton>
+          <Avatar src={pic}></Avatar>
         </Toolbar>
       </AppBar>
     </div>

@@ -11,14 +11,14 @@ export const cartSLice = createSlice({
             if (action.payload.value === 0) {
                 delete state.cart[action.payload.id]
             } else {
-                state.cart[action.payload.id] = { value: action.payload.value, price: action.payload.price };
+                state.cart[action.payload.id] = { value: action.payload.value, data: action.payload.data };
             }
         },
         cleancart: (state) => {
             state.cart = {}
         },
         removeItem: (state, action) => {
-            state.cart[action.payload].value = 0
+            delete state.cart[action.payload]
         },
     }
 })
