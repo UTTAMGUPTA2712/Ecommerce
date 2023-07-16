@@ -6,8 +6,9 @@ import { Button, TextField } from '@material-ui/core'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { saveUser } from '../redux/slice/authSlice'
-import { userAlreadyExist } from '../data/constants'
+import { shipper, userAlreadyExist, userconst, vendor } from '../data/constants'
 import { setMessage } from '../redux/slice/messageSlice'
+const titles=[userconst,vendor,shipper]
 const Signup = () => {
     const [password, setPassword] = useState("")
     const [formData, setFormData] = useState({})
@@ -22,7 +23,7 @@ const Signup = () => {
         if (formData?.name && formData?.email && formData?.phoneNumber && formData?.password) {
             if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData?.email)) {
                 if (formData?.password === password) {
-                    const data = await AddUser(formData)
+                    const data = await AddUser({...formData,title:titles[choice]})
                     if (data.data === userAlreadyExist) {
                         dispatch(setMessage({ message: userAlreadyExist, severity: "warning" }))
                     } else {
@@ -41,14 +42,13 @@ const Signup = () => {
         }
     }
     const GoolgeSignup = async () => {
-        const data = await GoogleAuth()
+        const data = await GoogleAuth(titles[choice])
         dispatch(setMessage({ message: "Successfully Logged In", severity: "success" }))
         dispatch(saveUser(data))
         navigate("/")
     }
     console.log(formData)
     const handlephonenumber = (e) => {
-        // console.log("vjvj", formData?.phoneNumber, e);
         if (e.target.value.length <= 10) {
             ChangeFormData("phoneNumber", e.target.value)
         }
@@ -70,7 +70,7 @@ const Signup = () => {
                         <img onClick={() => setChoice(1)} className={choice === 1 ? "selected" : ""} src={userIcon} alt="" />
                         <img onClick={() => setChoice(2)} className={choice === 2 ? "selected" : ""} src={userIcon} alt="" />
                         <img onClick={() => setChoice(3)} className={choice === 3 ? "selected" : ""} src={userIcon} alt="" />
-                        <h1>{choice == 1 ? "User" : (choice == 2 ? "Vendor" : "Shipment")}</h1>
+                        <h1>{titles[choice]}</h1>
                     </span>
                     <TextField
                         error={!formData?.name && valid}
