@@ -2,9 +2,8 @@ import { Upload } from 'antd';
 import React, { useState } from 'react'
 import { PlusOutlined } from '@ant-design/icons';
 
-const UploadImage = ({ changeImage }) => {
-    const [fileList, setFileList] = useState([]);
-
+const UploadImage = ({ changeImage,fileList, setFileList }) => {
+    // const [fileList, setFileList] = useState([]);
     const handleChange = ({ file: newFile, fileList: newFileList }) => { setFileList(newFileList); (newFile.status === "done") && changeImage(newFile.response) }
     const uploadButton = (
         <div>

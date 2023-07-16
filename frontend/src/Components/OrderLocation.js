@@ -55,11 +55,11 @@ export default function OrderLocation({ data, id, setStatus }) {
                         </StepLabel>
                         {(userTitle === shipper || userTitle === admin) && <StepContent>
                             <Typography>{step.description}</Typography>
-                            <Box sx={{ mb: 2 }}>
+                            {(setStatus !== "user") && <Box sx={{ mb: 2 }}>
                                 <Button variant="contained" onClick={() => handleNext(step.label)} sx={{ mt: 1, mr: 1 }}>
                                     {index === steps.length - 1 ? 'Order Received' : 'Set Complete'}
                                 </Button>
-                            </Box>
+                            </Box>}
                         </StepContent>}
                     </Step>
                 ))}

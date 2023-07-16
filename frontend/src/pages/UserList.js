@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { GetUserList } from '../services/GetUserList'
 import SearchAppBar from '../Components/SearchAppBar'
 import { UserCard } from '../Components/UserCard'
-import { Box, Skeleton } from '@mui/material'
+import { Box, Button, Skeleton } from '@mui/material'
 import { UpdateUserStatusService } from '../services/UpdateUserStatusService'
 
 const noData = <Box sx={{ height: "10rem", width: "60%", display: "flex" }}>
@@ -16,7 +16,8 @@ const noData = <Box sx={{ height: "10rem", width: "60%", display: "flex" }}>
 </Box>
 const UserList = () => {
     const [userList, setUserList] = useState([])
-    const changeStatus=async(data)=>{
+    const [filter, setFilter] = useState("ALL")
+    const changeStatus = async (data) => {
         await UpdateUserStatusService(data)
     }
     useEffect(() => {
@@ -33,22 +34,25 @@ const UserList = () => {
     }, [changeStatus])
     return (
         <>
-            <div>
+            <div id='alluserlist'>
                 <SearchAppBar />
-                {
-                    (userList).length === 0 ? <>
-                        {Array(8).fill().map((_, index) => (
-                            <React.Fragment key={index}>
-                                {noData}
-                            </React.Fragment>
-                        ))}
-                    </> :
-                        userList.map(user => {
-                            return <>
-                                <UserCard changeStatus={changeStatus} data={user} />
-                            </>
-                        })
-                }
+                <div id='list'>
+                    <Box width={"100%"}><Button>ALL</Button><Button>VENDOR</Button><Button>USER</Button><Button>SHIPPER</Button></Box>
+                    {
+                        (userList).length === 0 ? <>
+                            {Array(8).fill().map((_, index) => (
+                                <React.Fragment key={index}>
+                                    {noData}
+                                </React.Fragment>
+                            ))}
+                        </> :
+                            userList.map(user => {
+                                return <>
+                                    <UserCard changeStatus={changeStatus} data={user} />
+                                </>
+                            })
+                    }
+                </div>
             </div>
         </>
     )

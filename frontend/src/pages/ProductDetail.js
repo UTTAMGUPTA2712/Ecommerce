@@ -5,9 +5,12 @@ import SearchAppBar from '../Components/SearchAppBar'
 import { useSelector } from 'react-redux'
 import SuggestionList from '../Components/SuggestionList'
 import { BuyNowButton } from '../Components/BuyNowButton'
+import AddItems from '../Components/AddItem'
+import { StatusButton } from '../Components/StatusButton'
 const ProductDetail = () => {
     const cart = useSelector(state => state.cart.cart)
     const location = useLocation()
+    const user = useSelector(state => state.user.user?.email)
     const data = location.state
     const [pic, setPic] = useState(data?.image?.[0])
     return (
@@ -28,7 +31,11 @@ const ProductDetail = () => {
                         <h2>₨. {data?.price}/-</h2>
                         <h3>{data?.description}</h3>
                         <ItemCountButton value={cart[data._id]?.value} data={data} />
-                        <BuyNowButton value={cart[data._id]?.value} data={data}/>
+                        <BuyNowButton value={cart[data._id]?.value} data={data} />
+                        {user === data.sender && <>
+                            <AddItems itemData={data} />
+                            <StatusButton id={data?._id} status={data?.status} />
+                        </>}
                     </div>
                     <SuggestionList id={data?._id} data={data?.category} />
                 </div>

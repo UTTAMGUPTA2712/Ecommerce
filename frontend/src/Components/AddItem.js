@@ -9,19 +9,27 @@ import Slide from '@mui/material/Slide';
 import { FormControl, InputAdornment, InputLabel, ListItemText, MenuItem, Select, TextField } from "@mui/material";
 import AddItemButton from "./AddItemButton";
 import UploadImage from "./UploadImage";
+import { useSelector } from "react-redux";
+import { ShowImages } from "./ShowImages";
+import DraftItemButton from "./DraftItemButton";
 
 const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 const AddItems = ({ itemData }) => {
-    const [image, setImage] = useState([])
+    const [image, setImage] = useState(itemData?.image ?? [])
     const [open, setOpen] = useState(false);
-    const [data, setData] = useState(itemData ?? { rating: 0, reviews: [] })
+    const user = useSelector(state => state.user.user?.email)
+    const [fileList, setFileList] = useState([]);
+    const changeFileList = (e) => {
+        setFileList(e);
+    }
+    const [data, setData] = useState(itemData || { rating: 0, reviews: [], sender: user })
+    console.log("item", itemData, "data", data);
+
     const changeData = (title, value) => {
         setData(p => ({ ...p, [title]: value }));
     }
-    // handle the edit on post description
-    // to close the modal of create post and to set post,file,loading,modalopen data to initial value
     const changeImage = (data) => {
         setImage([...image, "http://localhost:1000/" + data])
     }
@@ -30,7 +38,6 @@ const AddItems = ({ itemData }) => {
         setImage([])
         setOpen(false);
     };
-    console.log(data);
     return (
         <>
             <Dialog
@@ -53,13 +60,15 @@ const AddItems = ({ itemData }) => {
                         <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
                             {itemData ? "Edit Item" : "Add Product"}
                         </Typography>
+                        {!itemData&&<DraftItemButton data={{...data,image:image}} handleCancel={handleCancel} />}
                         <AddItemButton value={itemData ? "Save" : "Add"} handleCancel={handleCancel} data={{ ...data, image: image }} />
                     </Toolbar>
                 </AppBar>
                 <div id="formGrid">
-                    <UploadImage changeImage={changeImage} />
+                    {itemData?<ShowImages data={itemData?.image}/>:<UploadImage fileList={fileList} setFileList={changeFileList} changeImage={changeImage} />}
                     <TextField
                         required
+                        value={data?.name}
                         onChange={(e) => changeData("name", e.target.value)}
                         id="filled-required"
                         label="Name Of The Product"
@@ -77,10 +86,12 @@ const AddItems = ({ itemData }) => {
                             <MenuItem value={10}>Ten</MenuItem>
                             <MenuItem value={20}>Twenty</MenuItem>
                             <MenuItem value={30}>Thirty</MenuItem>
-                        </Select></FormControl>
+                        </Select>
+                    </FormControl>
                     <TextField
                         id="input-with-icon-textfield"
                         label="Price"
+                        value={data?.price}
                         onChange={(e) => changeData("price", e.target.value)}
                         type="number"
                         InputProps={{
@@ -95,6 +106,7 @@ const AddItems = ({ itemData }) => {
                     <TextField
                         id="filled-multiline-static"
                         label="Description"
+                        value={data?.description}
                         onChange={(e) => changeData("description", e.target.value)}
                         multiline
                         rows={4}
@@ -102,9 +114,7 @@ const AddItems = ({ itemData }) => {
                     />
                 </div>
             </Dialog>
-            {/* <button onClick={() => setOpen(true)}>ADD ITEM</button> */}
-            <ListItemText onClick={() => setOpen(true)} id="switch-list-label-wifi" primary="ADD ITEM" />
-
+            <ListItemText onClick={() => setOpen(true)} id="switch-list-label-wifi" primary={itemData?"EDIT ITEM":"ADD ITEM"} />
         </>
     )
 }

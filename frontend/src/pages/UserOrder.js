@@ -7,19 +7,12 @@ import OrderLocation from '../Components/OrderLocation'
 import { SetOrderStatusService } from '../services/SetOrderStatusService'
 import { serverError } from '../data/constants'
 import { setMessage } from '../redux/slice/messageSlice'
+import OrderComponent from '../Components/OrderComponent'
 
 const UserOrder = () => {
   const user = useSelector(state => state.user.user)
   const [orders, setOrder] = useState([])
-  const dispatch = useDispatch()
-  const setStatus = async ( data ) => {
-    const response = await SetOrderStatusService(data)
-    if (response === serverError) {
-      dispatch(setMessage({ message: "Server Is Down Please Try Again After some time", severity: "error" }))
-    } else {
-      dispatch(setMessage({ message: "Successfully set", severity: "success" }))
-    }
-  }
+  // const dispatch = useDispatch()
   useEffect(() => {
     const getOrders = async () => {
       try {
@@ -31,10 +24,10 @@ const UserOrder = () => {
       }
     }
     getOrders()
-  }, [setStatus])
+  }, [])
   return (
     <>
-      <div id='order'>
+      {/* <div id='order'>
         <SearchAppBar />
         <div style={{ display: "flex", overflowY: "auto", width: "100vw", flexDirection: "column", alignItems: "center" }}>
           {
@@ -48,7 +41,8 @@ const UserOrder = () => {
             })
           }
         </div>
-      </div>
+      </div> */}
+      <OrderComponent orders={orders}/>
     </>
   )
 }

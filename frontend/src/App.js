@@ -12,6 +12,7 @@ import ProductDetail from './pages/ProductDetail';
 import PageNotFound from './pages/PageNotFound';
 import UserList from './pages/UserList';
 import CheckOut from './pages/Checkout';
+import AllOrder from './pages/AllOrder';
 
 function App() {
   const user = useSelector(state => state.user.user)
@@ -32,27 +33,27 @@ function App() {
     },
     {
       path: "/cart",
-      component: <Cart/>
+      component: <Cart />
     },
     {
       path: "/checkout",
-      component: <CheckOut/>
+      component: <CheckOut />
     },
     {
       path: "/profile",
-      component:<Profile/>
+      component: <Profile />
     },
     {
-      path:"/productDetail",
-      component:<ProductDetail/>,
+      path: "/productDetail",
+      component: <ProductDetail />,
     },
     {
       path: "/userorder",
-      component:<UserOrder/>
+      component: <UserOrder />
     },
     {
       path: "/*",
-      component:<PageNotFound/>
+      component: <PageNotFound />
     }
   ]
   const vendorRouter = [
@@ -64,21 +65,25 @@ function App() {
   const adminRouter = [
     {
       path: "/allusers",
-      component: <UserList/>
+      component: <UserList />
     },
     {
       path: "/products",
       component: ""
     },
+    {
+      path: "/allorder",
+      component: <AllOrder />,
+    }
   ]
-  const shipmentRouter=[
+  const shipmentRouter = [
     {
       path: "/currier",
-      component:""
+      component: ""
     },
     {
       path: "/currentParcels",
-      component:""
+      component: ""
     },
   ]
   return (
@@ -92,13 +97,13 @@ function App() {
           {user && privateRouter.map(route => {
             return <Route path={route.path} element={route.component} />;
           })}
-          {user&&(user?.title==="vendor") && vendorRouter.map(route => {
+          {user && (user?.title === "vendor") && vendorRouter.map(route => {
             return <Route path={route.path} element={route.component} />;
           })}
-          {user &&(user?.title==="shipment")&& shipmentRouter.map(route => {
+          {user && (user?.title === "shipment") && shipmentRouter.map(route => {
             return <Route path={route.path} element={route.component} />;
           })}
-          {user&&(user?.title==="admin") && adminRouter.map(route => {
+          {user && (user?.title === "admin") && adminRouter.map(route => {
             return <Route path={route.path} element={route.component} />;
           })}
         </Routes>

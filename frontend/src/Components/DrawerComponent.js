@@ -20,8 +20,8 @@ const DrawerComponent = () => {
             component: <ListItemText onClick={() => navigate("/")} primary="HOME" />
         },
         {
-            icon: <AddToPhotos />,
-            component: <AddItems />
+            icon: <AddToPhotos/>,
+            component: <AddItems/>
         },
         {
             icon: <VerifiedUserSharp />,
@@ -34,6 +34,10 @@ const DrawerComponent = () => {
         {
             icon:<ShoppingBag/>,
             component: <ListItemText onClick={() => navigate("/userorder")} primary="MY ORDERS"/>
+        },
+        {
+            icon:<ShoppingBag/>,
+            component: <ListItemText onClick={() => navigate("/allorder")} primary="ALL ORDERS"/>
         },
         {
             icon: <Logout />,
