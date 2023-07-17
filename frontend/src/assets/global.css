@@ -91,40 +91,42 @@ body {
         grid-column: 1/span 2;
     }
 
-    & #itemList {
-        padding: 1rem;
-        display: flex;
-        overflow-y: auto;
-        flex-wrap: wrap;
-        gap: 1rem;
-        overflow-y: auto;
 
-        & .MuiPaper-root {
-            width: 15rem;
-            height: 23rem;
+}
 
-            & .MuiButtonBase-root {
-                height: 20rem;
+#itemList {
+    padding: 1rem;
+    display: flex;
+    overflow-y: auto;
+    flex-wrap: wrap;
+    gap: 1rem;
+    overflow-y: auto;
 
-                & .MuiCardMedia-root {
-                    object-fit: contain;
-                    height: 15rem;
-                }
+    & .MuiPaper-root {
+        width: 15rem;
+        height: 23rem;
 
-                & .MuiCardContent-root {
-                    height: 5rem;
-                    padding: 0;
-                }
+        & .MuiButtonBase-root {
+            height: 20rem;
+
+            & .MuiCardMedia-root {
+                object-fit: contain;
+                height: 15rem;
             }
 
-            & .MuiCardActions-root {
-                justify-content: space-around;
-                height: 3rem;
+            & .MuiCardContent-root {
+                height: 5rem;
                 padding: 0;
+            }
+        }
 
-                & button {
-                    height: 100%;
-                }
+        & .MuiCardActions-root {
+            justify-content: space-around;
+            height: 3rem;
+            padding: 0;
+
+            & button {
+                height: 100%;
             }
         }
     }
@@ -242,27 +244,33 @@ body {
     }
 
     & #checkoutbox {
+        margin: 2rem;
         min-width: 600px;
         grid-column: 2;
     }
 }
-#alluserlist{
+
+#alluserlist {
     display: grid;
     grid-template-rows: auto 1fr;
     height: 100vh;
     width: 100vw;
-    & #list{
+
+    & #list {
         padding: 2rem;
     }
 }
+
 #order {
     display: grid;
     grid-template-rows: auto 1fr;
     height: 100vh;
     width: 100vw;
+
     & #searchbar {
         grid-column: 1/span 3;
     }
+
     & #orderGrid1 {
         margin: 1rem;
         display: grid;
@@ -272,6 +280,7 @@ body {
         padding: 1rem;
         border-radius: 10px;
     }
+
     & #orderGrid2 {
         margin: 1rem;
         display: grid;
@@ -280,11 +289,13 @@ body {
         border: 2px solid black;
         padding: 1rem;
         border-radius: 10px;
-        & #user{
+
+        & #user {
             grid-column: 1/span 2;
         }
     }
 }
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -312,8 +323,49 @@ input::-webkit-inner-spin-button {
     color: white;
 }
 
-.nocartitem{
+.nocartitem {
     background-image: url("./Images/emptycart.png");
     background-size: cover;
     background-position: center;
+}
+
+.centerimage {
+    height: 100%;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+.blue {
+    color: blue;
+}
+
+.Mui-selected {
+    background-color: tomato !important;
+
+    & .MuiTableCell-root {
+        color: white !important;
+    }
+}
+#profile {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    height: 100vh;
+    width: 100vw;
+    & #profileDetail {
+        overflow-y: auto;
+    }
+}
+#adminpage{
+    display: grid;
+    grid-template-rows: auto 1fr;
+    height: 100vh;
+    width: 100vw;
+    & #searchbar{
+        grid-column: 1/span 2;
+    }
+    & #list{
+        overflow-y: auto;
+    }
 }

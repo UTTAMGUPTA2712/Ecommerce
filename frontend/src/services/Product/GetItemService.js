@@ -1,9 +1,11 @@
 import axios from 'axios'
-import { serverError } from '../data/constants'
+import { server, serverError } from '../../data/constants'
 export const GetItemService = () => {
   try{
   console.log("work");
-  return axios.get("http://localhost:1000/product/product")
+  const response = axios.get(server+"product/product")
+return response; 
+
 } catch (error) {
   console.log(error);
   return serverError

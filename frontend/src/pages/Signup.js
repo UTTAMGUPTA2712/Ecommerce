@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { AddUser } from '../services/AddUser'
+import { AddUser } from '../services/Auth/SignupService'
 import { GoogleAuth } from '../utils/googleAuth.js'
 import userIcon from "../assets/Images/user.png"
 import { Button, TextField } from '@material-ui/core'
@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux'
 import { saveUser } from '../redux/slice/authSlice'
 import { shipper, userAlreadyExist, userconst, vendor } from '../data/constants'
 import { setMessage } from '../redux/slice/messageSlice'
-const titles=[userconst,vendor,shipper]
+const titles = [userconst, vendor, shipper]
 const Signup = () => {
     const [password, setPassword] = useState("")
     const [formData, setFormData] = useState({})
@@ -23,9 +23,11 @@ const Signup = () => {
         if (formData?.name && formData?.email && formData?.phoneNumber && formData?.password) {
             if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData?.email)) {
                 if (formData?.password === password) {
-                    const data = await AddUser({...formData,title:titles[choice]})
-                    if (data.data === userAlreadyExist) {
-                        dispatch(setMessage({ message: userAlreadyExist, severity: "warning" }))
+                    const data = await AddUser({ ...formData, title: titles[choice] })
+                    if (data.data === false) {
+                        dispatch(setMessage({ message: "User Disabled Please Contact Customer Care!", severity: "danger" }))
+                    } else if (data.data === userAlreadyExist) {
+                        dispatch(setMessage({ message: userAlreadyExist, severity: "info" }))
                     } else {
                         dispatch(setMessage({ message: "Successfully Logged In", severity: "success" }))
                         dispatch(saveUser(data.data))
@@ -43,9 +45,14 @@ const Signup = () => {
     }
     const GoolgeSignup = async () => {
         const data = await GoogleAuth(titles[choice])
-        dispatch(setMessage({ message: "Successfully Logged In", severity: "success" }))
-        dispatch(saveUser(data))
-        navigate("/")
+        console.log(data);
+        if (data.data === false) {
+            dispatch(setMessage({ message: "User Disabled Please Contact Customer Care!", severity: "info" }))
+        } else {
+            dispatch(setMessage({ message: "Successfully Logged In", severity: "success" }))
+            dispatch(saveUser(data.data))
+            navigate("/")
+        }
     }
     console.log(formData)
     const handlephonenumber = (e) => {
@@ -67,10 +74,10 @@ const Signup = () => {
                         </span>
                     </h1>
                     <span>
+                        <img onClick={() => setChoice(0)} className={choice === 0 ? "selected" : ""} src={userIcon} alt="" />
                         <img onClick={() => setChoice(1)} className={choice === 1 ? "selected" : ""} src={userIcon} alt="" />
                         <img onClick={() => setChoice(2)} className={choice === 2 ? "selected" : ""} src={userIcon} alt="" />
-                        <img onClick={() => setChoice(3)} className={choice === 3 ? "selected" : ""} src={userIcon} alt="" />
-                        <h1>{titles[choice]}</h1>
+                        <h1>{titles[choice].toUpperCase()}</h1>
                     </span>
                     <TextField
                         error={!formData?.name && valid}

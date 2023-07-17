@@ -6,10 +6,11 @@ import InputBase from '@material-ui/core/InputBase';
 import { alpha } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
 import { Search, ShoppingCart, Store } from '@mui/icons-material';
-import DrawerComponent from './DrawerComponent';
+import DrawerComponent from '../Components/DrawerComponent';
 import { Avatar, Badge, IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 
 const styles = theme => ({
   root: {
@@ -70,15 +71,22 @@ const styles = theme => ({
   },
 });
 const SearchAppBar = (props) => {
-  const navigate=useNavigate()
-  const pic=useSelector(state=>state.user.user?.image)
+  const navigate = useNavigate()
+  const user = useSelector(state => state.user.user)
+  const cart=useSelector(state=>state.cart.cart)
+  const [count,setCount] = useState(0)
+  useEffect(()=>{
+    let sum=0;
+    Object.keys(cart).forEach(key=>{sum+=cart[key]?.value})
+    setCount(sum)
+  },[cart])
   const { classes } = props;
   return (
     <div id='searchbar' className={classes.root}>
       <AppBar position="static">
         <Toolbar>
           <DrawerComponent />
-          <Typography onClick={()=>navigate("/")} className={classes.title} variant="h6" color="inherit" noWrap>
+          <Typography onClick={() => navigate("/")} className={classes.title} variant="h6" color="inherit" noWrap>
             E-Commerce
           </Typography>
           <div className={classes.grow} />
@@ -94,12 +102,12 @@ const SearchAppBar = (props) => {
               }}
             />
           </div>
-          <IconButton  onClick={()=>navigate("/cart")}>
-            <Badge badgeContent={4} color='error' sx={{color:"white"}} >
-              <ShoppingCart />
+          <IconButton size='large' onClick={() => navigate("/cart")}>
+            <Badge badgeContent={count} color='error' sx={{ color: "white" }} >
+              <ShoppingCart/>
             </Badge>
           </IconButton>
-          <Avatar src={pic}></Avatar>
+          <Avatar onClick={()=>navigate("/Profile")} src={user?.image}>{user?.name?.[0]}</Avatar>
         </Toolbar>
       </AppBar>
     </div>

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import SearchAppBar from '../Components/SearchAppBar'
-import { GetUserOrdersService } from '../services/GetUserOrdersService'
+import SearchAppBar from '../utils/SearchAppBar'
+import { GetUserOrdersService } from '../services/User/GetUserOrdersService'
 import OrderDetail from '../Components/OrderDetail'
 import OrderLocation from '../Components/OrderLocation'
-import { SetOrderStatusService } from '../services/SetOrderStatusService'
+import { SetOrderStatusService } from '../services/Order/SetOrderStatusService'
 import { serverError } from '../data/constants'
 import { setMessage } from '../redux/slice/messageSlice'
 import OrderComponent from '../Components/OrderComponent'
@@ -12,7 +12,6 @@ import OrderComponent from '../Components/OrderComponent'
 const UserOrder = () => {
   const user = useSelector(state => state.user.user)
   const [orders, setOrder] = useState([])
-  // const dispatch = useDispatch()
   useEffect(() => {
     const getOrders = async () => {
       try {
@@ -27,22 +26,7 @@ const UserOrder = () => {
   }, [])
   return (
     <>
-      {/* <div id='order'>
-        <SearchAppBar />
-        <div style={{ display: "flex", overflowY: "auto", width: "100vw", flexDirection: "column", alignItems: "center" }}>
-          {
-            orders.map((order, index) => {
-              return <React.Fragment key={index}>
-                <div id='orderGrid'>
-                  <OrderLocation data={order.status} id={order._id} setStatus={setStatus} />
-                  <OrderDetail cart={order.items} />
-                </div>
-              </React.Fragment>
-            })
-          }
-        </div>
-      </div> */}
-      <OrderComponent orders={orders}/>
+      <OrderComponent orders={orders} />
     </>
   )
 }

@@ -1,8 +1,10 @@
 import axios from 'axios'
-import { serverError } from '../data/constants'
+import { server, serverError } from '../../data/constants'
 export const LoginService = (user) => {
   try{
-  return axios.post("http://localhost:1000/auth/Login",user)
+  const response = axios.post(server+"auth/Login",user)
+return response; 
+
 } catch (error) {
   console.log(error);
   return serverError

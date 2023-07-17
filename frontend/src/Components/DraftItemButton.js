@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux"
-import { AddItemService } from "../services/AddItemService"
+import { AddItemService } from "../services/Product/AddItemService"
 import { addproduct } from "../redux/slice/productSlice"
 import { Button } from "@mui/material"
 import { setMessage } from "../redux/slice/messageSlice"

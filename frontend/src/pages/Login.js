@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { LoginService } from '../services/LoginService'
+import { LoginService } from '../services/Auth/LoginService'
 import { useDispatch } from 'react-redux'
 import { GoogleAuth } from '../utils/googleAuth'
 import TextField from '@material-ui/core/TextField';
@@ -11,13 +11,14 @@ import { userNotFound, userconst, wrongPassword } from '../data/constants';
 const Login = () => {
   const [user, setuser] = useState("")
   const [password, setpassword] = useState("")
-  const [valid, setvalid] = useState(false)
   const dispatch = useDispatch()
   const navigate = useNavigate();
   const handleManualLogin = async () => {
     try {
       const response = await LoginService({ user: user, password: password })
-      if (response.data === userNotFound) {
+      if (response.data === false) {
+        dispatch(setMessage({ message: "User Disabled!! Please Contact Customer Care!", severity: "info" }))
+      } else if (response.data === userNotFound) {
         dispatch(setMessage({ message: userNotFound, severity: "error" }))
       } else if (response.data === wrongPassword) {
         dispatch(setMessage({ message: wrongPassword, severity: "error" }))
@@ -32,9 +33,14 @@ const Login = () => {
   }
   const googleLogin = async () => {
     const data = await GoogleAuth(userconst)
-    dispatch(setMessage({ message: "Successfully Logged In", severity: "success" }))
-    dispatch(saveUser(data))
-    navigate("/")
+    console.log(data);
+    if (data.data === false) {
+      dispatch(setMessage({ message: "User Disabled Please Contact Customer Care!", severity: "info" }))
+    } else if(data?.data) {
+      dispatch(setMessage({ message: "Successfully Logged In", severity: "success" }))
+      dispatch(saveUser(data.data))
+      navigate("/")
+    }
 
   }
   return (
@@ -50,8 +56,8 @@ const Login = () => {
               Create A New Account
             </span>
           </h1>
-          <TextField error={!user && valid} helperText={(!user && valid) ? "Invalid User Credentials" : ""} id="outlined-basic" defaultValue={user} onChange={(e) => setuser(e.target.value)} label="Phone Number/Email" variant="outlined" />
-          <TextField error={!password && valid} helperText={(!password && valid) ? "Incorrect Password" : ""} id="outlined-basic" defaultValue={password} onChange={(e) => setpassword(e.target.value)} label="Password" variant="outlined" />
+          <TextField id="outlined-basic" defaultValue={user} onChange={(e) => setuser(e.target.value)} label="Phone Number/Email" variant="outlined" />
+          <TextField id="outlined-basic" defaultValue={password} onChange={(e) => setpassword(e.target.value)} label="Password" variant="outlined" />
           <Button color="secondary" disabled={!(user && password)} onClick={handleManualLogin} size="large" variant="outlined">Login</Button>
           <Button color="secondary" disabled={false} size="large" onClick={googleLogin} variant="outlined">Login With Google</Button>
         </div>

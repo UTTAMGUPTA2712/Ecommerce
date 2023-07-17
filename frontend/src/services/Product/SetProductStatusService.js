@@ -1,8 +1,10 @@
 import axios from 'axios'
-import { serverError } from '../data/constants'
+import { server, serverError } from '../../data/constants'
 export const SetProductStatusService = (data) => {
   try{
-  return axios.post("http://localhost:1000/product/productstatus", data)
+  const response = axios.post(server+"product/productstatus", data)
+return response; 
+
 } catch (error) {
   console.log(error);
   return serverError

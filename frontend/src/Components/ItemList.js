@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ItemCard } from './ItemCard'
 import { Box, Skeleton } from '@mui/material'
-import { GetItemService } from '../services/GetItemService'
+import { GetItemService } from '../services/Product/GetItemService'
 import { setProduct } from '../redux/slice/productSlice'
+import noproduct from "../assets/Images/noProduct.png"
+import { admin, deletedProduct, published } from '../data/constants'
 const noData =
     <Box sx={{ width: "15rem", height: "23rem" }}>
         <Skeleton variant="rectangular" width={"15rem"} height={"15rem"} />
@@ -13,13 +15,14 @@ const noData =
             <Skeleton width="100%" height={"3rem"} />
         </Box>
     </Box>
-const ItemList = () => {
-    const productList = useSelector(state => state.product.product)
+const ItemList = ({ userdata = ""}) => {
+    const products=useSelector(state=>state.product.product)
     const dispatch = useDispatch()
     const [productLists, setProductLists] = useState(null)
     const user = useSelector(state => state.user.user)
     const filter = useSelector(state => state.filter.filter)
     const cart = useSelector(state => state.cart.cart)
+    const productList = productLists?.filter(product => (product?.sender!==deletedProduct)&&(product?.status===published||userdata === "" || product?.sender === userdata?.email||user?.title===admin))
     let list;
     useEffect(() => {
         if (!productLists) {
@@ -30,7 +33,7 @@ const ItemList = () => {
             }
             getProducts()
         }
-        list = productLists?.filter((product) => product?.name?.includes(filter?.search) && product?.price >= filter?.upperLimit && filter?.lowerLimit <= product?.price)
+        list = productLists?.filter((product) => product?.name?.includes(filter?.search) && product?.price <= filter?.upperLimit && filter?.lowerLimit >= product?.price)
         switch (filter?.sorting) {
             case "price":
                 list = list.sort((a, b) => a.price > b.price)
@@ -45,11 +48,14 @@ const ItemList = () => {
                 list = list.sort((a, b) => a.rate < b.rate)
                 break;
         }
+        console.log(list);
     }, [filter])
     return (
         <>
             <div id='itemList'>
-                {productLists?.length === 0 ? "" :
+                {productList?.length === 0 ?
+                    <div className='centerimage' style={{backgroundImage:`url('${noproduct}')`}}/>
+                    :
                     !productLists ?
                         <>
                             {Array(8).fill().map((_, index) => (
@@ -59,9 +65,10 @@ const ItemList = () => {
                             ))}
                         </>
                         :
-                        productLists?.map((product) => {
-                            return (user?._id !== product?.user) && <ItemCard data={product} value={cart?.[product?._id]?.value} />
-                        })}
+                        productList?.map((product) => {
+                            return <ItemCard data={product} value={cart?.[product?._id]?.value} />
+                        })
+                }
             </div>
         </>
     )

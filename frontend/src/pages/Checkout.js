@@ -4,7 +4,7 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import SearchAppBar from '../Components/SearchAppBar';
+import SearchAppBar from '../utils/SearchAppBar';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import OrderDetail from '../Components/OrderDetail';

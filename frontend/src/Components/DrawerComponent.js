@@ -1,5 +1,5 @@
 import IconButton from '@material-ui/core/IconButton';
-import { AddToPhotos, Home, Logout, Menu, Person, ShoppingBag, ShoppingCart, VerifiedUserSharp } from '@mui/icons-material';
+import { AddToPhotos, Home, LocalShipping, Logout, Menu, Person, RuleFolder, ShoppingBag, ShoppingCart, VerifiedUserSharp } from '@mui/icons-material';
 import { Drawer, ListItem, ListItemIcon, ListItemText, ListSubheader } from '@mui/material';
 import { useState } from 'react';
 import Box from '@mui/material/Box';
@@ -36,8 +36,12 @@ const DrawerComponent = () => {
             component: <ListItemText onClick={() => navigate("/userorder")} primary="MY ORDERS"/>
         },
         {
-            icon:<ShoppingBag/>,
+            icon:<LocalShipping/>,
             component: <ListItemText onClick={() => navigate("/allorder")} primary="ALL ORDERS"/>
+        },
+        {
+            icon:<RuleFolder/>,
+            component: <ListItemText onClick={() => navigate("/setdata")} primary="SET WEBSITE DATA"/>
         },
         {
             icon: <Logout />,

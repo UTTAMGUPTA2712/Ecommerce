@@ -19,7 +19,6 @@ const placeOrder = async (req, res) => {
     res.send("SERVER ERROR");
   }
 };
-
 // Get all orders
 const getAllOrders = async (req, res) => {
   try {
@@ -30,7 +29,17 @@ const getAllOrders = async (req, res) => {
     res.send("SERVER ERROR");
   }
 };
-
+// Get User Orders
+const getUserOrders = async (req, res) => {
+  try {
+    const orders = req.body.map(order => new mongoose.Types.ObjectId(order));
+    const response = await Order.find({ _id: { $in: orders } });
+    res.send(response);
+  } catch (error) {
+    console.log(error);
+    res.send("SERVER ERROR");
+  }
+}
 // Update order status
 const updateOrderStatus = async (req, res) => {
   try {
@@ -49,4 +58,5 @@ module.exports = {
   placeOrder,
   getAllOrders,
   updateOrderStatus,
+  getUserOrders
 };

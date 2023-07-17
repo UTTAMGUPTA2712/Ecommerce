@@ -4,11 +4,11 @@ import { logoutUser } from '../redux/slice/authSlice'
 import { ListItemText } from '@mui/material'
 
 export const LogoutUser = () => {
-    const dispatch=useDispatch()
-    const logout=()=>{
-        dispatch(logoutUser())
-    }
+  const dispatch = useDispatch()
+  const logout = () => {
+    dispatch(logoutUser())
+  }
   return (
-        <ListItemText onClick={logout} id="logoutButton" primary="LOGOUT" />
+    <ListItemText onClick={logout} id="logoutButton" primary="LOGOUT" />
   )
 }

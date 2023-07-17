@@ -21,9 +21,7 @@ function createRow(desc, qty, unit, pic) {
 function subtotal(items) {
   return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0);
 }
-
 const OrderDetail = ({ cart }) => {
-  // const cart = useSelector(state => state.cart.cart);
   const [rows, setRows] = useState([]);
   const [data, setData] = useState({});
   useEffect(() => {

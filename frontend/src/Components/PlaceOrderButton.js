@@ -2,7 +2,7 @@ import { Button } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { PlaceOrderService } from '../services/PlaceOrderService';
+import { PlaceOrderService } from '../services/Order/PlaceOrderService';
 import { addOrder, saveUser } from '../redux/slice/authSlice';
 import { cleancart } from '../redux/slice/cartSlice';
 import { setMessage } from '../redux/slice/messageSlice';

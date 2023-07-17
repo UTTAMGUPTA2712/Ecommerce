@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { ItemCountButton } from '../Components/ItemCountButton'
-import SearchAppBar from '../Components/SearchAppBar'
+import SearchAppBar from '../utils/SearchAppBar'
 import { useSelector } from 'react-redux'
 import SuggestionList from '../Components/SuggestionList'
 import { BuyNowButton } from '../Components/BuyNowButton'
@@ -18,7 +18,6 @@ const ProductDetail = () => {
             <div id='productdetail'>
                 <SearchAppBar />
                 <div id='usercarousal'>
-                    {/* <div style={{backgroundImage:`url${pic}`}} className='mainpic'/> */}
                     <div style={{ backgroundImage: `url('${pic}')` }} className='mainpic' />
                     {data?.image?.map((photo, index) => {
                         return <div className='thumbpic' onClick={() => setPic(photo)} style={{ gridColumn: index + 2, backgroundImage: `url('${photo}')` }} />

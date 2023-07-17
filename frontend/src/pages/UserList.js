@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { GetUserList } from '../services/GetUserList'
-import SearchAppBar from '../Components/SearchAppBar'
+import { GetUserList } from '../services/User/GetUserList'
+import SearchAppBar from '../utils/SearchAppBar'
 import { UserCard } from '../Components/UserCard'
-import { Box, Button, Skeleton } from '@mui/material'
-import { UpdateUserStatusService } from '../services/UpdateUserStatusService'
+import { Box, Button, Skeleton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, ButtonGroup } from '@mui/material'
+import { UpdateUserStatusService } from '../services/User/UpdateUserStatusService'
+import { admin, shipper, userconst, vendor } from '../data/constants'
+import { useSelector } from 'react-redux'
 
 const noData = <Box sx={{ height: "10rem", width: "60%", display: "flex" }}>
     <Skeleton variant="circular" width={"8rem"} height={"8rem"} sx={{ marginRight: "1rem" }} />
@@ -16,11 +18,13 @@ const noData = <Box sx={{ height: "10rem", width: "60%", display: "flex" }}>
 </Box>
 const UserList = () => {
     const [userList, setUserList] = useState([])
-    const [filter, setFilter] = useState("ALL")
+    const [userType, setUserType] = useState("ALL")
+    const currentUser = useSelector(state => state.user.user)
     const changeStatus = async (data) => {
         await UpdateUserStatusService(data)
+        getuser()
     }
-    useEffect(() => {
+    const getuser = () => {
         let timeout
         clearTimeout(timeout);
         timeout = setTimeout(() => {
@@ -31,13 +35,22 @@ const UserList = () => {
             }
             getusers()
         }, 1000);
-    }, [changeStatus])
+    }
+    useEffect(() => {
+        getuser()
+    }, [])
     return (
         <>
             <div id='alluserlist'>
                 <SearchAppBar />
                 <div id='list'>
-                    <Box width={"100%"}><Button>ALL</Button><Button>VENDOR</Button><Button>USER</Button><Button>SHIPPER</Button></Box>
+
+                    <ButtonGroup width={"100%"}>
+                        <Button variant={userType === "ALL" ? "contained" : "outlined"} onClick={() => { setUserType("ALL") }}>ALL</Button>
+                        <Button variant={userType === vendor ? "contained" : "outlined"} onClick={() => { setUserType(vendor) }}>VENDOR</Button>
+                        <Button variant={userType === userconst ? "contained" : "outlined"} onClick={() => { setUserType(userconst) }}>USER</Button>
+                        <Button variant={userType === shipper ? "contained" : "outlined"} onClick={() => { setUserType(shipper) }}>SHIPPER</Button>
+                    </ButtonGroup>
                     {
                         (userList).length === 0 ? <>
                             {Array(8).fill().map((_, index) => (
@@ -46,15 +59,76 @@ const UserList = () => {
                                 </React.Fragment>
                             ))}
                         </> :
-                            userList.map(user => {
-                                return <>
-                                    <UserCard changeStatus={changeStatus} data={user} />
-                                </>
-                            })
-                    }
+                            <>
+                                <TableContainer component={Paper}>
+                                    <Table aria-label="spanning table">
+                                        <TableHead >
+                                            <TableRow sx={{ backgroundColor: "#0f0f0f" }} >
+                                                <TableCell align="left"><Typography variant="h5" sx={{ color: "#f0f0f0" }}>#</Typography></TableCell>
+                                                <TableCell align="center"><Typography variant="h5" sx={{ color: "#f0f0f0" }}>USER DETAIL</Typography></TableCell>
+                                                <TableCell align="center"><Typography variant="h5" sx={{ color: "#f0f0f0" }}>USER TITLE</Typography></TableCell>
+                                                <TableCell align="center"><Typography variant="h5" sx={{ color: "#f0f0f0" }}>ADDRESS</Typography></TableCell>
+                                                <TableCell align="center"><Typography variant="h5" sx={{ color: "#f0f0f0" }}>PHONE NUMBER</Typography></TableCell>
+                                                {currentUser?.title===admin&&<TableCell align="center"><Typography variant="h5" sx={{ color: "#f0f0f0" }}>ACTIVE STATUS</Typography></TableCell>}
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {userList.map(user => {
+                                                return <TableRow hover selected={!user?.status}>{(userType === "ALL" || user?.title === userType) && (currentUser?.email !== user?.email) &&
+                                                    <UserCard changeStatus={changeStatus} data={user} />}
+                                                </TableRow>
+                                            })}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            </>}
                 </div>
             </div>
         </>
     )
 }
 export default UserList
+{/* <TableContainer component={Paper}>
+<Table aria-label="spanning table">
+  <TableHead>
+    <TableRow>
+      <TableCell align="center" colSpan={4}>
+        Details
+      </TableCell>
+      <TableCell align="right">Price</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell align="right"></TableCell>
+      <TableCell>Desc</TableCell>
+      <TableCell align="right">Quantity</TableCell>
+      <TableCell align="right">Cost</TableCell>
+      <TableCell align="right">Sum</TableCell>
+    </TableRow>
+  </TableHead>
+  <TableBody>
+    {rows.map((row, index) => (
+      <TableRow key={index}>
+        <TableCell align='center'><img style={{ width: "4rem", height: "3rem" }} src={row.pic} /></TableCell>
+        <TableCell>{row.desc}</TableCell>
+        <TableCell align="right">{row.qty}</TableCell>
+        <TableCell align="right">{row.unit}</TableCell>
+        <TableCell align="right">{ccyFormat(row.price)}</TableCell>
+      </TableRow>
+    ))}
+    <TableRow>
+      <TableCell rowSpan={3} colSpan={2} />
+      <TableCell colSpan={2}>Sub Amount:</TableCell>
+      <TableCell align="right">{ccyFormat(data.subtotal)}</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell >Tax Amount:</TableCell>
+      <TableCell align="right">{`${(TAX_RATE * 100).toFixed(0)} %`}</TableCell>
+      <TableCell align="right">{ccyFormat(data.tax)}</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell colSpan={2}>Grand Total:</TableCell>
+      <TableCell align="right">{ccyFormat(data.total)}</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+</TableContainer> */}

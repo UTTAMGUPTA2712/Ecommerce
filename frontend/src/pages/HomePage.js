@@ -1,6 +1,6 @@
 import React from 'react'
 import ItemList from '../Components/ItemList';
-import SearchAppBar from '../Components/SearchAppBar';
+import SearchAppBar from '../utils/SearchAppBar';
 const HomePage = () => {
   return (
     <>

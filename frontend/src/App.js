@@ -13,6 +13,9 @@ import PageNotFound from './pages/PageNotFound';
 import UserList from './pages/UserList';
 import CheckOut from './pages/Checkout';
 import AllOrder from './pages/AllOrder';
+import UserProfile from './Components/UserProfile';
+import { admin, shipper, vendor } from './data/constants';
+import SetWebsiteData from './pages/SetWebsiteData';
 
 function App() {
   const user = useSelector(state => state.user.user)
@@ -52,6 +55,10 @@ function App() {
       component: <UserOrder />
     },
     {
+      path: "/userdetail",
+      component: <UserProfile />
+    },
+    {
       path: "/*",
       component: <PageNotFound />
     }
@@ -68,8 +75,8 @@ function App() {
       component: <UserList />
     },
     {
-      path: "/products",
-      component: ""
+      path: "/setdata",
+      component: <SetWebsiteData/>
     },
     {
       path: "/allorder",
@@ -77,9 +84,10 @@ function App() {
     }
   ]
   const shipmentRouter = [
+    
     {
-      path: "/currier",
-      component: ""
+      path: "/allorder",
+      component: <AllOrder />,
     },
     {
       path: "/currentParcels",
@@ -97,13 +105,13 @@ function App() {
           {user && privateRouter.map(route => {
             return <Route path={route.path} element={route.component} />;
           })}
-          {user && (user?.title === "vendor") && vendorRouter.map(route => {
+          {user && (user?.title === vendor) && vendorRouter.map(route => {
             return <Route path={route.path} element={route.component} />;
           })}
-          {user && (user?.title === "shipment") && shipmentRouter.map(route => {
+          {user && (user?.title === shipper) && shipmentRouter.map(route => {
             return <Route path={route.path} element={route.component} />;
           })}
-          {user && (user?.title === "admin") && adminRouter.map(route => {
+          {user && (user?.title === admin) && adminRouter.map(route => {
             return <Route path={route.path} element={route.component} />;
           })}
         </Routes>

@@ -1,8 +1,9 @@
 import axios from 'axios'
-import { serverError } from '../data/constants'
+import { server, serverError } from '../../data/constants'
 export const UpdateUserStatusService = (data) => {
   try {
-    return axios.post("http://localhost:1000/user/updateuserstatus", data)
+    const response = axios.post(server + "user/updateuserstatus", data)
+    return response;
   } catch (error) {
     console.log(error);
     return serverError

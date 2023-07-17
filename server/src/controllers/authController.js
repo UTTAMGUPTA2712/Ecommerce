@@ -9,7 +9,9 @@ const login = async (req, res) => {
       $or: [{ email: userdata.user }, { phoneNumber: userdata.user }],
     });
     if (data) {
-      if (data.password === userdata.password) {
+      if (data.status === false) {
+        res.send(false);
+      } else if (data.password === userdata.password) {
         res.send(data);
       } else {
         res.send("INCORRECT PASSWORD");
@@ -46,9 +48,14 @@ const signup = async (req, res) => {
 const googleAuth = async (req, res) => {
   try {
     const userdata = req.body;
+    console.log(userdata);
     const data = await User.findOne({ email: userdata.email });
     if (data) {
-      res.send(data);
+      if (data.status === false) {
+        res.send(false);
+      } else {
+        res.send(data);
+      }
     } else {
       const createdUsers = await User.create(userdata);
       res.send(createdUsers);
