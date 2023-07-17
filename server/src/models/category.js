@@ -3,11 +3,10 @@ const { Schema } = mongoose;
 
 const categorySchema = new Schema(
   {
-    category: {
+    name: {
       type: String,
       required: true,
     },
-    
   },
   { timestamps: true }
 );

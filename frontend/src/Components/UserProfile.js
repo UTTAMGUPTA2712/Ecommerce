@@ -48,43 +48,48 @@ const UserProfile = ({ data }) => {
             await EditUserProfileService(sendingData)
         }, 1000)
     }
+    const handleCancel = () => {
+        setEdit(true);
+        setName(data?.name)
+        setDataAddress(data?.address)
+    }
     return (
         <>
             <div id='profile'>
                 <SearchAppBar />
                 <div id='profileDetail'>
-                <div>
-                    <Avatar sx={{ bgcolor: "blue", fontSize: "5rem", height: "6rem", width: "6rem" }} src={data?.photo} >{(data?.name?.[0])?.toUpperCase()}</Avatar>
-                    {(edit) ? <h1>{(data?.name).toUpperCase()}</h1> : <><TextField onChange={(e) => setName(e.target.value)} value={username} label="EDIT NAME" variant='outlined' /><br /></>}
-                    {(data.email === user?.email || user?.title === admin) && (edit) ? <Button variant='contained' sx={{ bgcolor: "grey" }} onClick={() => setEdit(false)}>ADD/UPDATE DELIVERY ADDRESS</Button> :
-                        <Button variant='contained' sx={{ bgcolor: "grey" }} onClick={savedata}>SAVE</Button>}
-                </div>
-                <div>
-                    {dataAddress.map((userAddress, index) => {
-                        return <>
+                    <div id='detail'>
+                        <Avatar sx={{ bgcolor: "blue", fontSize: "5rem", height: "6rem", width: "6rem" }} src={data?.photo} >{(data?.name?.[0])?.toUpperCase()}</Avatar>
+                        {(edit) ? <div><h2>{(data?.name).toUpperCase()}</h2><h3>{data?.email}</h3></div> : <><TextField fullWidth onChange={(e) => setName(e.target.value)} value={username} label="EDIT NAME" variant='outlined' /></>}
+                        {(data.email === user?.email || user?.title === admin) && (edit) ? <Button fullWidth variant='contained' sx={{ bgcolor: "grey", gridColumn: "1/SPAN 2" }} onClick={() => setEdit(false)}>ADD/UPDATE DELIVERY ADDRESS</Button> :
+                            <><Button fullWidth variant='contained' sx={{ bgcolor: "grey" }} onClick={handleCancel}>CANCEL</Button><Button fullWidth variant='contained' sx={{ bgcolor: "grey" }} onClick={savedata}>SAVE</Button></>}
+                    </div>
+                    <div>
+                        {dataAddress.map((userAddress, index) => {
+                            return <>
+                                <div className='address'>
+                                    <TextField style={{ gridColumn: "1/span 2" }} disabled={edit} onChange={(e) => changeExistingAddress(index, "location", e.target.value)} label="ADDRESS" value={userAddress?.location} variant="filled" />
+                                    <TextField disabled={edit} onChange={(e) => changeExistingAddress(index, "phone", e.target.value)} label="PHONE NUMBER" value={userAddress?.phone} variant="filled" />
+                                    <TextField disabled={edit} onChange={(e) => changeExistingAddress(index, "city", e.target.value)} label="CITY" value={userAddress?.city} variant="filled" />
+                                    <TextField disabled={edit} type='number' onChange={(e) => changeExistingAddress(index, "pincode", e.target.value)} label="PINCODE" value={userAddress?.pincode} variant="filled" />
+                                    <TextField disabled={edit} onChange={(e) => changeExistingAddress(index, "state", e.target.value)} label="STATE" value={userAddress?.state} variant="filled" />
+                                    {(!edit) && <Button sx={{ backgroundColor: "tomato", color: "white", gridColumn: "1/span 2" }} fullWidth onClick={(e) => { RemoveExistingAddress(index) }}><DisabledByDefault /></Button>}
+                                </div>
+                            </>
+                        })}
+                        {(!edit) &&
                             <div className='address'>
-                                <TextField disabled={edit} id="filled-basic" onChange={(e) => changeExistingAddress(index, "phone", e.target.value)} label="PHONE NUMBER" value={userAddress?.phone} variant="filled" />
-                                <TextField disabled={edit} id="filled-basic" onChange={(e) => changeExistingAddress(index, "location", e.target.value)} label="ADDRESS" value={userAddress?.location} variant="filled" />
-                                <TextField disabled={edit} id="filled-basic" onChange={(e) => changeExistingAddress(index, "city", e.target.value)} label="CITY" value={userAddress?.city} variant="filled" />
-                                <TextField disabled={edit} id="filled-basic" type='number' onChange={(e) => changeExistingAddress(index, "pincode", e.target.value)} label="PINCODE" value={userAddress?.pincode} variant="filled" />
-                                <TextField disabled={edit} id="filled-basic" onChange={(e) => changeExistingAddress(index, "state", e.target.value)} label="STATE" value={userAddress?.state} variant="filled" />
-                                {(!edit) && <IconButton onClick={(e) => { RemoveExistingAddress(index) }}><DisabledByDefault /></IconButton>}
+                                <TextField style={{ gridColumn: "1/span 2" }} label="ADD NEW ADDRESS" onChange={(e) => changeAddress("location", e.target.value)} value={address?.location ?? ""} variant="outlined" />
+                                <TextField label="ADD A PHONE NUMBER" onChange={(e) => changeAddress("phone", e.target.value)} value={address?.phone ?? ""} variant="outlined" />
+                                <TextField label="ADD CITY" onChange={(e) => changeAddress("city", e.target.value)} value={address?.city ?? ""} variant="outlined" />
+                                <TextField type='number' label="ADD PINCODE" onChange={(e) => changeAddress("pincode", e.target.value)} value={address?.pincode ?? ""} variant="outlined" />
+                                <TextField label="ADD STATE" onChange={(e) => changeAddress("state", e.target.value)} value={address?.state ?? ""} variant="outlined" />
+                                <Button sx={{ backgroundColor: "green", color: "white", gridColumn: "1/span 2" }} fullWidth onClick={() => handleAddress()}><Add /></Button>
                             </div>
-                        </>
-                    })}
-                    {(!edit) &&
-                        <div className='address'>
-                            <TextField id="filled-basic" label="ADD A PHONE NUMBER" onChange={(e) => changeAddress("phone", e.target.value)} value={address?.phone ?? ""} variant="filled" />
-                            <TextField id="filled-basic" label="ADD NEW ADDRESS" onChange={(e) => changeAddress("location", e.target.value)} value={address?.location ?? ""} variant="filled" />
-                            <TextField id="filled-basic" label="ADD CITY" onChange={(e) => changeAddress("city", e.target.value)} value={address?.city ?? ""} variant="filled" />
-                            <TextField id="filled-basic" type='number' label="ADD PINCODE" onChange={(e) => changeAddress("pincode", e.target.value)} value={address?.pincode ?? ""} variant="filled" />
-                            <TextField id="filled-basic" label="ADD STATE" onChange={(e) => changeAddress("state", e.target.value)} value={address?.state ?? ""} variant="filled" />
-                            <IconButton onClick={() => handleAddress()}><Add /></IconButton>
-                        </div>
-                    }
-                </div>
-                {data?.title === vendor && <h1>USER ITEMS</h1>}
-                <ItemList userdata={data} />
+                        }
+                    </div>
+                    {data?.title === vendor && <><hr/><h1 style={{textAlign:"center",margin:0}}>USER ITEMS</h1><hr/></>}
+                    <ItemList userdata={data} />
                 </div>
             </div>
         </>

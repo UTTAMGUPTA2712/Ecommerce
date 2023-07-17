@@ -17,12 +17,12 @@ const listData = [
     icon: <Category />
   },
 ]
-const SetDataList = ({setData}) => {
+const SetDataList = ({ setData }) => {
   return (
     <>
       <div>
         <List
-          sx={{ margin: "1rem", width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+          sx={{ margin: "1rem", width: '90%', bgcolor: 'background.paper' }}
           component="nav"
           aria-labelledby="nested-list-subheader"
           subheader={
@@ -34,7 +34,7 @@ const SetDataList = ({setData}) => {
           }
         >
           {listData.map((item, index) => (
-            <ListItemButton onClick={()=>setData(index)} key={index}>
+            <ListItemButton onClick={() => setData(index)} key={index}>
               <ListItemIcon>
                 {item?.icon}
               </ListItemIcon>

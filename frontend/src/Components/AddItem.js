@@ -1,4 +1,4 @@
-import { forwardRef, useState } from "react"
+import { forwardRef, useEffect, useState } from "react"
 import Dialog from '@mui/material/Dialog';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,6 +12,7 @@ import UploadImage from "./UploadImage";
 import { useSelector } from "react-redux";
 import { ShowImages } from "./ShowImages";
 import DraftItemButton from "./DraftItemButton";
+import { GetCategory } from "../services/Category/GetCategory";
 
 const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -21,6 +22,7 @@ const AddItems = ({ itemData }) => {
     const [open, setOpen] = useState(false);
     const user = useSelector(state => state.user.user?.email)
     const [fileList, setFileList] = useState([]);
+    const [category, setCategory] = useState([]);
     const changeFileList = (e) => {
         setFileList(e);
     }
@@ -38,6 +40,13 @@ const AddItems = ({ itemData }) => {
         setImage([])
         setOpen(false);
     };
+    const SaveCategory = async () => {
+        const response = await GetCategory()
+        setCategory(response.data)
+    }
+    useEffect(() => {
+        SaveCategory()
+    }, [open])
     return (
         <>
             <Dialog
@@ -45,8 +54,7 @@ const AddItems = ({ itemData }) => {
                 fullScreen
                 open={open}
                 onClose={handleCancel}
-                TransitionComponent={Transition}
-            >
+                TransitionComponent={Transition}>
                 <AppBar sx={{ position: 'relative' }}>
                     <Toolbar>
                         <IconButton
@@ -60,12 +68,12 @@ const AddItems = ({ itemData }) => {
                         <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
                             {itemData ? "Edit Item" : "Add Product"}
                         </Typography>
-                        {!itemData&&<DraftItemButton data={{...data,image:image}} handleCancel={handleCancel} />}
+                        {!itemData && <DraftItemButton data={{ ...data, image: image }} handleCancel={handleCancel} />}
                         <AddItemButton value={itemData ? "Save" : "Add"} handleCancel={handleCancel} data={{ ...data, image: image }} />
                     </Toolbar>
                 </AppBar>
                 <div id="formGrid">
-                    {itemData?<ShowImages data={itemData?.image}/>:<UploadImage fileList={fileList} setFileList={changeFileList} changeImage={changeImage} />}
+                    {itemData ? <ShowImages data={itemData?.image} /> : <UploadImage fileList={fileList} setFileList={changeFileList} changeImage={changeImage} />}
                     <TextField
                         required
                         value={data?.name}
@@ -83,9 +91,9 @@ const AddItems = ({ itemData }) => {
                             sx={{ textAlign: "left" }}
                             value={data?.category ?? ""}
                             onChange={(e) => changeData("category", e.target.value)}>
-                            <MenuItem value={10}>Ten</MenuItem>
-                            <MenuItem value={20}>Twenty</MenuItem>
-                            <MenuItem value={30}>Thirty</MenuItem>
+                            {category.map(data => (
+                                <MenuItem value={data?.name}>{data?.name}</MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                     <TextField
@@ -114,7 +122,7 @@ const AddItems = ({ itemData }) => {
                     />
                 </div>
             </Dialog>
-            <ListItemText onClick={() => setOpen(true)} id="switch-list-label-wifi" primary={itemData?"EDIT ITEM":"ADD ITEM"} />
+            <ListItemText onClick={() => setOpen(true)} id="switch-list-label-wifi" primary={itemData ? "EDIT ITEM" : "ADD ITEM"} />
         </>
     )
 }

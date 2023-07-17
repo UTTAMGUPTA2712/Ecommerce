@@ -2,15 +2,13 @@ import { Upload } from 'antd';
 import React, { useState } from 'react'
 import { PlusOutlined } from '@ant-design/icons';
 
-const UploadImage = ({ changeImage,fileList, setFileList }) => {
-    // const [fileList, setFileList] = useState([]);
+const UploadImage = ({ changeImage, fileList, setFileList, count = 4 }) => {
     const handleChange = ({ file: newFile, fileList: newFileList }) => { setFileList(newFileList); (newFile.status === "done") && changeImage(newFile.response) }
     const uploadButton = (
         <div>
             <PlusOutlined />
             <div
                 style={{
-                    // marginTop: 8,
                     textAlign: "center",
                 }}>
                 Upload
@@ -24,9 +22,9 @@ const UploadImage = ({ changeImage,fileList, setFileList }) => {
                 action="http://localhost:1000/upload"
                 listType="picture-card"
                 fileList={fileList}
-                showUploadList={{ showPreviewIcon: false, showRemoveIcon: false }}
+                showUploadList={{ showPreviewIcon: false, showRemoveIcon: count === 1 }}
                 onChange={handleChange}>
-                {fileList.length >= 4 ? null : uploadButton}
+                {fileList.length >= count ? null : uploadButton}
             </Upload>
         </>
     )
