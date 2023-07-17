@@ -15,7 +15,7 @@ const columns = [
     { label: '#', minWidth: 20 },
     { label: 'Coupon Code', minWidth: 150 },
     { label: 'Discount', minWidth: 100, },
-    { label: "Delete Coupon", minWidth: 100 }
+    { label: "Handle Coupon", minWidth: 100 }
 ];
 export const SetCoupon = () => {
     const [rows, setRows] = useState([])
@@ -27,42 +27,53 @@ export const SetCoupon = () => {
     const addCoupon = async () => {
         const response = await AddCouponsService(formdata)
         setRows([...rows, response.data])
-        setFormdata({})
+        setFormdata({ name: "", coupon: "" })
     }
     const deleteCoupon = async (id, index) => {
         const response = await DisableCoupon({ id: id })
-        let arr=[...rows]
+        let arr = [...rows]
         arr.splice(index, 1)
-        setFormdata(arr)
+        setRows(arr)
     }
+    console.log("form", formdata);
     useEffect(() => {
-        getData()
+        getData();
     }, [])
     return (
         <>
-            <TextField value={formdata?.name} onChange={(e) => setFormdata(p => ({ ...p, name: e.target.value }))}></TextField>
-            <TextField value={formdata?.coupon} type='number' onChange={(e) => setFormdata(p => ({ ...p, coupon: e.target.value }))}></TextField>
-            <Button disabled={!(formdata?.name&&formdata?.coupon)} onClick={addCoupon}>ADD</Button>
-            <TableContainer sx={{ height: "100%", overflowY: "auto" }}>
+            <TableContainer sx={{ overflowY: "auto", height: "100%" }}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
+
                         <TableRow>
                             {columns.map((column) => (
                                 <TableCell
                                     align={"center"}
-                                    sx={{ minWidth: column.minWidth }}>
+                                    sx={{ minWidth: column.minWidth, color: "#f0f0f0", backgroundColor: "#424242" }}>
                                     {column.label}
                                 </TableCell>
                             ))}
                         </TableRow>
                     </TableHead>
                     <TableBody>
+                    <TableRow>
+                            <TableCell></TableCell>
+                            <TableCell align={"center"}>
+                                <TextField variant='filled' label="Coupon Code" value={formdata?.name} onChange={(e) => setFormdata(p => ({ ...p, name: e.target.value }))}></TextField>
+                            </TableCell >
+                            <TableCell align={"center"}>
+                                <TextField variant='filled' label="Discount(in Rs.)" value={formdata?.coupon} type='number' onChange={(e) => setFormdata(p => ({ ...p, coupon: e.target.value }))}></TextField>
+                            </TableCell>
+                            <TableCell align={"center"}>
+                                <Button variant='contained' disabled={!(formdata?.name && formdata?.coupon)} onClick={addCoupon}>ADD</Button>
+                            </TableCell>
+                        </TableRow>
                         {rows.map((row, index) => {
                             return (
                                 <TableRow hover>
                                     <TableCell align={"center"}>{index + 1}</TableCell>
                                     <TableCell align={"center"}>{row?.name}</TableCell>
-                                    <TableCell align={"center"}>{row?.coupon}</TableCell>
+                                    <TableCell align={"center"}>Rs.{row?.coupon}/-</TableCell>
                                     <TableCell align={"center"}><Delete onClick={() => deleteCoupon(row._id, index)} /></TableCell>
                                 </TableRow>
                             );

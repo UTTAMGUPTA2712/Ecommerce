@@ -16,6 +16,7 @@ import AllOrder from './pages/AllOrder';
 import UserProfile from './Components/UserProfile';
 import { admin, shipper, vendor } from './data/constants';
 import SetWebsiteData from './pages/SetWebsiteData';
+import DashBoard from './pages/DashBoard';
 
 function App() {
   const user = useSelector(state => state.user.user)
@@ -31,8 +32,12 @@ function App() {
   ]
   const privateRouter = [
     {
-      path: "/",
+      path: "/home",
       component: <HomePage />
+    },
+    {
+      path:"/",
+      component:<DashBoard/>
     },
     {
       path: "/cart",

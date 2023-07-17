@@ -20,6 +20,10 @@ const DrawerComponent = () => {
             component: <ListItemText onClick={() => navigate("/")} primary="HOME" />
         },
         {
+            icon: <Home />,
+            component: <ListItemText onClick={() => navigate("/")} primary="HOME" />
+        },
+        {
             icon: <AddToPhotos/>,
             component: <AddItems/>
         },

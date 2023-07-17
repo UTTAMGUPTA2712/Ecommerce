@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const carousalSchema = new Schema(
     {
-        carousal: {
+        image: {
             type: String,
             required: true,
         },

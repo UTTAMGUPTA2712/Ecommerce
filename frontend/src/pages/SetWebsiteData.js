@@ -33,8 +33,8 @@ const SetWebsiteData = () => {
   }
   const componentSelector = (index) => {
     switch (index) {
-      case 0: return <SetCoupon />;
-      case 1: return <SetCategory />;
+      case 1: return <SetCoupon />;
+      case 2: return <SetCategory />;
       default: return <SetCarousal />;
     }
   }
