@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom'
 import { setMessage } from '../../../redux/slice/messageSlice'
 import { savecart } from '../../../redux/slice/cartSlice'
 import { outOfStock } from '../../../data/constants'
-
 export const BuyNowButton = ({ data, value }) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -26,7 +25,7 @@ export const BuyNowButton = ({ data, value }) => {
         }
     }
     return (<>
-        {data.status !== outOfStock && <Button fullWidth onClick={handleClick} sx={{ backgroundColor: "#0f0f0f", color: "tomato" }}>BUY NOW</Button>}
+        {data?.status !== outOfStock && <Button fullWidth onClick={handleClick} sx={{ backgroundColor: "#0f0f0f", color: "tomato",height:"3rem",fontSize:"1.5rem" }}>BUY NOW</Button>}
     </>
     )
 }

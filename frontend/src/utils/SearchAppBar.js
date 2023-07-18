@@ -18,6 +18,7 @@ const styles = theme => ({
   },
   title: {
     display: 'none',
+    // color:"black",
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
@@ -37,7 +38,7 @@ const SearchAppBar = (props) => {
   const { classes } = props;
   return (
     <div id='searchbar' className={classes.root}>
-      <AppBar position="static">
+      <AppBar style={{backgroundColor:"white",color:"#0f0f0f"}} position="static">
         <Toolbar>
           <DrawerComponent />
           <Typography onClick={() => navigate("/")} className={classes.title} variant="h6" color="inherit" noWrap>
@@ -46,11 +47,11 @@ const SearchAppBar = (props) => {
           <div className={classes.grow} />
           {location.pathname==="/home"&&<SearchComponent />}
           <IconButton size='large' onClick={() => navigate("/cart")}>
-            <Badge badgeContent={count} color='error' sx={{ color: "white" }} >
-              <ShoppingCart />
+            <Badge badgeContent={count} color='error' >
+              <ShoppingCart sx={{color:"black",fontSize:"2rem"}}/>
             </Badge>
           </IconButton>
-          <Avatar onClick={() => navigate("/Profile")} src={user?.image}>{user?.name?.[0]}</Avatar>
+          <Avatar sx={{bgcolor:"#00b0ff"}} onClick={() => navigate("/Profile")} src={user?.image}>{user?.name?.[0]}</Avatar>
         </Toolbar>
       </AppBar>
     </div>

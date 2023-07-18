@@ -7,9 +7,7 @@ const HomePage = () => {
     <>
       <div id='homepage'>
         <SearchAppBar />
-        <div id='filter'>
           <Filter/>
-        </div>
         <ItemList/>
       </div>
     </>

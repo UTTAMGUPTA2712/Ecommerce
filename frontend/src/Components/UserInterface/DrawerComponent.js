@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import AddItems from '../Products/Vendor/AddItem';
 import { LogoutUser } from '../Auth/Logout';
 import { useNavigate } from 'react-router-dom';
+import { CategoryComponent } from './CategoryComponent';
 const DrawerComponent = () => {
     const [open, setopen] = useState(false);
     const navigate = useNavigate()
@@ -67,6 +68,7 @@ const DrawerComponent = () => {
                             {item.component}
                         </ListItem></>)}
                     <Divider />
+                    <CategoryComponent/>
                 </List>
             </Box>
         </Drawer>

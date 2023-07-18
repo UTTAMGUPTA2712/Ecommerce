@@ -8,4 +8,6 @@ router.get("/bestproduct", productController.getBestProducts);
 router.post("/updateproduct", productController.updateProduct);
 router.post("/productstatus", productController.updateProductStatus);
 router.post("/deleteproduct", productController.DeleteProduct)
+router.post("/productreview", productController.productReview);
+
 module.exports = router;

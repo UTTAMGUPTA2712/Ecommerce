@@ -15,6 +15,10 @@ const orderSchema = new Schema(
       type: String,
       required: true,
     },
+    coupon:{
+      type: Schema.Types.Mixed,
+      default: {},
+    },
     email: {
       type: String,
       required: true,

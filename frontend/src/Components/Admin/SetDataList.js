@@ -25,7 +25,6 @@ const SetDataList = ({ setData }) => {
           aria-labelledby="nested-list-subheader"
           subheader={
             <ListSubheader
-              sx={{ bgcolor: "#424242", color: "white" }}
               component="div" >
               Website Data
             </ListSubheader>

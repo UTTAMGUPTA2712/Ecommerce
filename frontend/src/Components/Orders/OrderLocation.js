@@ -6,7 +6,7 @@ import StepContent from '@mui/material/StepContent';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import { admin, orderCompleted, orderDispatched, orderOutForDelivery, orderPlaced, orderRecieved, shipper } from '../../data/constants';
+import { admin, orderCompleted, orderDispatched, orderOutForDelivery, orderPlaced, orderRecieved, rateProduct, shipper } from '../../data/constants';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 const graph = {
@@ -36,7 +36,7 @@ const steps = [
     {
         label: orderRecieved,
         description: "Order is out Delivery you will be called soon to recieve it"
-    },
+    }
 ];
 export default function OrderLocation({ data, id, setStatus }) {
     const [activeStep, setActiveStep] = useState(graph[data]);
@@ -65,7 +65,7 @@ export default function OrderLocation({ data, id, setStatus }) {
                 ))}
             </Stepper>
             {activeStep === steps.length && (
-                <Paper square elevation={0} sx={{ p: 3 }}>
+                <Paper square elevation={0} sx={{ p: 3,bgcolor:"#00000000" }}>
                     <Typography>Order Successfully Recieved</Typography>
                 </Paper>
             )}

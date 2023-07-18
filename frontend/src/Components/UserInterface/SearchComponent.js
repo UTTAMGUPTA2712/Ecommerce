@@ -2,6 +2,9 @@ import InputBase from '@material-ui/core/InputBase';
 import { alpha } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
 import { Search } from '@mui/icons-material';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setSearch } from '../../redux/slice/filterSlice';
 const styles = theme => ({
     search: {
         position: 'relative',
@@ -25,10 +28,14 @@ const styles = theme => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        zIndex:2,
     },
     inputRoot: {
-        color: 'inherit',
+        color: '#000000 !important',
+        backgroundColor:"#4dabf570",
+        borderRadius:"5px",
         width: '100%',
+        height:"3em"
     },
     inputInput: {
         paddingTop: theme.spacing.unit,
@@ -46,12 +53,21 @@ const styles = theme => ({
     },
 });
 const SearchComponent = (props) => {
+    const [search,savesearch]=useState()
+    const dispatch=useDispatch()
+    const debounse=(e)=>{
+        let timer
+        clearTimeout(timer)
+        timer=setTimeout(() => {
+            dispatch(setSearch(e))
+        }, 500);
+    }
     const { classes } = props;
     return (
         <>
             <div className={classes.search}>
                 <div className={classes.searchIcon}>
-                    <Search />
+                    <Search sx={{color:"black "}}/>
                 </div>
                 <InputBase
                     placeholder="Search…"
@@ -59,6 +75,7 @@ const SearchComponent = (props) => {
                         root: classes.inputRoot,
                         input: classes.inputInput,
                     }}
+                    onChange={(e)=>debounse(e.target.value)}
                 />
             </div>
         </>

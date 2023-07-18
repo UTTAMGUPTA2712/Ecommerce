@@ -14,7 +14,7 @@ export const ItemCountButton = ({ value, data }) => {
     }
     return (
         <>
-            {data.status === outOfStock ? <Button disabled fullWidth={true} className="addbtn">OUT OF STOCK</Button> :
+            {data?.status === outOfStock ? <Button disabled fullWidth={true} className="addbtn">OUT OF STOCK</Button> :
                 (value > 0 ? (
                     <>
                         <Button className="decrement" onClick={() => { dispatch(savecart({ id: data?._id, data: itemData, value: value - 1 })) }}>-</Button>

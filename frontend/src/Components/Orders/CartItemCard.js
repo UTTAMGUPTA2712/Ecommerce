@@ -25,7 +25,7 @@ export const CartItemCard = ({ data, value }) => {
                 </div>
                 <div>
                     <h1>{data?.name}</h1>
-                    <h2>₨. {data?.price}/-</h2>
+                    <h2>₹ {data?.price}/-</h2>
                 </div>
                 <Button variant='error' onClick={handleRemoveItem}>Remove</Button>
             </ListItem>
