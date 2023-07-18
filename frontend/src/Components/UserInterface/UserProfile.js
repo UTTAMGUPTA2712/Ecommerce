@@ -64,6 +64,7 @@ const UserProfile = ({ data }) => {
                         {(data.email === user?.email || user?.title === admin) && (edit) ? <Button fullWidth variant='contained' sx={{ bgcolor: "grey", gridColumn: "1/SPAN 2" }} onClick={() => setEdit(false)}>ADD/UPDATE DELIVERY ADDRESS</Button> :
                             <><Button fullWidth variant='contained' sx={{ bgcolor: "grey" }} onClick={handleCancel}>CANCEL</Button><Button fullWidth variant='contained' sx={{ bgcolor: "grey" }} onClick={savedata}>SAVE</Button></>}
                     </div>
+                    <h1 style={{textAlign:"center",margin:0,backgroundColor:"white",position:"sticky",top:"14rem",zIndex:4,boxShadow: "rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset" }}>DELIVERY ADDRESS</h1>
                     <div>
                         {dataAddress.map((userAddress, index) => {
                             return <>
@@ -88,7 +89,7 @@ const UserProfile = ({ data }) => {
                             </div>
                         }
                     </div>
-                    {(data?.title === vendor || data?.title === admin) && <><hr /><h1 style={{ textAlign: "center", margin: 0,boxShadow: "rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;" }}>USER ITEMS</h1><hr /></>}
+                    {(data?.title === vendor || data?.title === admin) && <><h1 style={{ textAlign: "center",position:"sticky",top:"14rem",zIndex:4, margin: 0,backgroundColor:"white", boxShadow: "rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset" }}>USER ITEMS</h1></>}
                     <ItemList userdata={data} />
                 </div>
             </div>

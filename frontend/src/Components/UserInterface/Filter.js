@@ -19,7 +19,6 @@ const Filter = () => {
       v1=value1[0]
       v2=Math.max(newValue[1], value1[0] + minDistance)
     }
-    // setValue1([v1,v2])
     dispatch(setLimit({upperLimit:v2,lowerLimit:v1}));
   };
   return (

@@ -1,8 +1,8 @@
 import React from 'react'
-import SearchAppBar from '../../../utils/SearchAppBar'
+import SearchAppBar from '../../utils/SearchAppBar'
 import OrderLocation from './OrderLocation'
 import OrderDetail from './OrderDetail'
-import noorderpic from "../../../assets/Images/noOrder.png"
+import noorderpic from "../../assets/Images/noOrder.png"
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Avatar } from '@mui/material'
 
 const OrderComponent = ({ orders, setStatus = "user" }) => {

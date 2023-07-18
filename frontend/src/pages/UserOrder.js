@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { GetUserOrdersService } from '../services/User/GetUserOrdersService'
-import OrderComponent from '../Components/Orders/User/OrderComponent'
+import OrderComponent from '../Components/Orders/OrderComponent'
 
 const UserOrder = () => {
   const user = useSelector(state => state.user.user)

@@ -6,7 +6,7 @@ import StepContent from '@mui/material/StepContent';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import { admin, orderCompleted, orderDispatched, orderOutForDelivery, orderPlaced, orderRecieved, shipper } from '../../../data/constants';
+import { admin, orderCompleted, orderDispatched, orderOutForDelivery, orderPlaced, orderRecieved, shipper } from '../../data/constants';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 const graph = {

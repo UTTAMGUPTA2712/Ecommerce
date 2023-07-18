@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import SearchAppBar from '../utils/SearchAppBar';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import OrderDetail from '../Components/Orders/User/OrderDetail';
+import OrderDetail from '../Components/Orders/OrderDetail';
 import { useSelector } from 'react-redux';
 import UserDetails from '../Components/Orders/UserDetails';
 import PlaceOrderButton from '../Components/Orders/PlaceOrderButton';

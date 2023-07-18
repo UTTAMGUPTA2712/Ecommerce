@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { ItemCountButton } from '../Components/Products/User/ItemCountButton'
 import SearchAppBar from '../utils/SearchAppBar'
@@ -13,6 +13,10 @@ const ProductDetail = () => {
     const user = useSelector(state => state.user.user?.email)
     const data = location.state
     const [pic, setPic] = useState(data?.image?.[0])
+    useEffect(() => {
+        const file=document.getElementById("productSpecs")
+        file.scroll({top: 0,left: 0,behavior: "smooth",});
+    },[location])
     return (
         <>
             <div id='productdetail'>

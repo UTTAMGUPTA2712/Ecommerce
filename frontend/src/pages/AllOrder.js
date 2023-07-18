@@ -4,7 +4,7 @@ import { GetAllOrdersService } from '../services/Order/GetAllOrdersService'
 import { setMessage } from '../redux/slice/messageSlice'
 import { SetOrderStatusService } from '../services/Order/SetOrderStatusService'
 import { orderUpdate, serverError } from '../data/constants'
-import OrderComponent from '../Components/Orders/User/OrderComponent'
+import OrderComponent from '../Components/Orders/OrderComponent'
 
 const AllOrder = () => {
   const [orders, setOrder] = useState([])
