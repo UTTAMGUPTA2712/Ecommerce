@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Input, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { saveCoupon } from '../../redux/slice/cartSlice';
 
 const TAX_RATE = 0.18;
 
 function ccyFormat(num) {
-  return `₨. ${num?.toFixed(2)}/-`;
+  return `₹ ${num?.toFixed(2)}/-`;
 }
 
 function priceRow(qty, unit) {
@@ -19,9 +21,18 @@ function createRow(desc, qty, unit, pic) {
 function subtotal(items) {
   return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0);
 }
-const OrderDetail = ({ cart }) => {
+const OrderDetail = ({ cart,couponData }) => {
   const [rows, setRows] = useState([]);
   const [data, setData] = useState({});
+  const [coupon,setCoupon] = useState(couponData??"");
+  const dispatch=useDispatch()
+  const debounce=(e)=>{
+    let timer
+    clearTimeout(timer)
+    timer = setTimeout(()=>{
+      dispatch(saveCoupon(e))
+    }, 1000)
+  }
   useEffect(() => {
     const cartRows = Object?.values(cart)?.map(item => createRow(item?.data?.name, item?.value, item?.data?.price, item?.data?.image));
     setRows(cartRows);
@@ -34,10 +45,10 @@ const OrderDetail = ({ cart }) => {
   return (
     <>
       <div id="checkOut">
-        <TableContainer component={Paper}>
+        <TableContainer sx={{backgroundColor:"white"}} component={Paper}>
           <Table aria-label="spanning table">
-            <TableHead>
-              <TableRow>
+            <TableHead >
+              <TableRow  sx={{backgroundColor:"white"}}>
                 <TableCell align="center" colSpan={4}>
                   Details
                 </TableCell>
@@ -62,18 +73,24 @@ const OrderDetail = ({ cart }) => {
                 </TableRow>
               ))}
               <TableRow>
-                <TableCell rowSpan={3} colSpan={2} />
+                <TableCell rowSpan={4} colSpan={2} />
                 <TableCell colSpan={2}>Sub Amount:</TableCell>
                 <TableCell align="right">{ccyFormat(data.subtotal)}</TableCell>
               </TableRow>
+              
               <TableRow>
                 <TableCell >Tax Amount:</TableCell>
                 <TableCell align="right">{`${(TAX_RATE * 100).toFixed(0)} %`}</TableCell>
                 <TableCell align="right">{ccyFormat(data.tax)}</TableCell>
               </TableRow>
               <TableRow>
+                <TableCell >Coupon Discount:</TableCell>
+                <TableCell align="right"><Input value={coupon} onChange={e=>{setCoupon(e.target.value);debounce(e.target.value)}}/></TableCell>
+                <TableCell align="right">{(coupon==="FREE500")?500:0}</TableCell>{console.log(coupon)}
+              </TableRow>
+              <TableRow>
                 <TableCell colSpan={2}>Grand Total:</TableCell>
-                <TableCell align="right">{ccyFormat(data.total)}</TableCell>
+                <TableCell align="right">{(coupon==="FREE500")?ccyFormat(data.total-500):ccyFormat(data.total)}</TableCell>
               </TableRow>
             </TableBody>
           </Table>

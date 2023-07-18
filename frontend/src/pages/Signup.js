@@ -63,6 +63,7 @@ const Signup = () => {
     return (
         <>
             <div className='flexcontainer'>
+                <div className='contain'>
                 <div className='formdiv' id='Signup'>
                     <h1>
                         Create new account<span className="blue">.</span>
@@ -84,6 +85,8 @@ const Signup = () => {
                         helperText={(!formData?.name && valid) ? "Name is required" : ""}
                         id="outlined-basic"
                         value={formData?.name}
+                        style={{backgroundColor:"rgb(187, 182, 255)"}}
+
                         onChange={(e) => ChangeFormData("name", e.target.value)}
                         label="Enter Name"
                         variant="outlined"
@@ -94,6 +97,8 @@ const Signup = () => {
                         helperText={(!formData?.email && valid) ? "Email is required" : ""}
                         id="outlined-basic"
                         value={formData?.email}
+                        style={{backgroundColor:"rgb(187, 182, 255)"}}
+
                         onChange={(e) => ChangeFormData("email", e.target.value)}
                         label="Enter Email"
                         variant="outlined"
@@ -104,6 +109,8 @@ const Signup = () => {
                         helperText={(!formData?.phoneNumber && valid) ? "Phone Number is required" : ""}
                         id="outlined-basic"
                         type='number'
+                        style={{backgroundColor:"rgb(187, 182, 255)"}}
+
                         value={formData?.phoneNumber}
                         onChange={(e) => handlephonenumber(e)}
                         label="Enter Phone Number"
@@ -114,6 +121,8 @@ const Signup = () => {
                         error={!formData?.password && valid}
                         helperText={(!formData?.password && valid) ? "Password is required" : ""}
                         id="outlined-basic"
+                        style={{backgroundColor:"rgb(187, 182, 255)"}}
+
                         value={formData?.password}
                         onChange={(e) => ChangeFormData("password", e.target.value)}
                         label="Enter Password"
@@ -122,6 +131,8 @@ const Signup = () => {
 
                     <TextField
                         error={(password !== formData?.password) && valid}
+                        style={{backgroundColor:"rgb(187, 182, 255)"}}
+                        
                         helperText={(password !== formData?.password) && valid ? "Passwords do not match" : ""}
                         id="outlined-basic"
                         value={password}
@@ -134,6 +145,7 @@ const Signup = () => {
                         color="tertiary"
                         disabled={false}
                         onClick={HandleSignup}
+                        style={{backgroundColor:"rgb(187, 182, 255)"}}
                         size="large"
                         variant="outlined"
                     >
@@ -141,16 +153,19 @@ const Signup = () => {
                     </Button>
 
                     <Button
+                    
                         color="tertiary"
                         disabled={false}
+                        style={{backgroundColor:"rgb(187, 182, 255)"}}
                         size="large"
                         onClick={GoolgeSignup}
                         variant="outlined"
                     >
                         Signup With Google
                     </Button>
-                    <p>please choose the type of user before signing up with google</p>
+                    <p style={{textAlign:"center"}}>please choose the type of user before signing up with google</p>
 
+                </div>
                 </div>
             </div>
         </>

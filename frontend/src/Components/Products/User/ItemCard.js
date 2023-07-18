@@ -23,7 +23,7 @@ export const ItemCard = ({ data, value }) => {
                             {data?.name}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                            ₨. {data?.price}/-
+                            ₹ {data?.price}/-
                         </Typography>
                     </CardContent>
                 </CardActionArea>

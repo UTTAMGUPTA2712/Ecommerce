@@ -11,6 +11,7 @@ const PlaceOrderButton = ({ handleNext }) => {
     const dispatch = useDispatch()
     const user = useSelector(state => state.user)
     const cart = useSelector(state => state.cart.cart)
+    const coupon=useSelector(state => state.cart.coupon)
     console.log(user);
     const [order, setOrder] = useState({})
     const [data, setdata] = useState(0)
@@ -29,6 +30,7 @@ const PlaceOrderButton = ({ handleNext }) => {
             name: user.user.name,
             email: user.user.email,
             price: data,
+            coupon: coupon,
             status: orderPlaced,
         }
         setOrder(orderData)

@@ -17,9 +17,9 @@ const DashBoard = () => {
     }, [])
     return (
         <>  
-        <div id='dashboard'>
+        <div id='dashboard' style={{left:-50}}>
             <SearchAppBar />
-            <div id='bannerdiv' style={{maxWidth:1500}}> 
+            <div id='bannerdiv' style={{maxWidth:1500,width:"100%",margin:0}}> 
             <Carousel autoplay>
                 {carousal.map(data => {
                     return <div>

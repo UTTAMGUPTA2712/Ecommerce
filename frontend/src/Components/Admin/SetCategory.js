@@ -40,14 +40,14 @@ export const SetCategory = () => {
     }, [])
     return (
         <>
-            <TableContainer sx={{ overflowY: "auto", height: "100%",boxShadow: "rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;" }}>
+            <TableContainer sx={{ backgroundColor:"white",overflowY: "auto", height: "100%",boxShadow: "rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;" }}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
                             {columns.map((column) => (
                                 <TableCell
                                     align={"center"}
-                                    sx={{ minWidth: column.minWidth, color: "#f0f0f0", backgroundColor: "#424242" }}>
+                                    sx={{ minWidth: column.minWidth, color: "#f0f0f0", backgroundColor: "#1769aa" }}>
                                     {column.label}
                                 </TableCell>
                             ))}

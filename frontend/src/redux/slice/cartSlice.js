@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit"
 
 const initialValue = {
     cart: {},
+    coupon:"",
 }
 export const cartSLice = createSlice({
     name: "cart",
@@ -17,10 +18,13 @@ export const cartSLice = createSlice({
         cleancart: (state) => {
             state.cart = {}
         },
+        saveCoupon:(state,action) => {
+            state.coupon = action.payload
+        },
         removeItem: (state, action) => {
             delete state.cart[action.payload]
         },
     }
 })
-export const { savecart, cleancart, removeItem } = cartSLice.actions
+export const { savecart, cleancart, removeItem ,saveCoupon} = cartSLice.actions
 export default cartSLice.reducer

@@ -18,18 +18,18 @@ const OrderComponent = ({ orders, setStatus = "user" }) => {
                                     {setStatus !== "user" && <div id='user'>
                                         <TableContainer component={Paper}>
                                             <Table aria-label="spanning table">
-                                                <TableHead >
+                                                {/* <TableHead >
                                                     <TableRow sx={{ backgroundColor: "#0f0f0f" }} >
                                                         <TableCell align="left"><Typography variant="h5" sx={{ color: "#f0f0f0" }}>#</Typography></TableCell>
                                                         <TableCell align="center"><Typography variant="h5" sx={{ color: "#f0f0f0" }}>USER DETAIL</Typography></TableCell>
                                                         <TableCell align="center"><Typography variant="h5" sx={{ color: "#f0f0f0" }}>DELIVERY ADDRESS</Typography></TableCell>
                                                         <TableCell align="center"><Typography variant="h5" sx={{ color: "#f0f0f0" }}>PHONE NUMBER</Typography></TableCell>
                                                     </TableRow>
-                                                </TableHead>
+                                                </TableHead> */}
                                                 <TableBody>
                                                     <TableRow hover>
                                                         <TableCell align="left">
-                                                            <Avatar sx={{ height: "5rem", width: "5rem", fontSize: "3rem", margin: "1rem" }} src={order?.photo}>{order?.name?.[0].toUpperCase()}</Avatar>
+                                                            <Avatar sx={{ height: "5rem", width: "5rem", fontSize: "3rem", margin: "1rem",bgcolor:"#00b0ff" }} src={order?.photo}>{order?.name?.[0].toUpperCase()}</Avatar>
                                                         </TableCell>
                                                         <TableCell align="center">
                                                             <span style={{ cursor: "pointer" }}>
@@ -51,7 +51,7 @@ const OrderComponent = ({ orders, setStatus = "user" }) => {
                                         </TableContainer>
                                     </div>}
                                     <OrderLocation data={order.status} id={order._id} setStatus={setStatus} />
-                                    <OrderDetail cart={order.items} />
+                                    <OrderDetail cart={order.items} couponData={order?.coupon}/>
                                 </div>
                             </React.Fragment>
                         })

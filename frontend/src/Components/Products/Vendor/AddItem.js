@@ -6,7 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
-import { FormControl, InputAdornment, InputLabel, ListItemText, MenuItem, Select, TextField } from "@mui/material";
+import { Button, FormControl, InputAdornment, InputLabel, ListItemText, MenuItem, Select, TextField } from "@mui/material";
 import AddItemButton from "./AddItemButton";
 import UploadImage from "../../../utils/UploadImage";
 import { useSelector } from "react-redux";
@@ -26,7 +26,7 @@ const AddItems = ({ itemData }) => {
     const changeFileList = (e) => {
         setFileList(e);
     }
-    const [data, setData] = useState(itemData || { rating: 0, reviews: [], sender: user })
+    const [data, setData] = useState(itemData || {sender: user })
     console.log("item", itemData, "data", data);
 
     const changeData = (title, value) => {
@@ -36,7 +36,7 @@ const AddItems = ({ itemData }) => {
         setImage([...image, "http://localhost:1000/" + data])
     }
     const handleCancel = () => {
-        setData({ rating: 0, reviews: [] })
+        setData({})
         setImage([])
         setOpen(false);
     };
@@ -105,7 +105,7 @@ const AddItems = ({ itemData }) => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    ₨
+                                    ₹
                                 </InputAdornment>
                             ),
                         }}
@@ -122,7 +122,7 @@ const AddItems = ({ itemData }) => {
                     />
                 </div>
             </Dialog>
-            <ListItemText onClick={() => setOpen(true)} id="switch-list-label-wifi" primary={itemData ? "EDIT ITEM" : "ADD ITEM"} />
+             {itemData?<Button variant="contained" sx={{backgroundColor:"#007bb2",color:"whitesmoke"}} fullWidth>EDIT ITEM</Button>:<ListItemText onClick={() => setOpen(true)} id="switch-list-label-wifi" primary="ADD ITEM"/>}
         </>
     )
 }

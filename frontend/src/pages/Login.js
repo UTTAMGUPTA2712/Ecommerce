@@ -18,8 +18,8 @@ const Login = () => {
       const response = await LoginService({ user: user, password: password })
       if (response.data === false) {
         dispatch(setMessage(disableUser))
-      } else if (response.data === userNotFound||response.data===wrongPassword) {
-        dispatch(setMessage( response.data))
+      } else if (response.data === userNotFound || response.data === wrongPassword) {
+        dispatch(setMessage(response.data))
       } else {
         dispatch(setMessage(logUser))
         dispatch(saveUser(response.data))
@@ -34,7 +34,7 @@ const Login = () => {
     console.log(data);
     if (data.data === false) {
       dispatch(setMessage(disableUser))
-    } else if(data?.data) {
+    } else if (data?.data) {
       dispatch(setMessage(logUser))
       dispatch(saveUser(data.data))
       navigate("/")
@@ -44,20 +44,23 @@ const Login = () => {
   return (
     <>
       <div className='flexcontainer'>
-        <div className='formdiv' id='login'>
-          <h1>
-            Welcome back<span className="blue">!</span>
-          </h1>
-          <h1 level={3}>
-            New Here?{" "}
-            <span className="blue" onClick={() => navigate("signup")}>
-              Create A New Account
-            </span>
-          </h1>
-          <TextField id="outlined-basic" defaultValue={user} onChange={(e) => setuser(e.target.value)} label="Phone Number/Email" variant="outlined" />
-          <TextField id="outlined-basic" defaultValue={password} onChange={(e) => setpassword(e.target.value)} label="Password" variant="outlined" />
-          <Button color="secondary" disabled={!(user && password)} onClick={handleManualLogin} size="large" variant="outlined">Login</Button>
-          <Button color="secondary" disabled={false} size="large" onClick={googleLogin} variant="outlined">Login With Google</Button>
+        <div className='contain'>
+          <div className='formdiv' id='login'>
+            <h1>
+              Welcome back<span className="blue">!</span>
+            </h1>
+            <h1 level={3}>
+              New Here?{" "}
+              <span className="blue" onClick={() => navigate("signup")}>
+                Create A New Account
+              </span>
+            </h1>
+                        
+            <TextField id="outlined-basic" style={{backgroundColor:"rgb(187, 182, 255)"}}defaultValue={user} onChange={(e) => setuser(e.target.value)} label="Phone Number/Email" variant="outlined" />
+            <TextField id="outlined-basic"style={{backgroundColor:"rgb(187, 182, 255)"}} defaultValue={password} onChange={(e) => setpassword(e.target.value)} label="Password" variant="outlined" />
+            <Button color="secondary" style={{backgroundColor:"rgb(187, 182, 255)"}}disabled={!(user && password)} onClick={handleManualLogin} size="large" variant="outlined">Login</Button>
+            <Button color="secondary"style={{backgroundColor:"rgb(187, 182, 255)"}} disabled={false} size="large" onClick={googleLogin} variant="outlined">Login With Google</Button>
+          </div>
         </div>
       </div>
     </>

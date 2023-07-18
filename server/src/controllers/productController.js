@@ -73,11 +73,25 @@ const getBestProducts = async (req, res) => {
     res.send("SERVER ERROR");
   }
 };
+const productReview = async (req, res) => {
+  try {
+    console.log(req.body);
+    const response = await Product.updateOne(
+      { _id: new mongoose.Types.ObjectId(req.body.id) },
+      { $push: { review: {rate:req.body.rate,review:req.body.review} } }
+    );
+    res.send(response);
+  } catch (error) {
+    console.log(error);
+    res.send("SERVER ERROR");
+  }
+};
 module.exports = {
   addProduct,
   getAllProducts,
   updateProduct,
   updateProductStatus,
   DeleteProduct,
-  getBestProducts
+  getBestProducts,
+  productReview
 };

@@ -18,6 +18,10 @@ const addressSchema = new Schema({
     type: String,
     required: true,
   },
+  phone:{
+    type: Number,
+    required: true,
+  }
 });
 
 const userSchema = new Schema(

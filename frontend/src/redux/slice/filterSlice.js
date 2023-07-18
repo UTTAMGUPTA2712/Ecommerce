@@ -5,7 +5,7 @@ const initialValue={
         rating:0,
         search:"",
         category:"",
-        upperLimit:9999,
+        upperLimit:999999,
         lowerLimit:0,
     },
 }
@@ -30,7 +30,7 @@ export const filterSLice=createSlice({
             state.filter.search=action.payload
         },
         cleanFilter:(state)=>{
-            state.filter={rating:0,search:"",category:"",upperLimit:9999,lowerLimit:0,}
+            state.filter={rating:0,search:"",category:"",upperLimit:999999,lowerLimit:0,}
         },
     }
 })

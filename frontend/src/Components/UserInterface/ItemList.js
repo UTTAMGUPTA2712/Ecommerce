@@ -16,25 +16,23 @@ const noData =
         </Box>
     </Box>
 const ItemList = ({ userdata = "", itemsType = "" }) => {
+    const reduxData = useSelector(state => state.product.product)
     const dispatch = useDispatch()
-    const [productLists, setProductLists] = useState(null)
+    const [productLists, setProductLists] = useState(reduxData)
     const user = useSelector(state => state.user.user)
     const filter = useSelector(state => state.filter.filter)
     const cart = useSelector(state => state.cart.cart)
     const productList = productLists?.filter(product => { return (itemsType !== "") ? (product?.status === itemsType) : ((product?.sender === deletedProduct) ? "" : ((product?.status === published) || (userdata === "") || (product?.sender === userdata?.email) || (user?.title === admin))) })
-    let list;
     useEffect(() => {
-        if (!productLists) {
-            const getProducts = async () => {
-                const response = await GetItemService()
-                setProductLists(response.data)
-                dispatch(setProduct(response.data))
-            }
-            getProducts()
+        const getProducts = async () => {
+            const response = await GetItemService()
+            setProductLists(response.data)
+            dispatch(setProduct(response.data))
         }
+        getProducts()
     }, [])
     useEffect(() => {
-        list = productLists?.filter((product) => product?.category===filter?.category&&product?.name?.includes(filter?.search) && product?.price <= filter?.upperLimit && filter?.lowerLimit >= product?.price)
+        let list = reduxData?.filter((product) => (filter?.category===""||product?.category === filter?.category) && (filter?.search===""||product?.name?.includes(filter?.search)) && ((product?.price <= filter?.upperLimit) && (filter?.lowerLimit <= product?.price)))
         switch (filter?.sorting) {
             case "price":
                 list = list.sort((a, b) => a.price > b.price)
@@ -49,7 +47,7 @@ const ItemList = ({ userdata = "", itemsType = "" }) => {
                 list = list.sort((a, b) => a.rate < b.rate)
                 break;
         }
-        console.log(list);
+        setProductLists(list)
     }, [filter])
     return (
         <>

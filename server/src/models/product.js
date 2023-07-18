@@ -3,13 +3,13 @@ const { Schema } = mongoose;
 
 const productSchema = new Schema(
   {
-    rating: {
-      type: Number,
-      default: 0,
-    },
-    reviews: {
-      type: [String],
+    review:{
+      type: [Schema.Types.Mixed],
       default: [],
+    },
+    rate:{
+      type:Number,
+      default: 0,
     },
     name: {
       type: String,
