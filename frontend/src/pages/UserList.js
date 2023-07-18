@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { GetUserList } from '../services/User/GetUserList'
 import SearchAppBar from '../utils/SearchAppBar'
-import { UserCard } from '../Components/UserCard'
+import { UserCard } from '../Components/Orders/UserCard'
 import { Box, Button, Skeleton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, ButtonGroup } from '@mui/material'
 import { UpdateUserStatusService } from '../services/User/UpdateUserStatusService'
-import { admin, shipper, userconst, vendor } from '../data/constants'
-import { useSelector } from 'react-redux'
+import { admin, shipper, userDisabled, userEnabled, userconst, vendor } from '../data/constants'
+import { useDispatch, useSelector } from 'react-redux'
+import { setMessage } from '../redux/slice/messageSlice'
 
 const noData = <Box sx={{ height: "10rem", width: "60%", display: "flex" }}>
     <Skeleton variant="circular" width={"8rem"} height={"8rem"} sx={{ marginRight: "1rem" }} />
@@ -20,8 +21,10 @@ const UserList = () => {
     const [userList, setUserList] = useState([])
     const [userType, setUserType] = useState("ALL")
     const currentUser = useSelector(state => state.user.user)
+    const dispatch = useDispatch()
     const changeStatus = async (data) => {
         await UpdateUserStatusService(data)
+        dispatch(setMessage(data ? userDisabled : userEnabled))
         getuser()
     }
     const getuser = () => {
@@ -44,7 +47,6 @@ const UserList = () => {
             <div id='alluserlist'>
                 <SearchAppBar />
                 <div id='list'>
-
                     <ButtonGroup width={"100%"}>
                         <Button variant={userType === "ALL" ? "contained" : "outlined"} onClick={() => { setUserType("ALL") }}>ALL</Button>
                         <Button variant={userType === vendor ? "contained" : "outlined"} onClick={() => { setUserType(vendor) }}>VENDOR</Button>
@@ -69,7 +71,7 @@ const UserList = () => {
                                                 <TableCell align="center"><Typography variant="h5" sx={{ color: "#f0f0f0" }}>USER TITLE</Typography></TableCell>
                                                 <TableCell align="center"><Typography variant="h5" sx={{ color: "#f0f0f0" }}>ADDRESS</Typography></TableCell>
                                                 <TableCell align="center"><Typography variant="h5" sx={{ color: "#f0f0f0" }}>PHONE NUMBER</Typography></TableCell>
-                                                {currentUser?.title===admin&&<TableCell align="center"><Typography variant="h5" sx={{ color: "#f0f0f0" }}>ACTIVE STATUS</Typography></TableCell>}
+                                                {currentUser?.title === admin && <TableCell align="center"><Typography variant="h5" sx={{ color: "#f0f0f0" }}>ACTIVE STATUS</Typography></TableCell>}
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
@@ -88,47 +90,3 @@ const UserList = () => {
     )
 }
 export default UserList
-{/* <TableContainer component={Paper}>
-<Table aria-label="spanning table">
-  <TableHead>
-    <TableRow>
-      <TableCell align="center" colSpan={4}>
-        Details
-      </TableCell>
-      <TableCell align="right">Price</TableCell>
-    </TableRow>
-    <TableRow>
-      <TableCell align="right"></TableCell>
-      <TableCell>Desc</TableCell>
-      <TableCell align="right">Quantity</TableCell>
-      <TableCell align="right">Cost</TableCell>
-      <TableCell align="right">Sum</TableCell>
-    </TableRow>
-  </TableHead>
-  <TableBody>
-    {rows.map((row, index) => (
-      <TableRow key={index}>
-        <TableCell align='center'><img style={{ width: "4rem", height: "3rem" }} src={row.pic} /></TableCell>
-        <TableCell>{row.desc}</TableCell>
-        <TableCell align="right">{row.qty}</TableCell>
-        <TableCell align="right">{row.unit}</TableCell>
-        <TableCell align="right">{ccyFormat(row.price)}</TableCell>
-      </TableRow>
-    ))}
-    <TableRow>
-      <TableCell rowSpan={3} colSpan={2} />
-      <TableCell colSpan={2}>Sub Amount:</TableCell>
-      <TableCell align="right">{ccyFormat(data.subtotal)}</TableCell>
-    </TableRow>
-    <TableRow>
-      <TableCell >Tax Amount:</TableCell>
-      <TableCell align="right">{`${(TAX_RATE * 100).toFixed(0)} %`}</TableCell>
-      <TableCell align="right">{ccyFormat(data.tax)}</TableCell>
-    </TableRow>
-    <TableRow>
-      <TableCell colSpan={2}>Grand Total:</TableCell>
-      <TableCell align="right">{ccyFormat(data.total)}</TableCell>
-    </TableRow>
-  </TableBody>
-</Table>
-</TableContainer> */}

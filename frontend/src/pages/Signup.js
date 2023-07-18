@@ -6,7 +6,7 @@ import { Button, TextField } from '@material-ui/core'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { saveUser } from '../redux/slice/authSlice'
-import { shipper, userAlreadyExist, userconst, vendor } from '../data/constants'
+import { disableUser, invalidEmail, logUser, passwordDoNotMatch, shipper, userAlreadyExist, userconst, vendor } from '../data/constants'
 import { setMessage } from '../redux/slice/messageSlice'
 const titles = [userconst, vendor, shipper]
 const Signup = () => {
@@ -25,19 +25,19 @@ const Signup = () => {
                 if (formData?.password === password) {
                     const data = await AddUser({ ...formData, title: titles[choice] })
                     if (data.data === false) {
-                        dispatch(setMessage({ message: "User Disabled Please Contact Customer Care!", severity: "danger" }))
+                        dispatch(setMessage(disableUser))
                     } else if (data.data === userAlreadyExist) {
-                        dispatch(setMessage({ message: userAlreadyExist, severity: "info" }))
+                        dispatch(setMessage(userAlreadyExist))
                     } else {
-                        dispatch(setMessage({ message: "Successfully Logged In", severity: "success" }))
+                        dispatch(setMessage(logUser))
                         dispatch(saveUser(data.data))
                         navigate("/")
                     }
                 } else {
-                    dispatch(setMessage({ message: "Password do not match", severity: "info" }))
+                    dispatch(setMessage(passwordDoNotMatch))
                 }
             } else {
-                dispatch(setMessage({ message: "Invalid Email", severity: "info" }))
+                dispatch(setMessage(invalidEmail))
             }
         } else {
             setvalid(true)
@@ -47,9 +47,9 @@ const Signup = () => {
         const data = await GoogleAuth(titles[choice])
         console.log(data);
         if (data.data === false) {
-            dispatch(setMessage({ message: "User Disabled Please Contact Customer Care!", severity: "info" }))
+            dispatch(setMessage(disableUser))
         } else {
-            dispatch(setMessage({ message: "Successfully Logged In", severity: "success" }))
+            dispatch(setMessage(logUser))
             dispatch(saveUser(data.data))
             navigate("/")
         }

@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 import { saveUser } from '../redux/slice/authSlice';
 import { setMessage } from '../redux/slice/messageSlice';
-import { userNotFound, userconst, wrongPassword } from '../data/constants';
+import { disableUser, logUser, userNotFound, userconst, wrongPassword } from '../data/constants';
 const Login = () => {
   const [user, setuser] = useState("")
   const [password, setpassword] = useState("")
@@ -17,13 +17,11 @@ const Login = () => {
     try {
       const response = await LoginService({ user: user, password: password })
       if (response.data === false) {
-        dispatch(setMessage({ message: "User Disabled!! Please Contact Customer Care!", severity: "info" }))
-      } else if (response.data === userNotFound) {
-        dispatch(setMessage({ message: userNotFound, severity: "error" }))
-      } else if (response.data === wrongPassword) {
-        dispatch(setMessage({ message: wrongPassword, severity: "error" }))
+        dispatch(setMessage(disableUser))
+      } else if (response.data === userNotFound||response.data===wrongPassword) {
+        dispatch(setMessage( response.data))
       } else {
-        dispatch(setMessage({ message: "Successfully Logged In", severity: "success" }))
+        dispatch(setMessage(logUser))
         dispatch(saveUser(response.data))
         navigate("/")
       }
@@ -35,9 +33,9 @@ const Login = () => {
     const data = await GoogleAuth(userconst)
     console.log(data);
     if (data.data === false) {
-      dispatch(setMessage({ message: "User Disabled Please Contact Customer Care!", severity: "info" }))
+      dispatch(setMessage(disableUser))
     } else if(data?.data) {
-      dispatch(setMessage({ message: "Successfully Logged In", severity: "success" }))
+      dispatch(setMessage(logUser))
       dispatch(saveUser(data.data))
       navigate("/")
     }

@@ -1,10 +1,9 @@
 import { Divider, List } from '@mui/material'
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { CartItemCard } from '../Components/CartItemCard'
+import { CartItemCard } from '../Components/Orders/CartItemCard'
 import SearchAppBar from '../utils/SearchAppBar'
-import { GrossDetail } from '../Components/GrossDetail'
-// import OrderDetail from '../Components/OrderDetail'
+import { GrossDetail } from '../Components/Orders/GrossDetail'
 
 const Cart = () => {
   const cart = useSelector(state => state.cart.cart)

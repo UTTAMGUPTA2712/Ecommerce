@@ -39,6 +39,10 @@ const productSchema = new Schema(
       type: String,
       required: true,
     },
+    purchaseCount:{
+      type: Number,
+      default:0
+    }
   },
   { timestamps: true }
 );

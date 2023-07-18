@@ -1,4 +1,4 @@
-import { createAction, createSlice } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit"
 import { setMessage } from "./messageSlice"
 
 const initialValue = {
@@ -33,13 +33,6 @@ export const authSLice = createSlice({
         logoutUser: (state) => {
             state.user = null
         },
-    },
-    extraReducers: (builder) => {
-        builder.addCase(saveUser, (state, action) => {
-            const { dispatch } = action.thunkApi
-            console.log("here");
-            dispatch(setMessage({ message: "It worked", severity: "info" }))
-        })
     }
 })
 export const { saveUser, logoutUser, saveAddress, saveName, setAddress, addOrder } = authSLice.actions

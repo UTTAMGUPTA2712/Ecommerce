@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { ItemCountButton } from '../Components/ItemCountButton'
+import { ItemCountButton } from '../Components/Products/User/ItemCountButton'
 import SearchAppBar from '../utils/SearchAppBar'
 import { useSelector } from 'react-redux'
-import SuggestionList from '../Components/SuggestionList'
-import { BuyNowButton } from '../Components/BuyNowButton'
-import AddItems from '../Components/AddItem'
-import { StatusButton } from '../Components/StatusButton'
+import SuggestionList from '../Components/Products/User/SuggestionList'
+import { BuyNowButton } from '../Components/Products/User/BuyNowButton'
+import AddItems from '../Components/Products/Vendor/AddItem'
+import { StatusButton } from '../Components/Products/Vendor/StatusButton'
 const ProductDetail = () => {
     const cart = useSelector(state => state.cart.cart)
     const location = useLocation()

@@ -36,7 +36,6 @@ app.post('/upload', upload.single('image'), (req, res) => {
   const pic = req.file
   res.send(pic.filename);
 });
-
 mongoose
   .connect(mongoString, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("Connected to MongoDB"))

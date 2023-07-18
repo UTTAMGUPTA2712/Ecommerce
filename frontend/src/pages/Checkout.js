@@ -7,17 +7,15 @@ import Typography from '@mui/material/Typography';
 import SearchAppBar from '../utils/SearchAppBar';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import OrderDetail from '../Components/OrderDetail';
-import { useDispatch, useSelector } from 'react-redux';
-import UserDetails from '../Components/UserDetails';
-import { setMessage } from '../redux/slice/messageSlice';
-import PlaceOrderButton from '../Components/PlaceOrderButton';
+import OrderDetail from '../Components/Orders/User/OrderDetail';
+import { useSelector } from 'react-redux';
+import UserDetails from '../Components/Orders/UserDetails';
+import PlaceOrderButton from '../Components/Orders/PlaceOrderButton';
 
 const steps = ['Confirm Cart Products', 'Confirm User Deatil', 'Confirm Check Out'];
 
 const Checkout = () => {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
   const user = useSelector(state => state.user.user)
   const cart = useSelector(state => state.cart.cart)
   const [activeStep, setActiveStep] = useState(1);

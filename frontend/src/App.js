@@ -13,10 +13,11 @@ import PageNotFound from './pages/PageNotFound';
 import UserList from './pages/UserList';
 import CheckOut from './pages/Checkout';
 import AllOrder from './pages/AllOrder';
-import UserProfile from './Components/UserProfile';
+import UserProfile from './Components/UserInterface/UserProfile';
 import { admin, shipper, vendor } from './data/constants';
 import SetWebsiteData from './pages/SetWebsiteData';
 import DashBoard from './pages/DashBoard';
+import DraftProduct from './pages/DraftProduct';
 
 function App() {
   const user = useSelector(state => state.user.user)
@@ -36,8 +37,8 @@ function App() {
       component: <HomePage />
     },
     {
-      path:"/",
-      component:<DashBoard/>
+      path: "/",
+      component: <DashBoard />
     },
     {
       path: "/cart",
@@ -81,15 +82,19 @@ function App() {
     },
     {
       path: "/setdata",
-      component: <SetWebsiteData/>
+      component: <SetWebsiteData />
     },
     {
       path: "/allorder",
       component: <AllOrder />,
+    },
+    {
+      path: "/productcontrol",
+      component: <DraftProduct />,
     }
   ]
   const shipmentRouter = [
-    
+
     {
       path: "/allorder",
       component: <AllOrder />,

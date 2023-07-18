@@ -52,11 +52,11 @@ const updateProductStatus = async (req, res) => {
     res.send("SERVER ERROR");
   }
 };
-const DeleteProduct=async (req, res) => {
+const DeleteProduct = async (req, res) => {
   try {
     const response = await Product.updateOne(
       { _id: new mongoose.Types.ObjectId(req.body.id) },
-      { $set: { sender:"DELETED PRODUCT" } }
+      { $set: { sender: "DELETED PRODUCT" } }
     );
     res.send(response);
   } catch (error) {
@@ -64,10 +64,20 @@ const DeleteProduct=async (req, res) => {
     res.send("SERVER ERROR");
   }
 }
+const getBestProducts = async (req, res) => {
+  try {
+    const response = await Product.find({}).sort({purchaseCount:1}).limit(15);
+    res.send(response);
+  } catch (error) {
+    console.log(error);
+    res.send("SERVER ERROR");
+  }
+};
 module.exports = {
   addProduct,
   getAllProducts,
   updateProduct,
   updateProductStatus,
-  DeleteProduct
+  DeleteProduct,
+  getBestProducts
 };

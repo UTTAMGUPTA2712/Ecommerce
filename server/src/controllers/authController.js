@@ -48,7 +48,6 @@ const signup = async (req, res) => {
 const googleAuth = async (req, res) => {
   try {
     const userdata = req.body;
-    console.log(userdata);
     const data = await User.findOne({ email: userdata.email });
     if (data) {
       if (data.status === false) {
