@@ -9,10 +9,13 @@ import Slide from '@mui/material/Slide';
 import { Button, FormControl, InputAdornment, InputLabel, ListItemText, MenuItem, Select, TextField } from "@mui/material";
 import AddItemButton from "./AddItemButton";
 import UploadImage from "../../../utils/UploadImage";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ShowImages } from "../../UserInterface/ShowImages";
 import DraftItemButton from "./DraftItemButton";
 import { GetCategory } from "../../../services/Category/GetCategory";
+import { UpdateItemButton } from "./UpdateItemButton";
+import { serverError } from "../../../data/constants";
+import { setMessage } from "../../../redux/slice/messageSlice";
 
 const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -21,27 +24,26 @@ const AddItems = ({ itemData }) => {
     const [image, setImage] = useState(itemData?.image ?? [])
     const [open, setOpen] = useState(false);
     const user = useSelector(state => state.user.user?.email)
-    const [fileList, setFileList] = useState([]);
     const [category, setCategory] = useState([]);
-    const changeFileList = (e) => {
-        setFileList(e);
-    }
-    const [data, setData] = useState(itemData || {sender: user })
-
+    const [data, setData] = useState(itemData || { sender: user })
+    const dispatch=useDispatch()
     const changeData = (title, value) => {
         setData(p => ({ ...p, [title]: value }));
     }
     const changeImage = (data) => {
-        setImage([...image, "http://localhost:1000/" + data])
+        setImage([...image, data])
     }
     const handleCancel = () => {
-        setData({})
-        setImage([])
+        setData(itemData || { sender: user })
+        setImage(itemData?.image ?? [])
         setOpen(false);
     };
     const SaveCategory = async () => {
         const response = await GetCategory()
-        setCategory(response.data)
+        if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
+
+            setCategory(response.data)
+        }
     }
     useEffect(() => {
         SaveCategory()
@@ -68,11 +70,11 @@ const AddItems = ({ itemData }) => {
                             {itemData ? "Edit Item" : "Add Product"}
                         </Typography>
                         {!itemData && <DraftItemButton data={{ ...data, image: image }} handleCancel={handleCancel} />}
-                        <AddItemButton value={itemData ? "Save" : "Add"} handleCancel={handleCancel} data={{ ...data, image: image }} />
+                        {itemData ? <UpdateItemButton handleCancel={handleCancel} data={{ ...data, image: image }} /> : <AddItemButton handleCancel={handleCancel} data={{ ...data, image: image }} />}
                     </Toolbar>
                 </AppBar>
                 <div id="formGrid">
-                    {itemData ? <ShowImages data={itemData?.image} /> : <UploadImage fileList={fileList} setFileList={changeFileList} changeImage={changeImage} />}
+                    {itemData ? <ShowImages data={itemData?.image} /> : <UploadImage changeImage={changeImage} />}
                     <TextField
                         required
                         value={data?.name}
@@ -121,7 +123,7 @@ const AddItems = ({ itemData }) => {
                     />
                 </div>
             </Dialog>
-             {itemData?<Button variant="contained" sx={{backgroundColor:"#007bb2",color:"whitesmoke"}} fullWidth>EDIT ITEM</Button>:<ListItemText onClick={() => setOpen(true)} id="switch-list-label-wifi" primary="ADD ITEM"/>}
+            {itemData ? <Button variant="contained" onClick={() => setOpen(true)} sx={{ backgroundColor: "#007bb2", color: "whitesmoke" }} fullWidth>EDIT ITEM</Button> : <ListItemText onClick={() => setOpen(true)} id="switch-list-label-wifi" primary="ADD ITEM" />}
         </>
     )
 }

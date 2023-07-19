@@ -3,7 +3,7 @@ import { AddItemService } from "../../../services/Product/AddItemService"
 import { addproduct } from "../../../redux/slice/productSlice"
 import { Button } from "@mui/material"
 import { setMessage } from "../../../redux/slice/messageSlice"
-import { draft, productAdd } from "../../../data/constants"
+import { draft, productAdd, serverError } from "../../../data/constants"
 
 const DraftItemButton = ({ data, handleCancel }) => {
     const dispatch = useDispatch()
@@ -16,6 +16,7 @@ const DraftItemButton = ({ data, handleCancel }) => {
                 handleCancel()
             } catch (err) {
                 console.log(err)
+                dispatch(setMessage(serverError))
             }
         } else {
             let message = "PLEASE UPLOAD 4 IMAGES"

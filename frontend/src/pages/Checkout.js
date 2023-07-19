@@ -11,6 +11,8 @@ import OrderDetail from '../Components/Orders/OrderDetail';
 import { useSelector } from 'react-redux';
 import UserDetails from '../Components/Orders/UserDetails';
 import PlaceOrderButton from '../Components/Orders/PlaceOrderButton';
+import { IconButton } from '@mui/material';
+import { Done } from '@mui/icons-material';
 
 const steps = ['Confirm Cart Products', 'Confirm User Deatil', 'Confirm Check Out'];
 
@@ -53,13 +55,15 @@ const Checkout = () => {
             </Stepper>
             {activeStep === steps.length ? (
               <>
-                <Typography sx={{ mt: 2, mb: 1 }}>
-                  Order Successful
-                </Typography>
+                <Box sx={{width: "100%",backgroundColor:"white",height:"25rem",borderRadius:"20px",display:"flex",justifyContent:"center",alignItems:"center",marginTop:"1rem"}}>
+                  <Typography variant='h1' sx={{ mt: 2, mb: 1 }}>
+                   <IconButton sx={{backgroundColor:"greenyellow"}}>< Done sx={{fontSize:"4rem"}}/></IconButton> Order Successful
+                  </Typography>
+                </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                   <Box sx={{ flex: '1 1 auto' }} />
-                  <Button onClick={()=>navigate("/userorder")}>Check Orders</Button>
-                  <Button onClick={handleReturn}>Return Home</Button>
+                  <Button sx={{marginRight:"1rem"}} variant='contained' color='success' onClick={() => navigate("/userorder")}>Check Orders</Button>
+                  <Button variant='contained' color='success' onClick={handleReturn}>Return Home</Button>
                 </Box>
               </>
             ) : (
@@ -67,7 +71,8 @@ const Checkout = () => {
                 {component[activeStep - 1]}
                 <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                   <Button
-                    color="inherit"
+                    variant='contained'
+                    color="secondary"
                     disabled={activeStep === 0}
                     onClick={handleBack}
                     sx={{ mr: 1 }}>
@@ -77,7 +82,7 @@ const Checkout = () => {
                   {activeStep === steps.length - 1 ?
                     <PlaceOrderButton handleNext={handleNext} />
                     :
-                    <Button onClick={handleNext}>
+                    <Button variant='contained' color='success' onClick={handleNext}>
                       Next
                     </Button>}
                 </Box>

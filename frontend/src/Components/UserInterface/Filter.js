@@ -3,6 +3,7 @@ import { Drawer, ListItem, ListItemIcon, ListItemText, ListSubheader, Divider, L
 import { useDispatch, useSelector } from "react-redux";
 import { cleanFilter, setLimit, setRating } from "../../redux/slice/filterSlice";
 import { CategoryComponent } from "./CategoryComponent";
+import { SortingComponent } from "./SortingComponent";
 const minDistance = 1000;
 const Filter = () => {
   const filter = useSelector(state => state.filter.filter);
@@ -26,6 +27,7 @@ const Filter = () => {
     <>
       <div id="filter">
         <List>
+          <SortingComponent/>
           <ListSubheader>Choose the Rating</ListSubheader>
           {Array(5).fill().map((_, index) => (
             <ListItem sx={{ bgcolor: filter?.rating === (4 - index) ? "#007bb210" : "#ffffff" }} onClick={() => dispatch(setRating(4 - index))}>
@@ -43,7 +45,7 @@ const Filter = () => {
               valueLabelDisplay="auto"
               disableSwap
             /></ListItem>
-          <CategoryComponent/>
+          <CategoryComponent />
           <ListItem sx={{ bgcolor: "white" }}>
             <Button fullWidth variant="contained" onClick={() => dispatch(cleanFilter())}>reset filter</Button>
           </ListItem>

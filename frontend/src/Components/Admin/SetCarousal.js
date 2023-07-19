@@ -11,8 +11,10 @@ import { GetCarousal } from '../../services/Carousal/GetCarousal';
 import { DeleteCarousal } from '../../services/Carousal/DeleteCarousal';
 import { CreateBannerService } from '../../services/Carousal/CreateBannerService';
 import UploadImage from '../../utils/UploadImage';
-import { server } from '../../data/constants';
+import { server, serverError } from '../../data/constants';
 import { GetCategory } from '../../services/Category/GetCategory';
+import { useDispatch } from 'react-redux';
+import { setMessage } from '../../redux/slice/messageSlice';
 
 const columns = [
     { label: '#', minWidth: 20 },
@@ -23,31 +25,35 @@ const columns = [
 export const SetCarousal = () => {
     const [rows, setRows] = useState([])
     const [formdata, setFormdata] = useState("")
-    const [fileList, setFileList] = useState([])
     const [Category, setCategory] = useState([])
-    const changeFileList = (e) => {
-        setFileList(e)
-    }
+    const dispatch = useDispatch()
     const changeImage = (e) => {
-        setFormdata(p => ({ ...p, image: (server + e) }))
+        setFormdata(p => ({ ...p, image: e }))
     }
     const getData = async () => {
         const response = await GetCarousal()
-        setRows(response.data);
-        const response2 = await GetCategory()
-        setCategory(response2.data)
+        if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
+            setRows(response.data);
+            const response2 = await GetCategory()
+            if (response2.data === serverError) { dispatch(setMessage(serverError)) } else {
+                setCategory(response2.data)
+            }
+        }
     }
     const addCarousal = async () => {
         const response = await CreateBannerService(formdata)
-        setRows([...rows, response.data])
-        setFormdata({ image: "", filter: "" })
-        setFileList([])
+        if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
+            setRows([...rows, response.data])
+            setFormdata({ image: "", filter: "" })
+        }
     }
     const deleteCarousal = async (id, index) => {
-        await DeleteCarousal({ id: id })
-        let arr = [...rows]
-        arr.splice(index, 1)
-        setRows(arr)
+        const response = await DeleteCarousal({ id: id })
+        if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
+            let arr = [...rows]
+            arr.splice(index, 1)
+            setRows(arr)
+        }
     }
     useEffect(() => {
         getData();
@@ -55,7 +61,7 @@ export const SetCarousal = () => {
     console.log(formdata);
     return (
         <>
-            <TableContainer sx={{ backgroundColor:"white",overflowY: "auto", height: "100%",boxShadow: "rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;" }}>
+            <TableContainer sx={{ backgroundColor: "white", overflowY: "auto", height: "100%", boxShadow: "rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;" }}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
@@ -72,7 +78,7 @@ export const SetCarousal = () => {
                         <TableRow>
                             <TableCell align={"center"}></TableCell>
                             <TableCell align={"center"}>
-                                <UploadImage fileList={fileList} setFileList={changeFileList} changeImage={changeImage} count={1} />
+                                <UploadImage changeImage={changeImage} count={1} />
                             </TableCell>
                             <TableCell align={"center"}>
                                 <FormControl variant="filled" sx={{ m: 1, minWidth: 200 }}>

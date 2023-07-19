@@ -15,7 +15,7 @@ const addProduct = async (req, res) => {
 // Get all products
 const getAllProducts = async (req, res) => {
   try {
-    const response = await Product.find({});
+    const response = await Product.find({sender:{$ne:"DELETED PRODUCT"}})
     res.send(response);
   } catch (error) {
     console.log(error);
@@ -24,13 +24,29 @@ const getAllProducts = async (req, res) => {
 };
 
 // Update product details
+// const updateProduct = async (req, res) => {
+//   try {
+//     let reqdata = req.body;
+//     delete reqdata._id;
+//     console.log(reqdata);
+//     const response = await Product.updateOne(
+//       { _id: new mongoose.Types.ObjectId(req.body.id) },
+//       { $set: { ...reqdata } }
+//     );
+//     console.log(response);
+//     res.send(response);
+//   } catch (error) {
+//     console.log(error);
+//     res.send("SERVER ERROR");
+//   }
+// };
 const updateProduct = async (req, res) => {
   try {
     let reqdata = req.body;
-    delete reqdata._id;
+    // delete reqdata._id;
     const response = await Product.updateOne(
-      { _id: new mongoose.Types.ObjectId(req.body.id) },
-      { $set: { reqdata } }
+      { _id: new mongoose.Types.ObjectId(reqdata._id) },
+      { $set:{name:reqdata.name,category:reqdata.category,price:reqdata.price,description:reqdata.description,status:reqdata.status}}
     );
     res.send(response);
   } catch (error) {
