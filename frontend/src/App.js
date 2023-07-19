@@ -18,6 +18,7 @@ import { admin, shipper, vendor } from './data/constants';
 import SetWebsiteData from './pages/SetWebsiteData';
 import DashBoard from './pages/DashBoard';
 import DraftProduct from './pages/DraftProduct';
+import VendorProduct from './pages/VendorProduct';
 
 function App() {
   const user = useSelector(state => state.user.user)
@@ -73,7 +74,11 @@ function App() {
     {
       path: "/order",
       component: ""
-    }
+    },
+    {
+      path: "/vendorproduct",
+      component: <VendorProduct />,
+    },
   ]
   const adminRouter = [
     {
@@ -87,6 +92,10 @@ function App() {
     {
       path: "/allorder",
       component: <AllOrder />,
+    },
+    {
+      path: "/vendorproduct",
+      component: <VendorProduct />,
     },
     {
       path: "/productcontrol",

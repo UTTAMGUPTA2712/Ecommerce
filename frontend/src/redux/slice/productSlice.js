@@ -23,7 +23,8 @@ export const productSLice=createSlice({
         saveReview:(state,action)=>{
             for(let item in state.product) {
                 if(state.product[item]._id===action.payload.id){
-                    state.product[item].review.push({rate:action.payload.rate,review:action.payload.review})
+                    state.product[item].review.push(action.payload.review)
+                    state.product[item].rate=action.payload.rate
                 }
             }
         }

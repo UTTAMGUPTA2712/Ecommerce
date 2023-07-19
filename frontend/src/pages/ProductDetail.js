@@ -19,9 +19,7 @@ const ProductDetail = () => {
     const user = useSelector(state => state.user.user)
     const data = location.state
     const [product, setProduct] = useState(data)
-
     const [pic, setPic] = useState(product?.image?.[0])
-    const [rating, setRating] = useState(0)
     useEffect(() => {
         const file = document.getElementById("productSpecs")
         file.scroll({ top: 0, left: 0, behavior: "smooth", });
@@ -33,13 +31,6 @@ const ProductDetail = () => {
             }
         }
     }, [productList])
-    useEffect(() => {
-        let sum = 0
-        for (let i of product?.review) {
-            sum = sum + +i.rate
-        }
-        setRating((sum / (product?.review?.length)))
-    },[product])
     return (
         <>
             <div id='productdetail'>
@@ -60,7 +51,7 @@ const ProductDetail = () => {
                     </div>
                     <div id='specsCard' style={{ backgroundColor: "white", textAlign: "left", marginTop: "1rem" }}>
                         <div style={{ margin: "2rem" }}>
-                            <h1 style={{ margin: 0 }}>{product?.name}<Rating size="small" value={rating} readOnly /></h1>
+                            <h1 style={{ margin: 0 }}>{product?.name}<Rating size="small" value={product?.rate} readOnly /></h1>
                             <p>{product?.category}</p>
                             <h1 style={{ margin: "2rem 0" }}>₹ {product?.price}</h1>
                             <h2>Specification</h2>

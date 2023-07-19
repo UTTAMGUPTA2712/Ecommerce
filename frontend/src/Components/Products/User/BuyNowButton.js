@@ -9,6 +9,7 @@ export const BuyNowButton = ({ data, value }) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const address = useSelector(state => state.user.address)
+    const user = useSelector(state => state.user.user?.email)
     console.log(address);
     const itemData = {
         price: data?.price,
@@ -17,15 +18,15 @@ export const BuyNowButton = ({ data, value }) => {
     }
     const handleClick = () => {
         if (address === undefined) {
-            navigate("/profile")
+            navigate("/profile",{state:"goback"})
             dispatch(setMessage({ message: "Please Save An Address", severity: "info" }))
         } else {
-            dispatch(savecart({ id: data?._id, data: itemData, value: value + 1 }))
+            dispatch(savecart({ id: data?._id, data: itemData, value: value > 0 ? value  : 1 }))
             navigate("/checkout")
         }
     }
     return (<>
-        {data?.status !== outOfStock && <Button fullWidth onClick={handleClick} sx={{ backgroundColor: "#0f0f0f", color: "tomato",height:"3rem",fontSize:"1.5rem" }}>BUY NOW</Button>}
+        {data?.status !== outOfStock && data?.sender !== user && <Button fullWidth onClick={handleClick} sx={{ backgroundColor: "#0f0f0f", color: "tomato", height: "3rem", fontSize: "1.5rem" }}>BUY NOW</Button>}
     </>
     )
 }

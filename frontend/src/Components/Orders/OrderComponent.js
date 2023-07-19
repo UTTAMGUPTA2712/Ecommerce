@@ -18,14 +18,6 @@ const OrderComponent = ({ orders, setStatus = "user" }) => {
                                     {setStatus !== "user" && <div id='user'>
                                         <TableContainer component={Paper}>
                                             <Table aria-label="spanning table">
-                                                {/* <TableHead >
-                                                    <TableRow sx={{ backgroundColor: "#0f0f0f" }} >
-                                                        <TableCell align="left"><Typography variant="h5" sx={{ color: "#f0f0f0" }}>#</Typography></TableCell>
-                                                        <TableCell align="center"><Typography variant="h5" sx={{ color: "#f0f0f0" }}>USER DETAIL</Typography></TableCell>
-                                                        <TableCell align="center"><Typography variant="h5" sx={{ color: "#f0f0f0" }}>DELIVERY ADDRESS</Typography></TableCell>
-                                                        <TableCell align="center"><Typography variant="h5" sx={{ color: "#f0f0f0" }}>PHONE NUMBER</Typography></TableCell>
-                                                    </TableRow>
-                                                </TableHead> */}
                                                 <TableBody>
                                                     <TableRow hover>
                                                         <TableCell align="left">

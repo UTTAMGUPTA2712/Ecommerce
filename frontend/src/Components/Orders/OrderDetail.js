@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Input, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { saveCoupon } from '../../redux/slice/cartSlice';
+import { Done } from '@mui/icons-material';
 
 const TAX_RATE = 0.18;
 
@@ -85,7 +86,7 @@ const OrderDetail = ({ cart,couponData }) => {
               </TableRow>
               <TableRow>
                 <TableCell >Coupon Discount:</TableCell>
-                <TableCell align="right"><Input value={coupon} onChange={e=>{setCoupon(e.target.value);debounce(e.target.value)}}/></TableCell>
+                <TableCell align="right"><Input variant="outlined" sx={{border:(coupon==="FREE500")?"2px solid greenyellow":"2px solid tomato",borderStyle:"none none solid none",justifyContent:"center"}} placeholder='coupon...' endAdornment={(coupon==="FREE500")?<Done style={{color:"green"}}/>:""} value={coupon} onChange={e=>{setCoupon(e.target.value);debounce(e.target.value)}}/></TableCell>
                 <TableCell align="right">{(coupon==="FREE500")?500:0}</TableCell>{console.log(coupon)}
               </TableRow>
               <TableRow>

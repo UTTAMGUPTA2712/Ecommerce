@@ -22,7 +22,28 @@ const ItemList = ({ userdata = "", itemsType = "" }) => {
     const user = useSelector(state => state.user.user)
     const filter = useSelector(state => state.filter.filter)
     const cart = useSelector(state => state.cart.cart)
-    const productList = productLists?.filter(product => { return (itemsType !== "") ? (product?.status === itemsType) : ((product?.sender === deletedProduct) ? "" : ((product?.status === published) || (userdata === "") || (product?.sender === userdata?.email) || (user?.title === admin))) })
+    const productList = productLists?.filter(product => { return ((itemsType !== "") ? (product?.status === itemsType) : ((product?.sender === deletedProduct) ? "" : ((product?.status === published) ||( (userdata === "") || (product?.sender === userdata?.email))))) })
+    useEffect(() => {
+        let list = reduxData?.filter((product) => (filter?.category === "" || product?.category === filter?.category) && (filter?.search === "" || product?.name?.includes(filter?.search)) && ((product?.price <= filter?.upperLimit) && (filter?.lowerLimit <= product?.price)))
+        switch (filter?.sorting) {
+            case "price":
+                list = list.sort((a, b) => a.price > b.price)
+                break;
+            case "priceRev":
+                list = list.sort((a, b) => a.price < b.price)
+                break;
+            case "latest":
+                list = list.sort((a, b) => a.createdAt > b.createdAt)
+                break;
+            case "latestRev":
+                list = list.sort((a, b) => a.createdAt < b.createdAt)
+                break;
+            case "bestSeller":
+                list = list.sort((a, b) => a.count < b.count)
+                break;
+        }
+        setProductLists(list)
+    }, [filter])
     useEffect(() => {
         const getProducts = async () => {
             const response = await GetItemService()
@@ -31,24 +52,7 @@ const ItemList = ({ userdata = "", itemsType = "" }) => {
         }
         getProducts()
     }, [])
-    useEffect(() => {
-        let list = reduxData?.filter((product) => (filter?.category===""||product?.category === filter?.category) && (filter?.search===""||product?.name?.includes(filter?.search)) && ((product?.price <= filter?.upperLimit) && (filter?.lowerLimit <= product?.price)))
-        switch (filter?.sorting) {
-            case "price":
-                list = list.sort((a, b) => a.price > b.price)
-                break;
-            case "priceRev":
-                list = list.sort((a, b) => a.price < b.price)
-                break;
-            case "rate":
-                list = list.sort((a, b) => a.rate > b.rate)
-                break;
-            case "rateRev":
-                list = list.sort((a, b) => a.rate < b.rate)
-                break;
-        }
-        setProductLists(list)
-    }, [filter])
+
     return (
         <>
             <div id='itemList'>

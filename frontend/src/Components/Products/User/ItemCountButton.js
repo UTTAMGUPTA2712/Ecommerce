@@ -1,12 +1,12 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { savecart } from '../../../redux/slice/cartSlice'
 import { Button } from '@mui/material'
 import { outOfStock } from '../../../data/constants'
 
 export const ItemCountButton = ({ value, data }) => {
     const dispatch = useDispatch()
-    
+    const user=useSelector(state=>state.user.user?.email)
     const itemData = {
         price: data?.price,
         name: data?.name,
@@ -22,8 +22,8 @@ export const ItemCountButton = ({ value, data }) => {
                         <Button className="increment" onClick={() => { dispatch(savecart({ id: data?._id, data: itemData, value: value + 1 })) }}>+</Button>
                     </>
                 ) : (
-                    <Button fullWidth={true} className="addbtn" onClick={() => { dispatch(savecart({ id: data?._id, data: itemData, value: 1 })) }}>
-                        ADD ITEM +
+                    <Button disabled={data?.sender===user} fullWidth={true} className="addbtn" onClick={() => { dispatch(savecart({ id: data?._id, data: itemData, value: 1 })) }}>
+                        {data?.sender===user?"YOUR PRODUCT":"ADD TO CART"}
                     </Button>
                 ))}
         </>

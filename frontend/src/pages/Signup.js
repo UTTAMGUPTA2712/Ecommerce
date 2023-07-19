@@ -6,7 +6,7 @@ import { Button, TextField } from '@material-ui/core'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { saveUser } from '../redux/slice/authSlice'
-import { disableUser, invalidEmail, logUser, passwordDoNotMatch, shipper, userAlreadyExist, userconst, vendor } from '../data/constants'
+import { disableUser, invalidEmail, logUser, passwordDoNotMatch, shipper, userAlreadyExist, userEmailAlreadyExist, userPhonePumberAlreadyExist, userconst, vendor } from '../data/constants'
 import { setMessage } from '../redux/slice/messageSlice'
 const titles = [userconst, vendor, shipper]
 const Signup = () => {
@@ -26,8 +26,8 @@ const Signup = () => {
                     const data = await AddUser({ ...formData, title: titles[choice] })
                     if (data.data === false) {
                         dispatch(setMessage(disableUser))
-                    } else if (data.data === userAlreadyExist) {
-                        dispatch(setMessage(userAlreadyExist))
+                    } else if (data.data === userEmailAlreadyExist||data.data===userPhonePumberAlreadyExist) {
+                        dispatch(setMessage(data.data))
                     } else {
                         dispatch(setMessage(logUser))
                         dispatch(saveUser(data.data))
@@ -58,6 +58,8 @@ const Signup = () => {
     const handlephonenumber = (e) => {
         if (e.target.value.length <= 10) {
             ChangeFormData("phoneNumber", e.target.value)
+        }else{
+            dispatch(setMessage({ message: "Phone Number Cannot Be More Than 10 Digit", severity: "info" }))
         }
     }
     return (

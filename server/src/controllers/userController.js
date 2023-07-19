@@ -15,17 +15,18 @@ const getAllUsers = async (req, res) => {
 // Edit user profile
 const editUserProfile = async (req, res) => {
     try {
-        await User.updateOne(
+        console.log(req.body);
+        const response=await User.updateOne(
             { email: req.body.email },
-            { $set: { name: req.body.name, address: req.body.address } }
+            { $set: { ...req.body } }
         );
+        console.log(response);
         res.send("SUCCESS");
     } catch (error) {
         console.log(error);
         res.send("SERVER ERROR");
     }
 };
-
 // Update user status
 const updateUserStatus = async (req, res) => {
     try {

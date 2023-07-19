@@ -6,15 +6,18 @@ import StepContent from '@mui/material/StepContent';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import { admin, orderCompleted, orderDispatched, orderOutForDelivery, orderPlaced, orderRecieved, rateProduct, shipper } from '../../data/constants';
+import { admin, cancelOrder, orderCompleted, orderDispatched, orderOutForDelivery, orderPlaced, orderRecieved, rateProduct, serverError, shipper } from '../../data/constants';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { SetOrderStatusService } from '../../services/Order/SetOrderStatusService';
+import { setMessage } from '../../redux/slice/messageSlice';
 const graph = {
     [orderPlaced]: 1,
     [orderCompleted]: 2,
     [orderDispatched]: 3,
     [orderOutForDelivery]: 4,
     [orderRecieved]: 5,
+    [cancelOrder]: -1
 }
 const steps = [
     {
@@ -40,11 +43,21 @@ const steps = [
 ];
 export default function OrderLocation({ data, id, setStatus }) {
     const [activeStep, setActiveStep] = useState(graph[data]);
-    const userTitle = useSelector(state => state.user.user?.title);
+    const userTitle = useSelector(state => state.user.user);
+    const dispatch = useDispatch()
     const handleNext = (value) => {
         setStatus({ id: id, status: value })
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
+    const handleCancel = async () => {
+        const response = await SetOrderStatusService({ id: id, status: cancelOrder })
+        if (response === serverError) {
+            dispatch(setMessage(serverError))
+        } else {
+            setActiveStep(-1)
+            dispatch(setMessage(cancelOrder))
+        }
+    }
     return (
         <Box sx={{ maxWidth: 400 }}>
             <Stepper activeStep={activeStep} orientation="vertical">
@@ -53,20 +66,27 @@ export default function OrderLocation({ data, id, setStatus }) {
                         <StepLabel>
                             {step.label}
                         </StepLabel>
-                        {(userTitle === shipper || userTitle === admin) && <StepContent>
+                        <StepContent>
                             <Typography>{step.description}</Typography>
-                            {(setStatus !== "user") && <Box sx={{ mb: 2 }}>
-                                <Button variant="contained" onClick={() => handleNext(step.label)} sx={{ mt: 1, mr: 1 }}>
-                                    {index === steps.length - 1 ? 'Order Received' : 'Set Complete'}
-                                </Button>
-                            </Box>}
-                        </StepContent>}
+                            <Box sx={{ mb: 2 }}>
+                                {(setStatus !== "user") ?
+                                    (<Button variant="contained" onClick={() => handleNext(step.label)} sx={{ mt: 1, mr: 1 }}>
+                                        {index === steps.length - 1 ? 'Order Received' : 'Set Complete'}
+                                    </Button>)
+                                    :
+                                    <Button variant="contained" onClick={handleCancel} sx={{ mt: 1, mr: 1 }}>
+                                        CANCEL ORDER
+                                    </Button>
+                                }
+                            </Box>
+                        </StepContent>
                     </Step>
                 ))}
             </Stepper>
-            {activeStep === steps.length && (
-                <Paper square elevation={0} sx={{ p: 3,bgcolor:"#00000000" }}>
-                    <Typography>Order Successfully Recieved</Typography>
+            {console.log(data)}
+            {(activeStep === steps.length || activeStep === -1) && (
+                <Paper square elevation={0} sx={{ p: 3, bgcolor: "#00000000" }}>
+                    { activeStep === -1 ? <Typography>{cancelOrder}</Typography> : <Typography>Order Successfully Recieved</Typography>}
                 </Paper>
             )}
         </Box>

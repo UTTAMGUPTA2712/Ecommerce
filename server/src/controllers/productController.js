@@ -66,7 +66,7 @@ const DeleteProduct = async (req, res) => {
 }
 const getBestProducts = async (req, res) => {
   try {
-    const response = await Product.find({}).sort({purchaseCount:1}).limit(15);
+    const response = await Product.find({status:"PUBLISHED"}).sort({ purchaseCount: 1 }).limit(15);
     res.send(response);
   } catch (error) {
     console.log(error);
@@ -78,7 +78,7 @@ const productReview = async (req, res) => {
     console.log(req.body);
     const response = await Product.updateOne(
       { _id: new mongoose.Types.ObjectId(req.body.id) },
-      { $push: { review: {rate:req.body.rate,review:req.body.review} } }
+      { $push: { review: req.body.review },$set:{rate:req.body.rate} }
     );
     res.send(response);
   } catch (error) {

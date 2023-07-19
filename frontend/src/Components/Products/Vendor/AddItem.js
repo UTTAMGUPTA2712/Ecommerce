@@ -27,7 +27,6 @@ const AddItems = ({ itemData }) => {
         setFileList(e);
     }
     const [data, setData] = useState(itemData || {sender: user })
-    console.log("item", itemData, "data", data);
 
     const changeData = (title, value) => {
         setData(p => ({ ...p, [title]: value }));

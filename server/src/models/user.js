@@ -32,6 +32,7 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
+      default:"Password"
     },
     phoneNumber: {
       type: String,

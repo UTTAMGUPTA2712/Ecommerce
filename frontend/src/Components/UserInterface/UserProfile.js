@@ -6,13 +6,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { saveAddress, saveName } from '../../redux/slice/authSlice'
 import { EditUserProfileService } from '../../services/User/EditUserProfileService'
 import { admin, vendor } from '../../data/constants'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate, useHistory } from 'react-router-dom'
 import ItemList from './ItemList'
 import SearchAppBar from '../../utils/SearchAppBar'
 import { setMessage } from '../../redux/slice/messageSlice'
 
 const UserProfile = ({ data }) => {
     const location = useLocation()
+    const navigate = useNavigate()
     if (!data) {
         data = location.state
     }
@@ -21,14 +22,23 @@ const UserProfile = ({ data }) => {
     const [address, setaddress] = useState({})
     const dispatch = useDispatch()
     const [username, setName] = useState(data?.name)
-    const changeAddress = (title, value) => {
-        setaddress(p => ({ ...p, [title]: value }))
-    }
     const [dataAddress, setDataAddress] = useState(data?.address)
+    const [password, setPassword] = useState(data?.password)
+    const changeAddress = (title, value) => {
+        if (!(title === "phone" && value?.length === 11)) {
+            setaddress(p => ({ ...p, [title]: value }))
+        } else {
+            dispatch(setMessage({ message: "Phone Number Cannot Be More Than 10 Digit", severity: "info" }))
+        }
+    }
     const handleAddress = () => {
         if (address?.phone && address?.location && address?.city && address?.state && address?.pincode) {
-            setDataAddress(p => [...p, address])
-            setaddress({})
+            if (address?.phone?.length < 10) {
+                dispatch(setMessage({ message: "Please Enter A Valid Phone Number", severity: "info" }))
+            } else {
+                setDataAddress(p => [...p, address])
+                setaddress({})
+            }
         } else {
             dispatch(setMessage({ message: "Please Fill All The Fields Of Address", severity: "info" }))
         }
@@ -40,20 +50,27 @@ const UserProfile = ({ data }) => {
         dispatch(setMessage({ message: "Address Removed", severity: "error" }))
     }
     const changeExistingAddress = (index, title, value) => {
-        let arr = [...dataAddress]
-        arr[index][title] = value
-        setDataAddress(arr ?? [])
+        if (!(title === "phone" && value?.length === 11)) {
+            let arr = [...dataAddress]
+            arr[index][title] = value
+            setDataAddress(arr ?? [])
+        } else {
+            dispatch(setMessage({ message: "Phone Number Cannot Be More Than 10 Digit", severity: "info" }))
+        }
+
     }
     const savedata = async () => {
         dispatch(saveName(username))
         dispatch(saveAddress(dataAddress))
         setEdit(true)
-        let sendingData = { ...data }
-        sendingData.address = dataAddress
+        let sendingData = { ...data, address: dataAddress, name: username, password: password }
         setTimeout(async () => {
             await EditUserProfileService(sendingData)
         }, 1000)
         dispatch(setMessage({ message: "Saved Update", severity: "success" }))
+        if (location.state === "goback") {
+            navigate("/checkout")
+        }
     }
     const handleCancel = () => {
         setEdit(true);
@@ -68,15 +85,23 @@ const UserProfile = ({ data }) => {
                     <div id='grid'>
                         <div id='detail'>
                             <Avatar sx={{ bgcolor: "#2196f3", fontSize: "10rem", height: "14rem", width: "14rem" }} src={data?.photo} >{(data?.name?.[0])?.toUpperCase()}</Avatar>
-                            {(edit) ? <div style={{fontSize:"2rem"}}><h2>{(data?.name).toUpperCase()}</h2><h3>{data?.email}</h3></div> : <><TextField fullWidth onChange={(e) => setName(e.target.value)} value={username} label="EDIT NAME" variant='outlined' /></>}
+                            {(edit) ?
+                                <div style={{ fontSize: "2rem" }}>
+                                    <h2>{(data?.name).toUpperCase()}</h2>
+                                    <h3>Email : {data?.email}</h3>
+                                    <h3>Password : {data?.password}</h3>
+                                </div>
+                                :
+                                <>
+                                    <TextField fullWidth onChange={(e) => setName(e.target.value)} value={username} label="EDIT NAME" variant='outlined' />
+                                    <TextField fullWidth onChange={(e) => setPassword(e.target.value)} value={password} label="EDIT PASSWORD" variant='outlined' />
+                                </>}
                             {(data.email === user?.email || user?.title === admin) && (edit) ? <Button fullWidth variant='contained' sx={{ bgcolor: "grey", gridColumn: "1/SPAN 2" }} onClick={() => setEdit(false)}>ADD/UPDATE DELIVERY ADDRESS</Button> :
                                 <><Button fullWidth variant='contained' sx={{ bgcolor: "grey" }} onClick={handleCancel}>CANCEL</Button><Button fullWidth variant='contained' sx={{ bgcolor: "grey" }} onClick={savedata}>SAVE</Button></>}
                         </div>
                         <div id='addressdiv'>
-
                             <h1 style={{
                                 textAlign: "center", margin: 0, backgroundColor: "#00b0ff",
-                                // position: "sticky", top: "14rem", zIndex: 4,
                                 boxShadow: "rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset"
                             }}>DELIVERY ADDRESS</h1>
                             {dataAddress.map((userAddress, index) => {
@@ -107,7 +132,6 @@ const UserProfile = ({ data }) => {
                         {(data?.title === vendor || data?.title === admin) && <><h1
                             style={{
                                 textAlign: "center",
-                                //  position: "sticky", top: "14rem", zIndex: 4, margin: 0, 
                                 backgroundColor: "#00b0ff",
                                 boxShadow: "rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset"
                             }}>USER ITEMS</h1></>}

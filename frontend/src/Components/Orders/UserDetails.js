@@ -14,7 +14,7 @@ const UserDetails = ({ data }) => {
                     <h1>{data?.name}</h1>
                     <AddressSelector />
                 </div>
-                <Button onClick={() => navigate("/profile")}>ADD ADDRESS</Button>
+                <Button onClick={() => navigate("/profile",{state:"goback"})}>ADD ADDRESS</Button>
             </div>
             <p>Shipping details</p>
             <h/>

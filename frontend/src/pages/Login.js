@@ -57,7 +57,7 @@ const Login = () => {
             </h1>
                         
             <TextField id="outlined-basic" style={{backgroundColor:"rgb(187, 182, 255)"}}defaultValue={user} onChange={(e) => setuser(e.target.value)} label="Phone Number/Email" variant="outlined" />
-            <TextField id="outlined-basic"style={{backgroundColor:"rgb(187, 182, 255)"}} defaultValue={password} onChange={(e) => setpassword(e.target.value)} label="Password" variant="outlined" />
+            <TextField  type='password' id="outlined-basic"style={{backgroundColor:"rgb(187, 182, 255)"}} defaultValue={password} onChange={(e) => setpassword(e.target.value)} label="Password" variant="outlined" />
             <Button color="secondary" style={{backgroundColor:"rgb(187, 182, 255)"}}disabled={!(user && password)} onClick={handleManualLogin} size="large" variant="outlined">Login</Button>
             <Button color="secondary"style={{backgroundColor:"rgb(187, 182, 255)"}} disabled={false} size="large" onClick={googleLogin} variant="outlined">Login With Google</Button>
           </div>

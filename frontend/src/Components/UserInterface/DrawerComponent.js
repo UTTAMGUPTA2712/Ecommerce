@@ -1,5 +1,5 @@
 import IconButton from '@material-ui/core/IconButton';
-import { AccountTree, AddToPhotos, Home, LocalShipping, Logout, Menu, Person, RuleFolder, ShoppingBag, ShoppingCart, SpaceDashboard, VerifiedUserSharp } from '@mui/icons-material';
+import { AccountTree, AddToPhotos, Cancel, Close, Home, LocalShipping, Logout, Menu, Person, RuleFolder, ShoppingBag, ShoppingCart, SpaceDashboard, VerifiedUserSharp } from '@mui/icons-material';
 import { Drawer, ListItem, ListItemIcon, ListItemText, ListSubheader,Divider, List } from '@mui/material';
 import { useState } from 'react';
 import Box from '@mui/material/Box';
@@ -22,6 +22,10 @@ const DrawerComponent = () => {
         {
             icon: <Home />,
             component: <ListItemText onClick={() => navigate("/home")} primary="HOME" />
+        },
+        {
+            icon: <Home />,
+            component: <ListItemText onClick={() => navigate("/vendorproduct")} primary="MY PRODUCT" />
         },
         {
             icon: <AddToPhotos />,
@@ -59,7 +63,8 @@ const DrawerComponent = () => {
     return (<>
         <Drawer open={open} onClose={() => setopen(false)}>
             <Box sx={{ width: "22rem", flexShrink: 0, '& .MuiDrawer-paper': { width: "25rem", boxSizing: 'border-box', }, }} variant="persistent" anchor="left" open={open}>
-                <List sx={{ width: '100%', bgcolor: 'background.paper' }} subheader={<ListSubheader>NAVIGATION</ListSubheader>}>
+                <List sx={{ width: '100%', bgcolor: 'background.paper' }} subheader={<IconButton onClick={()=>setopen(false)}><Close/></IconButton>}>
+                <ListSubheader>NAVIGATION</ListSubheader>
                     {listdata.map(item => <>
                         <Divider />
                         <ListItem className='listItem' sx={{ cursor: "pointer" }}>

@@ -13,7 +13,7 @@ export const GrossDetail = () => {
     const address = useSelector(state => state.user.address)
     const handleClick = () => {
         if (address === undefined) {
-            navigate("/profile")
+            navigate("/profile",{state:"goback"})
             dispatch(setMessage(saveAnAddress))
         } else {
             navigate("/checkout")
@@ -35,7 +35,7 @@ export const GrossDetail = () => {
                 <table>
                     <tr>
                         <td>Total items:</td>
-                        <td>{cart?.length}</td>
+                        <td>{cart?.length??0}</td>
                     </tr>
                     <tr>
                         <td>Gross Amount:</td>

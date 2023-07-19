@@ -33,7 +33,11 @@ const signup = async (req, res) => {
       $or: [{ email: userdata.email }, { phoneNumber: userdata.phoneNumber }],
     });
     if (data) {
-      res.send("USER ALREADY EXIST");
+      if (data.email === userdata.email) {
+        res.send("USER EMAIL ALREADY EXIST");
+      } else {
+        res.send("USER PHONE NUMBER ALREADY EXIST");
+      }
     } else {
       const createdUser = await User.create(userdata);
       res.send(createdUser);
