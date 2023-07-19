@@ -33,7 +33,7 @@ const listData = [
     },
 ]
 const DraftProduct = () => {
-    const [filter, setFilter] = useState(enableProduct)
+    const [filter, setFilter] = useState("")
     return (
         <>
             <div id='homepage'>
@@ -41,13 +41,12 @@ const DraftProduct = () => {
                 <List
                 sx={{padding:"1rem",boxShadow:" rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;"}}
                 subheader={
-                    
                     <ListSubheader>
                         Filter Products
                     </ListSubheader>
                 }>
                     {listData.map((item, index) => (
-                        <ListItemButton onClick={() => setFilter(item.value)} key={index}>
+                        <ListItemButton sx={{backgroundColor:filter===item.value?"#42424230":""}} onClick={() => setFilter(item.value)} key={index}>
                             <ListItemIcon>
                                 {item?.icon}
                             </ListItemIcon>

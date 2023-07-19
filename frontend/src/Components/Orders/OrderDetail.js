@@ -22,15 +22,15 @@ function createRow(desc, qty, unit, pic) {
 function subtotal(items) {
   return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0);
 }
-const OrderDetail = ({ cart,couponData }) => {
+const OrderDetail = ({ cart, couponData }) => {
   const [rows, setRows] = useState([]);
   const [data, setData] = useState({});
-  const [coupon,setCoupon] = useState(couponData??"");
-  const dispatch=useDispatch()
-  const debounce=(e)=>{
+  const [coupon, setCoupon] = useState(couponData ?? "");
+  const dispatch = useDispatch()
+  const debounce = (e) => {
     let timer
     clearTimeout(timer)
-    timer = setTimeout(()=>{
+    timer = setTimeout(() => {
       dispatch(saveCoupon(e))
     }, 1000)
   }
@@ -46,10 +46,10 @@ const OrderDetail = ({ cart,couponData }) => {
   return (
     <>
       <div id="checkOut">
-        <TableContainer sx={{backgroundColor:"white"}} component={Paper}>
+        <TableContainer sx={{ backgroundColor: "white" }} component={Paper}>
           <Table aria-label="spanning table">
             <TableHead >
-              <TableRow  sx={{backgroundColor:"white"}}>
+              <TableRow sx={{ backgroundColor: "white" }}>
                 <TableCell align="center" colSpan={4}>
                   Details
                 </TableCell>
@@ -78,7 +78,7 @@ const OrderDetail = ({ cart,couponData }) => {
                 <TableCell colSpan={2}>Sub Amount:</TableCell>
                 <TableCell align="right">{ccyFormat(data.subtotal)}</TableCell>
               </TableRow>
-              
+
               <TableRow>
                 <TableCell >Tax Amount:</TableCell>
                 <TableCell align="right">{`${(TAX_RATE * 100).toFixed(0)} %`}</TableCell>
@@ -86,12 +86,12 @@ const OrderDetail = ({ cart,couponData }) => {
               </TableRow>
               <TableRow>
                 <TableCell >Coupon Discount:</TableCell>
-                <TableCell align="right"><Input variant="outlined" sx={{border:(coupon==="FREE500")?"2px solid greenyellow":"2px solid tomato",borderStyle:"none none solid none",justifyContent:"center"}} placeholder='coupon...' endAdornment={(coupon==="FREE500")?<Done style={{color:"green"}}/>:""} value={coupon} onChange={e=>{setCoupon(e.target.value);debounce(e.target.value)}}/></TableCell>
-                <TableCell align="right">{(coupon==="FREE500")?500:0}</TableCell>{console.log(coupon)}
+                <TableCell align="right"><Input variant="outlined" sx={{ border: (coupon === "FREE500") ? "2px solid greenyellow" : "2px solid tomato", borderStyle: "none none solid none", justifyContent: "center" }} placeholder='coupon...' endAdornment={(coupon === "FREE500") ? <Done style={{ color: "green" }} /> : ""} value={coupon} onChange={e => { setCoupon(e.target.value); debounce(e.target.value) }} /></TableCell>
+                <TableCell align="right">{(coupon === "FREE500") ? (data.total <= 500 ? data.total : 500) : 0}</TableCell>{console.log(coupon)}
               </TableRow>
               <TableRow>
                 <TableCell colSpan={2}>Grand Total:</TableCell>
-                <TableCell align="right">{(coupon==="FREE500")?ccyFormat(data.total-500):ccyFormat(data.total)}</TableCell>
+                <TableCell align="right">{(coupon === "FREE500") ? ccyFormat(((data.total <= 500) ? 0 : (data.total - 500))) : ccyFormat(data.total)}</TableCell>
               </TableRow>
             </TableBody>
           </Table>

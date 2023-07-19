@@ -23,7 +23,7 @@ export const StatusButton = ({ id, status }) => {
         {status === draft && <Button  variant="outlined" fullWidth onClick={() => handleStatusChange(enableProduct)}>Send Item for Approval</Button>}
         {status === published && <Button  variant="outlined" fullWidth onClick={() => handleStatusChange(outOfStock)}>Set Out Of Stock</Button>}
         {status === enableProduct && (user === admin ? <Button  variant="outlined" fullWidth onClick={() => handleStatusChange(published)}>Publish The Product</Button> : <h1>Yet To Be Approved</h1>)}
-        {user === admin && <Button  variant="outlined" fullWidth onClick={() => handleStatusChange(disableProduct)}>Decline The Product</Button>}
+        {user === admin && <Button  variant="outlined" fullWidth onClick={() => handleStatusChange(disableProduct)}>Decline Product Approval</Button>}
         {status === outOfStock && <Button  variant="outlined" fullWidth onClick={() => handleStatusChange(published)}>Set Products Being Sold</Button>}
         <Button  variant="outlined" fullWidth sx={{backgroundColor:"tomato",color:"white"}} onClick={deleteProduct}>Delete The Product</Button>
     </>)

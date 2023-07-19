@@ -44,11 +44,9 @@ const Checkout = () => {
           <Box>
             <Stepper activeStep={activeStep}>
               {steps.map((label, index) => {
-                const stepProps = {};
-                const labelProps = {};
                 return (
-                  <Step key={label} {...stepProps}>
-                    <StepLabel {...labelProps}>{label}</StepLabel>
+                  <Step key={label} >
+                    <StepLabel>{label}</StepLabel>
                   </Step>
                 );
               })}
@@ -56,10 +54,11 @@ const Checkout = () => {
             {activeStep === steps.length ? (
               <>
                 <Typography sx={{ mt: 2, mb: 1 }}>
-                  All steps completed - you&apos;re finished
+                  Order Successful
                 </Typography>
                 <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                   <Box sx={{ flex: '1 1 auto' }} />
+                  <Button onClick={()=>navigate("/userorder")}>Check Orders</Button>
                   <Button onClick={handleReturn}>Return Home</Button>
                 </Box>
               </>

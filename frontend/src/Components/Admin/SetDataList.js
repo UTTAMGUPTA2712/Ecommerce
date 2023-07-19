@@ -20,7 +20,7 @@ const SetDataList = ({ setData }) => {
     <>
       <div>
         <List
-          sx={{ margin: "1rem", width: '90%', bgcolor: 'background.paper',boxShadow:" rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;" }}
+          sx={{ margin: "1rem", width: '90%', bgcolor: 'background.paper', boxShadow: " rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;" }}
           component="nav"
           aria-labelledby="nested-list-subheader"
           subheader={
@@ -31,7 +31,7 @@ const SetDataList = ({ setData }) => {
           }
         >
           {listData.map((item, index) => (
-            <ListItemButton onClick={() => setData(index)} key={index}>
+            <ListItemButton  onClick={() => setData(index)} key={index}>
               <ListItemIcon>
                 {item?.icon}
               </ListItemIcon>

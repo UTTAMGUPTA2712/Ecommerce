@@ -17,7 +17,7 @@ import UserProfile from './Components/UserInterface/UserProfile';
 import { admin, shipper, vendor } from './data/constants';
 import SetWebsiteData from './pages/SetWebsiteData';
 import DashBoard from './pages/DashBoard';
-import DraftProduct from './pages/DraftProduct';
+import DraftProduct from './pages/ProductControl';
 import VendorProduct from './pages/VendorProduct';
 
 function App() {
