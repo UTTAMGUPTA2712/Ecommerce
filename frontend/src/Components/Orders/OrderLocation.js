@@ -51,7 +51,7 @@ export default function OrderLocation({ data, id, setStatus }) {
     };
     const handleCancel = async () => {
         const response = await SetOrderStatusService({ id: id, status: cancelOrder })
-        if (response === serverError) {
+        if (response.data === serverError) {
             dispatch(setMessage(serverError))
         } else {
             setActiveStep(-1)

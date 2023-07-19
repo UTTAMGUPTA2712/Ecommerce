@@ -7,6 +7,7 @@ const initialValue={
         category:"",
         upperLimit:999999,
         lowerLimit:0,
+        sorting:""
     },
 }
 export const filterSLice=createSlice({
@@ -29,10 +30,13 @@ export const filterSLice=createSlice({
         setSearch:(state,action)=>{
             state.filter.search=action.payload
         },
+        setSorting:(state,action)=>{
+            state.filter.sorting=action.payload
+        },
         cleanFilter:(state)=>{
-            state.filter={rating:0,search:"",category:"",upperLimit:999999,lowerLimit:0,}
+            state.filter={rating:0,search:"",category:"",upperLimit:999999,lowerLimit:0,sorting:""}
         },
     }
 })
-export const {savefilter,cleanFilter,setCategory,setLimit,setRating,setSearch} = filterSLice.actions
+export const {savefilter,cleanFilter,setCategory,setLimit,setRating,setSearch,setSorting} = filterSLice.actions
 export default filterSLice.reducer

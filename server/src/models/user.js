@@ -41,8 +41,14 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    title: String,
-    photo: String,
+    title: {
+      type:String,
+      required: true,
+    },
+    photo: {
+      type:String,
+      default: "",
+    },
     address: {
       type: [addressSchema],
       default: [],

@@ -10,6 +10,9 @@ import { Button, TextField } from '@mui/material';
 import { GetCategory } from '../../services/Category/GetCategory';
 import { AddCategory } from '../../services/Category/AddCategoryService';
 import { DeleteCategory } from '../../services/Category/DeleteCategory';
+import { serverError } from '../../data/constants';
+import { useDispatch } from 'react-redux';
+import { setMessage } from '../../redux/slice/messageSlice';
 
 const columns = [
     { label: '#', minWidth: 20 },
@@ -19,20 +22,28 @@ const columns = [
 export const SetCategory = () => {
     const [rows, setRows] = useState([])
     const [formdata, setFormdata] = useState("")
+    const dispatch = useDispatch()
     const getData = async () => {
         const response = await GetCategory()
-        setRows(response.data)
+        if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
+            setRows(response.data)
+        }
     }
     const addCategory = async () => {
         const response = await AddCategory({ name: formdata })
-        setRows([...rows, response.data])
-        setFormdata("")
+        if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
+
+            setRows([...rows, response.data])
+            setFormdata("")
+        }
     }
     const deleteCategory = async (id, index) => {
-        await DeleteCategory({ id: id })
-        let arr = [...rows]
-        arr.splice(index, 1)
-        setRows(arr)
+        const response = await DeleteCategory({ id: id })
+        if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
+            let arr = [...rows]
+            arr.splice(index, 1)
+            setRows(arr)
+        }
     }
     console.log("form", formdata);
     useEffect(() => {
@@ -40,7 +51,7 @@ export const SetCategory = () => {
     }, [])
     return (
         <>
-            <TableContainer sx={{ backgroundColor:"white",overflowY: "auto", height: "100%",boxShadow: "rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;" }}>
+            <TableContainer sx={{ backgroundColor: "white", overflowY: "auto", height: "100%", boxShadow: "rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;" }}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>

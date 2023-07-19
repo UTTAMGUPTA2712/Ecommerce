@@ -1,17 +1,18 @@
 import { useDispatch } from "react-redux"
-import { AddItemService } from "../../../services/Product/AddItemService"
-import { addproduct } from "../../../redux/slice/productSlice"
+import { updateProduct } from "../../../redux/slice/productSlice"
 import { Button } from "@mui/material"
 import { setMessage } from "../../../redux/slice/messageSlice"
-import { enableProduct, productAdd, serverError } from "../../../data/constants"
+import { draft,  productAdd, serverError } from "../../../data/constants"
+import { UpdateProductService } from "../../../services/Product/UpdateProductService"
 
-const AddItemButton = ({ data, handleCancel }) => {
+export const UpdateItemButton = ({ data, handleCancel }) => {
     const dispatch = useDispatch()
     const handleSave = async () => {
         if ((data?.image)?.length === 4 && data.name && data.description && data.price) {
             try {
-                const saveItem = await AddItemService({ ...data, status: enableProduct })
-                dispatch(addproduct({ ...data, _id: saveItem.data.insertedId }))
+                const saveItem = await UpdateProductService({ ...data, status: draft })
+                console.log(saveItem);
+                dispatch(updateProduct({ ...data,status: draft}))
                 dispatch(setMessage(productAdd))
                 handleCancel()
             } catch (err) {
@@ -29,9 +30,8 @@ const AddItemButton = ({ data, handleCancel }) => {
     return (
         <>
             <Button onClick={handleSave} autoFocus color="inherit">
-                ADD
+                SAVE
             </Button>
         </>
     )
 }
-export default AddItemButton

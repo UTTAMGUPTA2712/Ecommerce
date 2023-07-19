@@ -4,7 +4,7 @@ import SearchAppBar from '../utils/SearchAppBar'
 import { UserCard } from '../Components/Orders/UserCard'
 import { Box, Button, Skeleton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, ButtonGroup } from '@mui/material'
 import { UpdateUserStatusService } from '../services/User/UpdateUserStatusService'
-import { admin, shipper, userDisabled, userEnabled, userconst, vendor } from '../data/constants'
+import { admin, serverError, shipper, userDisabled, userEnabled, userconst, vendor } from '../data/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { setMessage } from '../redux/slice/messageSlice'
 
@@ -23,9 +23,12 @@ const UserList = () => {
     const currentUser = useSelector(state => state.user.user)
     const dispatch = useDispatch()
     const changeStatus = async (data) => {
-        await UpdateUserStatusService(data)
-        dispatch(setMessage(data ? userDisabled : userEnabled))
-        getuser()
+        const response = await UpdateUserStatusService(data)
+        if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
+
+            dispatch(setMessage(data ? userDisabled : userEnabled))
+            getuser()
+        }
     }
     const getuser = () => {
         let timeout
@@ -33,8 +36,11 @@ const UserList = () => {
         timeout = setTimeout(() => {
             const getusers = async () => {
                 const response = await GetUserList()
-                console.log(response);
-                setUserList(response.data)
+                if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
+
+                    console.log(response);
+                    setUserList(response.data)
+                }
             }
             getusers()
         }, 1000);

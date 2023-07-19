@@ -20,6 +20,13 @@ export const productSLice=createSlice({
                 }
             }
         },
+        updateProduct:(state,action)=>{
+            for(let item in state.product) {
+                if(state.product[item]._id===action.payload._id){
+                    state.product[item]=action.payload
+                }
+            }
+        },
         saveReview:(state,action)=>{
             for(let item in state.product) {
                 if(state.product[item]._id===action.payload.id){
@@ -30,5 +37,5 @@ export const productSLice=createSlice({
         }
     }
 })
-export const {addproduct,setProduct,setProductStatus,saveReview} = productSLice.actions
+export const {addproduct,setProduct,setProductStatus,saveReview,updateProduct} = productSLice.actions
 export default productSLice.reducer

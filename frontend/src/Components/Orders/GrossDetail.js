@@ -31,7 +31,7 @@ export const GrossDetail = () => {
     }, [cart])
     return (
         <>
-            <div id='checkOut'>
+            <div id='gross'>
                 <table>
                     <tr>
                         <td>Total items:</td>
@@ -50,7 +50,7 @@ export const GrossDetail = () => {
                         <td>₹ {data}/-</td>
                     </tr>
                 </table>
-                <Button disabled={data===0} variant='contained' onClick={handleClick} fullWidth>Check Out</Button>
+                <Button sx={{width:"90%"}} disabled={data===0} variant='contained' onClick={handleClick} fullWidth>Check Out</Button>
             </div>
         </>
     )

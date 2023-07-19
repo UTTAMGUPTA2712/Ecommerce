@@ -25,6 +25,7 @@ const AllOrder = () => {
       setOrder(response.data)
     } catch (err) {
       console.log(err);
+      dispatch(setMessage(serverError))
     }
   }
   useEffect(() => {

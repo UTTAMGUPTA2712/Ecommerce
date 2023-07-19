@@ -5,7 +5,8 @@ import { Box, Skeleton } from '@mui/material'
 import { GetItemService } from '../../services/Product/GetItemService'
 import { setProduct } from '../../redux/slice/productSlice'
 import noproduct from "../../assets/Images/noProduct.png"
-import { admin, deletedProduct, published } from '../../data/constants'
+import { admin, deletedProduct, published, serverError } from '../../data/constants'
+import { setMessage } from '../../redux/slice/messageSlice'
 const noData =
     <Box sx={{ width: "15rem", height: "23rem" }}>
         <Skeleton variant="rectangular" width={"15rem"} height={"15rem"} />
@@ -15,51 +16,86 @@ const noData =
             <Skeleton width="100%" height={"3rem"} />
         </Box>
     </Box>
-const ItemList = ({ userdata = "", itemsType = "" }) => {
+const ItemList = ({ userdata = "nouser", itemsType = "notype" }) => {
     const reduxData = useSelector(state => state.product.product)
     const dispatch = useDispatch()
+    const [loading, setLoading] = useState(true)
     const [productLists, setProductLists] = useState(reduxData)
     const user = useSelector(state => state.user.user)
     const filter = useSelector(state => state.filter.filter)
     const cart = useSelector(state => state.cart.cart)
-    const productList = productLists?.filter(product => { return ((itemsType !== "") ? (product?.status === itemsType) : ((product?.sender === deletedProduct) ? "" : ((product?.status === published) ||( (userdata === "") || (product?.sender === userdata?.email))))) })
-    useEffect(() => {
-        let list = reduxData?.filter((product) => (filter?.category === "" || product?.category === filter?.category) && (filter?.search === "" || product?.name?.includes(filter?.search)) && ((product?.price <= filter?.upperLimit) && (filter?.lowerLimit <= product?.price)))
-        switch (filter?.sorting) {
+    // to filter where i am using this component
+    const FilteredData = (listData) => {
+        if(listData){
+        if(userdata!=="nouser"&&itemsType!=="notype"){
+            const data=listData?.filter(product=>(product?.sender === userdata?.email)&&(itemsType === "" || product?.status === itemsType))
+            const neededData=handleFilter(data)
+            return neededData
+        }else if (userdata !== "nouser") {
+            console.log(listData);
+            const data = listData?.filter(product => (product?.status === published) && (product?.sender === userdata?.email))
+            return data
+        } else if (itemsType !== "notype") {
+            const data = listData?.filter(product => itemsType === "" || product?.status === itemsType)
+            return data
+        } else {
+            const data = listData?.filter(product => (product?.sender !== deletedProduct) && (product?.status === published))
+            const neededData = handleFilter(data)
+            return neededData
+        }}
+    }
+    // to handle filter
+    const handleFilter = (data) => {
+        console.log("work");
+        let list = data?.filter((product) => (filter?.category === "" || product?.category === filter?.category) && (filter?.search === "" || product?.name?.includes(filter?.search)) && ((product?.price <= filter?.upperLimit) && (filter?.lowerLimit <= product?.price)&&(filter?.rating<=product?.rate||product?.rate===0)))
+        switch (filter.sorting) {
             case "price":
-                list = list.sort((a, b) => a.price > b.price)
+                list.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
                 break;
             case "priceRev":
-                list = list.sort((a, b) => a.price < b.price)
+                list.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
                 break;
             case "latest":
-                list = list.sort((a, b) => a.createdAt > b.createdAt)
+                list.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
                 break;
             case "latestRev":
-                list = list.sort((a, b) => a.createdAt < b.createdAt)
+                list.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
                 break;
             case "bestSeller":
-                list = list.sort((a, b) => a.count < b.count)
+                list.sort((a, b) => b.purchaseCount - a.purchaseCount);
+                break;
+            default:
                 break;
         }
-        setProductLists(list)
-    }, [filter])
+        return list;
+    }
+    // to filter data everytime the filter changes
     useEffect(() => {
+        const list = FilteredData(reduxData ?? [])
+        setProductLists(list)
+    }, [filter,userdata,itemsType])
+    // set latest data in redux
+    useEffect(() => {
+        if(loading){
+        setLoading(true)
         const getProducts = async () => {
             const response = await GetItemService()
-            setProductLists(response.data)
-            dispatch(setProduct(response.data))
+            if(response.data===serverError){
+                dispatch(setMessage(serverError))
+            }else{
+            const list = FilteredData(response.data ?? [])
+            setProductLists(list)
+            dispatch(setProduct(response.data))}
         }
         getProducts()
+        setLoading(false)}
     }, [])
 
     return (
         <>
             <div id='itemList'>
-                {productList?.length === 0 ?
-                    <div className='centerimage' style={{ backgroundImage: `url('${noproduct}')` }} />
-                    :
-                    !productLists ?
+                {
+                    loading ?
                         <>
                             {Array(8).fill().map((_, index) => (
                                 <React.Fragment key={index}>
@@ -68,9 +104,13 @@ const ItemList = ({ userdata = "", itemsType = "" }) => {
                             ))}
                         </>
                         :
-                        productList?.map((product) => {
-                            return <ItemCard data={product} value={cart?.[product?._id]?.value} />
-                        })
+                        (productLists?.length === 0 ?
+                            <div className='centerimage' style={{ backgroundImage: `url('${noproduct}')` }} />
+                            :
+                            productLists?.map((product) => {
+                                return <ItemCard data={product} value={cart?.[product?._id]?.value} />
+                            })
+                        )
                 }
             </div>
         </>

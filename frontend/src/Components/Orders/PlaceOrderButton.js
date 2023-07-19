@@ -5,13 +5,13 @@ import { PlaceOrderService } from '../../services/Order/PlaceOrderService';
 import { addOrder } from '../../redux/slice/authSlice';
 import { cleancart } from '../../redux/slice/cartSlice';
 import { setMessage } from '../../redux/slice/messageSlice';
-import { orderPlaced } from '../../data/constants';
+import { orderPlaced, server, serverError } from '../../data/constants';
 
 const PlaceOrderButton = ({ handleNext }) => {
     const dispatch = useDispatch()
     const user = useSelector(state => state.user)
     const cart = useSelector(state => state.cart.cart)
-    const coupon=useSelector(state => state.cart.coupon)
+    const coupon = useSelector(state => state.cart.coupon)
     console.log(user);
     const [order, setOrder] = useState({})
     const [data, setdata] = useState(0)
@@ -40,15 +40,16 @@ const PlaceOrderButton = ({ handleNext }) => {
             dispatch(setMessage({ message: "Cannot place a empty order", severity: "error" }))
         } else {
             const response = await PlaceOrderService(order);
-            console.log(response)
-            dispatch(addOrder(response.data))
-            dispatch(cleancart());
-            dispatch(setMessage(orderPlaced));
-            handleNext();
+            if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
+                dispatch(addOrder(response.data))
+                dispatch(cleancart());
+                dispatch(setMessage(orderPlaced));
+                handleNext();
+            }
         }
     }
     return (
-        <Button onClick={handlePlaceOrder}>Place Order</Button>
+        <Button variant='contained' color='success' onClick={handlePlaceOrder}>Place Order</Button>
     )
 }
 

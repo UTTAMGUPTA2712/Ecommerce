@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import ItemList from '../Components/UserInterface/ItemList'
-import { draft, enableProduct, outOfStock, published } from '../data/constants'
+import { disableProduct, draft, enableProduct, outOfStock, published } from '../data/constants'
 import SearchAppBar from '../utils/SearchAppBar'
 import { List, ListItemButton, ListSubheader, ListItemIcon, ListItemText } from '@mui/material'
-import { AssignmentTurnedIn, DensitySmall, Drafts, HourglassTop, ProductionQuantityLimits } from '@mui/icons-material'
+import { AssignmentTurnedIn, CreditCardOff, DensitySmall, Drafts, HourglassTop, ProductionQuantityLimits } from '@mui/icons-material'
 
 const listData = [
     {
@@ -15,6 +15,11 @@ const listData = [
         label: "PRODUCT SENT FOR APPROVAL",
         value: enableProduct,
         icon: <HourglassTop/>
+    },
+    {
+        label: "DISABLED PRODUCT",
+        value: disableProduct,
+        icon: <CreditCardOff/>
     },
     {
         label: "APPROVED PRODUCT",
@@ -32,7 +37,7 @@ const listData = [
         icon: <ProductionQuantityLimits/>
     },
 ]
-const DraftProduct = () => {
+const DraftProduct = (data="") => {
     const [filter, setFilter] = useState("")
     return (
         <>
@@ -53,6 +58,7 @@ const DraftProduct = () => {
                             <ListItemText primary={item?.label} />
                         </ListItemButton>
                     ))}
+                    
                 </List>
                 <ItemList itemsType={filter} />
             </div>

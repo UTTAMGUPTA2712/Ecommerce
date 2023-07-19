@@ -17,7 +17,8 @@ export const RatingComponent = ({ data }) => {
         } else {
             const rating = (((+data?.rate) * (+data?.review?.length)) + (+value)) / ((+data?.review?.length) + 1);
             console.log(value, (+data?.rate), rating, (((+data?.rate) * (+data?.review?.length)) + +value), (+data?.review?.length));
-            await ReviewProductService({ id: data?._id, review: { rate: +value, review: review }, rate: rating })
+            const response= ReviewProductService({ id: data?._id, review: { rate: +value, review: review }, rate: rating })
+            
             dispatch(setMessage({ message: "Rated Successfully", severity: "success" }))
             dispatch(saveReview({ id: data?._id, rate: rating, review: { rate: +value, review: review } }))
             setReview("")

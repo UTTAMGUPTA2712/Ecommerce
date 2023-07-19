@@ -72,8 +72,8 @@ function App() {
   ]
   const vendorRouter = [
     {
-      path: "/order",
-      component: ""
+      path: "/allorder",
+      component: <AllOrder />,
     },
     {
       path: "/vendorproduct",
@@ -103,14 +103,9 @@ function App() {
     }
   ]
   const shipmentRouter = [
-
     {
       path: "/allorder",
       component: <AllOrder />,
-    },
-    {
-      path: "/currentParcels",
-      component: ""
     },
   ]
   return (

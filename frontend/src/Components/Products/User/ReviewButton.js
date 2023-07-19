@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import { ReviewProductService } from '../../../services/Product/ReviewProductService'
 import { setMessage } from '../../../redux/slice/messageSlice'
 import { saveReview } from '../../../redux/slice/productSlice'
+import { serverError } from '../../../data/constants'
 export const ReviewButton = ({rate,size, id }) => {
     const [value, setValue] = useState(0)
     const [review, setReview] = useState("")
@@ -15,11 +16,12 @@ export const ReviewButton = ({rate,size, id }) => {
         } else {
             const rating=((rate*size)+value)/(size+1);
             console.log(rating,rate,size);
-            await ReviewProductService({ id: id, review:{rate: value, review: review},rate:rating })
+            const response=await ReviewProductService({ id: id, review:{rate: value, review: review},rate:rating })
+            if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
             dispatch(setMessage({ message: "Rated Successfully", severity: "success" }))
             dispatch(saveReview({id: id,rating:rating, review: {rate: value, review:review} }))
             setReview("")
-            setValue(0)
+            setValue(0)}
         }
     }
     return (
