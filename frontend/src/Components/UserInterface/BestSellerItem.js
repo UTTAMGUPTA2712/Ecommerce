@@ -30,7 +30,7 @@ const BestSellerItem = () => {
     }, [])
     return (
         <>
-            <div id='bestseller' style={{ padding: "1rem", display: "-webkit-box", overflow: "auto hidden", width: "100%-2rem", flexWrap: "nowrap", boxShadow: "rgba(0, 0, 0, 0.56) 0px 12px 30px 1px inset" }}>
+            <div id='bestseller' style={{ backgroundColor:"#f0f0f0",padding: "1rem", display: "-webkit-box", overflow: "auto hidden", width: "100%-2rem", flexWrap: "nowrap", boxShadow: "rgba(0, 0, 0, 0.56) 0px 12px 30px 1px inset" }}>
                 <Card sx={{ maxWidth: 345 }}>
                     <CardActionArea>
                         <CardMedia
@@ -53,7 +53,6 @@ const BestSellerItem = () => {
                     </CardActions>
                 </Card>
                 {
-
                     products.map(product => (
                         <ItemCard data={product} value={cart?.[product?._id]?.value} />
                     ))

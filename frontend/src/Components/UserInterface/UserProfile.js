@@ -91,7 +91,7 @@ const UserProfile = ({ data }) => {
                     <div id='grid'>
                         <div id='detail'>
                             {(edit) ? <Avatar sx={{ bgcolor: "#2196f3", fontSize: "10rem", height: "14rem", width: "14rem" }} src={data?.photo} >{(data?.name?.[0])?.toUpperCase()}</Avatar>
-                                : <UploadImage changeImage={changeImage} count={1} />
+                                : <div style={{}}><UploadImage changeImage={changeImage} count={1} /></div>
                             }
                             {(edit) ?
                                 <div style={{ fontSize: "2rem" }}>
@@ -107,8 +107,8 @@ const UserProfile = ({ data }) => {
                                     <br /><br />
                                     <TextField fullWidth onChange={(e) => setPassword(e.target.value)} value={password} label="EDIT PASSWORD" variant='outlined' />
                                 </span>}
-                            {(data.email === user?.email || user?.title === admin) && (edit) ? <Button fullWidth variant='contained' sx={{ bgcolor: "grey", gridColumn: "1/SPAN 2" }} onClick={() => setEdit(false)}>ADD/UPDATE DELIVERY ADDRESS</Button> :
-                                <><Button fullWidth variant='contained' sx={{ bgcolor: "grey" }} onClick={handleCancel}>CANCEL</Button><Button fullWidth variant='contained' sx={{ bgcolor: "grey" }} onClick={savedata}>SAVE</Button></>}
+                            {(data.email === user?.email || user?.title === admin) && (edit) ? <Button fullWidth variant='contained' color='secondary' sx={{gridColumn: "1/SPAN 2" }} onClick={() => setEdit(false)}>ADD/UPDATE DELIVERY ADDRESS</Button> :
+                                <><Button fullWidth variant='contained' sx={{ bgcolor: "tomato" }} onClick={handleCancel}>CANCEL</Button><Button fullWidth variant='contained' sx={{ bgcolor: "green" }} onClick={savedata}>SAVE</Button></>}
                         </div>
                         <div id='addressdiv'>
                             <h1 style={{

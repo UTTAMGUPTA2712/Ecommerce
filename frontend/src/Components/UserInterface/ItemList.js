@@ -26,28 +26,28 @@ const ItemList = ({ userdata = "nouser", itemsType = "notype" }) => {
     const cart = useSelector(state => state.cart.cart)
     // to filter where i am using this component
     const FilteredData = (listData) => {
-        if(listData){
-        if(userdata!=="nouser"&&itemsType!=="notype"){
-            const data=listData?.filter(product=>(product?.sender === userdata?.email)&&(itemsType === "" || product?.status === itemsType))
-            const neededData=handleFilter(data)
-            return neededData
-        }else if (userdata !== "nouser") {
-            console.log(listData);
-            const data = listData?.filter(product => (product?.status === published) && (product?.sender === userdata?.email))
-            return data
-        } else if (itemsType !== "notype") {
-            const data = listData?.filter(product => itemsType === "" || product?.status === itemsType)
-            return data
-        } else {
-            const data = listData?.filter(product => (product?.sender !== deletedProduct) && (product?.status === published))
-            const neededData = handleFilter(data)
-            return neededData
-        }}
+        if (listData) {
+            if (userdata !== "nouser" && itemsType !== "notype") {
+                const data = listData?.filter(product => (product?.sender === userdata?.email) && (itemsType === "" || product?.status === itemsType))
+                const neededData = handleFilter(data)
+                return neededData
+            } else if (userdata !== "nouser") {
+                console.log(listData);
+                const data = listData?.filter(product => (product?.status === published) && (product?.sender === userdata?.email))
+                return data
+            } else if (itemsType !== "notype") {
+                const data = listData?.filter(product => itemsType === "" || product?.status === itemsType)
+                return data
+            } else {
+                const data = listData?.filter(product => (product?.sender !== deletedProduct) && (product?.status === published))
+                const neededData = handleFilter(data)
+                return neededData
+            }
+        }
     }
     // to handle filter
     const handleFilter = (data) => {
-        console.log("work");
-        let list = data?.filter((product) => (filter?.category === "" || product?.category === filter?.category) && (filter?.search === "" || product?.name?.includes(filter?.search)) && ((product?.price <= filter?.upperLimit) && (filter?.lowerLimit <= product?.price)&&(filter?.rating<=product?.rate||product?.rate===0)))
+        let list = data?.filter((product) => (filter?.category === "" || product?.category === filter?.category) && (filter?.search === "" || product?.name?.includes(filter?.search)) && ((product?.price <= filter?.upperLimit) && (filter?.lowerLimit <= product?.price) && (filter?.rating <= product?.rate || product?.rate === 0)))
         switch (filter.sorting) {
             case "price":
                 list.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
@@ -73,22 +73,25 @@ const ItemList = ({ userdata = "nouser", itemsType = "notype" }) => {
     useEffect(() => {
         const list = FilteredData(reduxData ?? [])
         setProductLists(list)
-    }, [filter,userdata,itemsType])
+    }, [filter, userdata, itemsType])
     // set latest data in redux
     useEffect(() => {
-        if(loading){
-        setLoading(true)
-        const getProducts = async () => {
-            const response = await GetItemService()
-            if(response.data===serverError){
-                dispatch(setMessage(serverError))
-            }else{
-            const list = FilteredData(response.data ?? [])
-            setProductLists(list)
-            dispatch(setProduct(response.data))}
+        if (loading) {
+            setLoading(true)
+            const getProducts = async () => {
+                const response = await GetItemService()
+                if (response.data === serverError) {
+                    dispatch(setMessage(serverError))
+                } else {
+                    const list = FilteredData(response.data ?? [])
+                    setProductLists(list)
+                    dispatch(setProduct(response.data))
+                }
+            }
+            getProducts()
+            setLoading(false)
+            // if()
         }
-        getProducts()
-        setLoading(false)}
     }, [])
 
     return (

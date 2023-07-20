@@ -26,7 +26,6 @@ const DrawerComponent = () => {
             icon: <Home />,
             component: <ListItemText onClick={() => navigate("/home")} primary="HOME" />
         },
-
         {
             icon: <ShoppingCart />,
             component: <ListItemText onClick={() => navigate("/cart")} primary="CART" />

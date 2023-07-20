@@ -32,6 +32,7 @@ export const authSLice = createSlice({
         },
         logoutUser: (state) => {
             state.user = null
+            state.address = null
         },
     }
 })

@@ -31,7 +31,7 @@ const SearchAppBar = (props) => {
   const [count, setCount] = useState(0)
   useEffect(() => {
     let sum = 0;
-    Object.keys(cart).forEach(key => { sum += cart[key]?.value })
+    Object?.keys(cart??{})?.forEach(key => { sum += cart[key]?.value })
     setCount(sum)
   }, [cart])
   const { classes } = props;
