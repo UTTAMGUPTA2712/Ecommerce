@@ -8,15 +8,15 @@ import { serverError } from '../data/constants'
 const UserOrder = () => {
   const user = useSelector(state => state.user.user)
   const [orders, setOrder] = useState([])
-  const dispatch=useDispatch()
+  const dispatch = useDispatch()
   const getOrders = async () => {
     try {
       const response = await GetUserOrdersService(user?.orders)
       setOrder(response.data)
     } catch (err) {
       console.log("err", err);
-       dispatch(setMessage(serverError)) 
-      
+      dispatch(setMessage(serverError))
+
     }
   }
   useEffect(() => {

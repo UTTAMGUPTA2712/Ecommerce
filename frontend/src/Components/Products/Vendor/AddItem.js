@@ -26,7 +26,7 @@ const AddItems = ({ itemData }) => {
     const user = useSelector(state => state.user.user?.email)
     const [category, setCategory] = useState([]);
     const [data, setData] = useState(itemData || { sender: user })
-    const dispatch=useDispatch()
+    const dispatch = useDispatch()
     const changeData = (title, value) => {
         setData(p => ({ ...p, [title]: value }));
     }

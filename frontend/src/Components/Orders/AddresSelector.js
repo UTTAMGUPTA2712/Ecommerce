@@ -101,7 +101,7 @@ export const AddressSelector = () => {
         <List component="div" role="group">
             <ListItem
                 divider
-                sx={{backgroundColor:"#f0f0f0",width:"15rem",textAlign:"center"}} 
+                sx={{ backgroundColor: "#f0f0f0", width: "15rem", textAlign: "center" }}
                 aria-haspopup="true"
                 aria-controls="ringtone-menu"
                 aria-label="Address"

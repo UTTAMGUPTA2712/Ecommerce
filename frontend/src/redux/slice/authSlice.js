@@ -18,7 +18,7 @@ export const authSLice = createSlice({
         },
         saveAddress: (state, action) => {
             state.user.address = action.payload
-            state.address=action.payload[0]
+            state.address = action.payload[0]
         },
         addOrder: (state, action) => {
             if (state.user.orders) {

@@ -17,8 +17,8 @@ export const RatingComponent = ({ data }) => {
         } else {
             const rating = (((+data?.rate) * (+data?.review?.length)) + (+value)) / ((+data?.review?.length) + 1);
             console.log(value, (+data?.rate), rating, (((+data?.rate) * (+data?.review?.length)) + +value), (+data?.review?.length));
-            const response= ReviewProductService({ id: data?._id, review: { rate: +value, review: review }, rate: rating })
-            
+            const response = ReviewProductService({ id: data?._id, review: { rate: +value, review: review }, rate: rating })
+
             dispatch(setMessage({ message: "Rated Successfully", severity: "success" }))
             dispatch(saveReview({ id: data?._id, rate: rating, review: { rate: +value, review: review } }))
             setReview("")
@@ -32,7 +32,7 @@ export const RatingComponent = ({ data }) => {
                 <Rating size="large" onChange={e => setValue(e.target.value)} value={value} />
                 <IconButton style={{ backgroundColor: "#2196f350" }} onClick={SaveReview}><Done /></IconButton>
             </div>
-            <div style={{maxHeight:"25rem",overflow: "hidden auto"}}>
+            <div style={{ maxHeight: "25rem", overflow: "hidden auto" }}>
                 {
                     data?.review?.map(rating => (
                         <>

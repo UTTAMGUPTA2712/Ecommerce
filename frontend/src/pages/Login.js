@@ -61,11 +61,11 @@ const Login = () => {
                   Create A New Account
                 </span>
               </h4>
-              <br/>
-              <TextField id="outlined-basic" style={{ backgroundColor: "#323644" ,color:"white" }} defaultValue={user} onChange={(e) => setuser(e.target.value)} label="Phone Number/Email" variant="outlined" />
-              <TextField type='password' id="outlined-basic" style={{ backgroundColor: "#323644" ,color:"white" }} defaultValue={password} onChange={(e) => setpassword(e.target.value)} label="Password" variant="outlined" />
-              <Button color="secondary" style={{ backgroundColor: "#1e90f5" ,color:"white" }} disabled={!(user && password)} onClick={handleManualLogin} size="large" variant="outlined">Login</Button>
-              <Button color="secondary" style={{ backgroundColor: "white" ,color:"#1e90f5" }} disabled={false} size="large" onClick={googleLogin} variant="outlined">Login With Google</Button>
+              <br />
+              <TextField id="outlined-basic" style={{ backgroundColor: "#323644", color: "white" }} defaultValue={user} onChange={(e) => setuser(e.target.value)} label="Phone Number/Email" variant="outlined" />
+              <TextField type='password' id="outlined-basic" style={{ backgroundColor: "#323644", color: "white" }} defaultValue={password} onChange={(e) => setpassword(e.target.value)} label="Password" variant="outlined" />
+              <Button color="secondary" style={{ backgroundColor: "#1e90f5", color: "white" }} disabled={!(user && password)} onClick={handleManualLogin} size="large" variant="outlined">Login</Button>
+              <Button color="secondary" style={{ backgroundColor: "white", color: "#1e90f5" }} disabled={false} size="large" onClick={googleLogin} variant="outlined">Login With Google</Button>
             </div>
           </div>
         </div>

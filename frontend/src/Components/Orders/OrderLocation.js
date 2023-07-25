@@ -86,7 +86,7 @@ export default function OrderLocation({ data, id, setStatus }) {
             {console.log(data)}
             {(activeStep === steps.length || activeStep === -1) && (
                 <Paper square elevation={0} sx={{ p: 3, bgcolor: "#00000000" }}>
-                    { activeStep === -1 ? <Typography>{cancelOrder}</Typography> : <Typography>Order Successfully Recieved</Typography>}
+                    {activeStep === -1 ? <Typography>{cancelOrder}</Typography> : <Typography>Order Successfully Recieved</Typography>}
                 </Paper>
             )}
         </Box>

@@ -55,14 +55,14 @@ const Checkout = () => {
             </Stepper>
             {activeStep === steps.length ? (
               <>
-                <Box sx={{width: "100%",backgroundColor:"white",height:"25rem",borderRadius:"20px",display:"flex",justifyContent:"center",alignItems:"center",marginTop:"1rem"}}>
+                <Box sx={{ width: "100%", backgroundColor: "white", height: "25rem", borderRadius: "20px", display: "flex", justifyContent: "center", alignItems: "center", marginTop: "1rem" }}>
                   <Typography variant='h1' sx={{ mt: 2, mb: 1 }}>
-                   <IconButton sx={{backgroundColor:"greenyellow"}}>< Done sx={{fontSize:"4rem"}}/></IconButton> Order Successful
+                    <IconButton sx={{ backgroundColor: "greenyellow" }}>< Done sx={{ fontSize: "4rem" }} /></IconButton> Order Successful
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                   <Box sx={{ flex: '1 1 auto' }} />
-                  <Button sx={{marginRight:"1rem"}} variant='contained' color='success' onClick={() => navigate("/userorder")}>Check Orders</Button>
+                  <Button sx={{ marginRight: "1rem" }} variant='contained' color='success' onClick={() => navigate("/userorder")}>Check Orders</Button>
                   <Button variant='contained' color='success' onClick={handleReturn}>Return Home</Button>
                 </Box>
               </>

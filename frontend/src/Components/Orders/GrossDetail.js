@@ -9,11 +9,11 @@ export const GrossDetail = () => {
     const cart = useSelector(state => state.cart.cart)
     const [data, setdata] = useState(0)
     const navigate = useNavigate()
-    const dispatch=useDispatch()
+    const dispatch = useDispatch()
     const address = useSelector(state => state.user.address)
     const handleClick = () => {
         if (address === undefined) {
-            navigate("/profile",{state:"goback"})
+            navigate("/profile", { state: "goback" })
             dispatch(setMessage(saveAnAddress))
         } else {
             navigate("/checkout")
@@ -35,7 +35,7 @@ export const GrossDetail = () => {
                 <table>
                     <tr>
                         <td>Total items:</td>
-                        <td>{cart?.length??0}</td>
+                        <td>{cart?.length ?? 0}</td>
                     </tr>
                     <tr>
                         <td>Gross Amount:</td>
@@ -50,7 +50,7 @@ export const GrossDetail = () => {
                         <td>₹ {data}/-</td>
                     </tr>
                 </table>
-                <Button sx={{width:"90%"}} disabled={data===0} variant='contained' onClick={handleClick} fullWidth>Check Out</Button>
+                <Button sx={{ width: "90%" }} disabled={data === 0} variant='contained' onClick={handleClick} fullWidth>Check Out</Button>
             </div>
         </>
     )

@@ -70,8 +70,8 @@ const UserProfile = ({ data }) => {
         let sendingData = { ...data, address: dataAddress, name: username, password: password, photo: image }
         dispatch(saveUser(sendingData))
         setTimeout(async () => {
-            const response=await EditUserProfileService(sendingData)
-            if (response.data === serverError) { dispatch(setMessage(serverError)) } 
+            const response = await EditUserProfileService(sendingData)
+            if (response.data === serverError) { dispatch(setMessage(serverError)) }
         }, 1000)
         dispatch(setMessage({ message: "Saved Update", severity: "success" }))
         if (location.state === "goback") {
@@ -107,7 +107,7 @@ const UserProfile = ({ data }) => {
                                     <br /><br />
                                     <TextField fullWidth onChange={(e) => setPassword(e.target.value)} value={password} label="EDIT PASSWORD" variant='outlined' />
                                 </span>}
-                            {(data.email === user?.email || user?.title === admin) && (edit) ? <Button fullWidth variant='contained' color='secondary' sx={{gridColumn: "1/SPAN 2" }} onClick={() => setEdit(false)}>ADD/UPDATE DELIVERY ADDRESS</Button> :
+                            {(data.email === user?.email || user?.title === admin) && (edit) ? <Button fullWidth variant='contained' color='secondary' sx={{ gridColumn: "1/SPAN 2" }} onClick={() => setEdit(false)}>ADD/UPDATE DELIVERY ADDRESS</Button> :
                                 <><Button fullWidth variant='contained' sx={{ bgcolor: "tomato" }} onClick={handleCancel}>CANCEL</Button><Button fullWidth variant='contained' sx={{ bgcolor: "green" }} onClick={savedata}>SAVE</Button></>}
                         </div>
                         <div id='addressdiv'>

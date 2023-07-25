@@ -9,56 +9,56 @@ const listData = [
     {
         label: "ALL",
         value: "",
-        icon: <DensitySmall/>
+        icon: <DensitySmall />
     },
     {
         label: "PRODUCT SENT FOR APPROVAL",
         value: enableProduct,
-        icon: <HourglassTop/>
+        icon: <HourglassTop />
     },
     {
         label: "DISABLED PRODUCT",
         value: disableProduct,
-        icon: <CreditCardOff/>
+        icon: <CreditCardOff />
     },
     {
         label: "APPROVED PRODUCT",
         value: published,
-        icon:<AssignmentTurnedIn/>
+        icon: <AssignmentTurnedIn />
     },
     {
         label: "PRODUCTS IN DRAFT",
         value: draft,
-        icon: <Drafts/>
+        icon: <Drafts />
     },
     {
         label: "PRODUCT OUT OF STOCK",
         value: outOfStock,
-        icon: <ProductionQuantityLimits/>
+        icon: <ProductionQuantityLimits />
     },
 ]
-const DraftProduct = (data="") => {
+const DraftProduct = (data = "") => {
     const [filter, setFilter] = useState("")
     return (
         <>
             <div id='homepage'>
                 <SearchAppBar />
                 <List
-                sx={{padding:"1rem",boxShadow:" rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;"}}
-                subheader={
-                    <ListSubheader>
-                        Filter Products
-                    </ListSubheader>
-                }>
+                    sx={{ padding: "1rem", boxShadow: " rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;" }}
+                    subheader={
+                        <ListSubheader>
+                            Filter Products
+                        </ListSubheader>
+                    }>
                     {listData.map((item, index) => (
-                        <ListItemButton sx={{backgroundColor:filter===item.value?"#42424230":""}} onClick={() => setFilter(item.value)} key={index}>
+                        <ListItemButton sx={{ backgroundColor: filter === item.value ? "#42424230" : "" }} onClick={() => setFilter(item.value)} key={index}>
                             <ListItemIcon>
                                 {item?.icon}
                             </ListItemIcon>
                             <ListItemText primary={item?.label} />
                         </ListItemButton>
                     ))}
-                    
+
                 </List>
                 <ItemList itemsType={filter} />
             </div>

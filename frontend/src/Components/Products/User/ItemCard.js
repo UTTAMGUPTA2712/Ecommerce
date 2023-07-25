@@ -25,7 +25,7 @@ export const ItemCard = ({ data, value }) => {
                         <Typography variant="subtitle2" color="text.secondary">
                             ₹ {data?.price}/-
                         </Typography>
-                        {data?.rate===0?<Typography variant="subtitle2" color="text.secondary">no rating</Typography>:<Rating size='small' value={data?.rate} readOnly/>}
+                        {data?.rate === 0 ? <Typography variant="subtitle2" color="text.secondary">no rating</Typography> : <Rating size='small' value={data?.rate} readOnly />}
                     </CardContent>
                 </CardActionArea>
                 <CardActions>

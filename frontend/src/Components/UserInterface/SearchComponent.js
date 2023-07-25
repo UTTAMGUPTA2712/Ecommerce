@@ -28,14 +28,14 @@ const styles = theme => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        zIndex:2,
+        zIndex: 2,
     },
     inputRoot: {
         color: '#000000 !important',
-        backgroundColor:"#4dabf570",
-        borderRadius:"5px",
+        backgroundColor: "#4dabf570",
+        borderRadius: "5px",
         width: '100%',
-        height:"3em"
+        height: "3em"
     },
     inputInput: {
         paddingTop: theme.spacing.unit,
@@ -53,12 +53,12 @@ const styles = theme => ({
     },
 });
 const SearchComponent = (props) => {
-    const [search,savesearch]=useState()
-    const dispatch=useDispatch()
-    const debounse=(e)=>{
+    const [search, savesearch] = useState()
+    const dispatch = useDispatch()
+    const debounse = (e) => {
         let timer
         clearTimeout(timer)
-        timer=setTimeout(() => {
+        timer = setTimeout(() => {
             dispatch(setSearch(e))
         }, 500);
     }
@@ -67,7 +67,7 @@ const SearchComponent = (props) => {
         <>
             <div className={classes.search}>
                 <div className={classes.searchIcon}>
-                    <Search sx={{color:"black "}}/>
+                    <Search sx={{ color: "black " }} />
                 </div>
                 <InputBase
                     placeholder="Search…"
@@ -75,7 +75,7 @@ const SearchComponent = (props) => {
                         root: classes.inputRoot,
                         input: classes.inputInput,
                     }}
-                    onChange={(e)=>debounse(e.target.value)}
+                    onChange={(e) => debounse(e.target.value)}
                 />
             </div>
         </>

@@ -30,8 +30,8 @@ export const CartItemCard = ({ data, value }) => {
                     </div>
                     <div className='data'>
                         <span>
-                        <Typography variant='h6'>Seller Detail</Typography>
-                        <Typography variant=''>{data?.sender}</Typography>
+                            <Typography variant='h6'>Seller Detail</Typography>
+                            <Typography variant=''>{data?.sender}</Typography>
                         </span>
                         <Button variant='error' onClick={handleRemoveItem}>Remove</Button>
                     </div>

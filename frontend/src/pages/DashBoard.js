@@ -9,6 +9,7 @@ import { setCategory } from '../redux/slice/filterSlice'
 import { serverError } from '../data/constants'
 import { setMessage } from '../redux/slice/messageSlice'
 import banner from "../assets/Images/banner.png"
+import Cf from './cf'
 const DashBoard = () => {
     const [carousal, setCarousal] = useState([])
     const dispatch = useDispatch()
@@ -30,6 +31,7 @@ const DashBoard = () => {
         dispatch(setCategory(value))
         navigate("/home")
     }
+    
     return (
         <>
             <div id='dashboard' style={{ left: -50 }}>

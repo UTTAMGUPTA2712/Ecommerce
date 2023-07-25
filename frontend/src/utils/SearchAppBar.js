@@ -31,7 +31,7 @@ const SearchAppBar = (props) => {
   const [count, setCount] = useState(0)
   useEffect(() => {
     let sum = 0;
-    Object?.keys(cart??{})?.forEach(key => { sum += cart[key]?.value })
+    Object?.keys(cart ?? {})?.forEach(key => { sum += cart[key]?.value })
     setCount(sum)
   }, [cart])
   const { classes } = props;
@@ -44,7 +44,7 @@ const SearchAppBar = (props) => {
             E-Commerce
           </Typography>
           <div className={classes.grow} />
-          {(location.pathname === "/home"||location.pathname === "/vendorproduct") && <SearchComponent />}
+          {(location.pathname === "/home" || location.pathname === "/vendorproduct") && <SearchComponent />}
           <Button sx={{ margin: "0 3px" }} variant='outlined' size='large' onClick={() => navigate("/userorder")} startIcon={<ShoppingBag sx={{ color: "black", fontSize: "2rem" }} />}>
             Orders
           </Button>

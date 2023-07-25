@@ -31,7 +31,7 @@ const SetDataList = ({ setData }) => {
           }
         >
           {listData.map((item, index) => (
-            <ListItemButton  onClick={() => setData(index)} key={index}>
+            <ListItemButton onClick={() => setData(index)} key={index}>
               <ListItemIcon>
                 {item?.icon}
               </ListItemIcon>
