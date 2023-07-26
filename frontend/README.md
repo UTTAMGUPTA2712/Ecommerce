@@ -8,7 +8,7 @@ In the project directory, you can run:
 
 ### `npm install --legacy-peer-deps`
 
-Use this if trying to install dependency 
+Use this if trying to install dependency.\
 Add Enviounmental variable accordingly for Firebase, Server Host, Port, Mongo String
 
 ### `npm start`
