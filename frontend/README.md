@@ -6,6 +6,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+### `npm install --legacy-peer-deps`
+
+Use this if trying to install dependency 
+Add Enviounmental variable accordingly for Firebase And Server Host
+
 ### `npm start`
 
 Runs the app in the development mode.\
