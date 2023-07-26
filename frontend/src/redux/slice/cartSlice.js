@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit"
 
 const initialValue = {
     cart: {},
-    coupon:"",
+    coupon: "",
 }
 export const cartSLice = createSlice({
     name: "cart",
@@ -18,13 +18,16 @@ export const cartSLice = createSlice({
         cleancart: (state) => {
             state.cart = {}
         },
-        saveCoupon:(state,action) => {
+        saveCoupon: (state, action) => {
             state.coupon = action.payload
         },
         removeItem: (state, action) => {
             delete state.cart[action.payload]
         },
-    }
+        setCart: (state, action) => {
+            state.cart = action.payload ?? {}
+        }
+    },
 })
-export const { savecart, cleancart, removeItem ,saveCoupon} = cartSLice.actions
+export const { savecart, cleancart, removeItem, saveCoupon, setCart } = cartSLice.actions
 export default cartSLice.reducer

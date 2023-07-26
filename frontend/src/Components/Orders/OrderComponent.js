@@ -1,9 +1,9 @@
 import React from 'react'
-import SearchAppBar from '../../utils/SearchAppBar'
+import SearchAppBar from '../UserInterface/SearchAppBar'
 import OrderLocation from './OrderLocation'
 import OrderDetail from './OrderDetail'
 import noorderpic from "../../assets/Images/noOrder.png"
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Avatar } from '@mui/material'
+import { Paper, Table, TableBody, TableCell, TableContainer, TableRow, Avatar } from '@mui/material'
 
 const OrderComponent = ({ orders, setStatus = "user" }) => {
     return (
@@ -21,7 +21,7 @@ const OrderComponent = ({ orders, setStatus = "user" }) => {
                                                 <TableBody>
                                                     <TableRow hover>
                                                         <TableCell align="left">
-                                                            <Avatar sx={{ height: "5rem", width: "5rem", fontSize: "3rem", margin: "1rem",bgcolor:"#00b0ff" }} src={order?.photo}>{order?.name?.[0].toUpperCase()}</Avatar>
+                                                            <Avatar sx={{ height: "5rem", width: "5rem", fontSize: "3rem", margin: "1rem", bgcolor: "#00b0ff" }} src={order?.photo}>{order?.name?.[0].toUpperCase()}</Avatar>
                                                         </TableCell>
                                                         <TableCell align="center">
                                                             <span style={{ cursor: "pointer" }}>
@@ -43,7 +43,7 @@ const OrderComponent = ({ orders, setStatus = "user" }) => {
                                         </TableContainer>
                                     </div>}
                                     <OrderLocation data={order.status} id={order._id} setStatus={setStatus} />
-                                    <OrderDetail cart={order.items} couponData={order?.coupon}/>
+                                    <OrderDetail cart={order.items} couponData={order?.coupon} order={setStatus==="user"?"user":""} />
                                 </div>
                             </React.Fragment>
                         })

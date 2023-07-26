@@ -2,7 +2,6 @@ import InputBase from '@material-ui/core/InputBase';
 import { alpha } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
 import { Search } from '@mui/icons-material';
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setSearch } from '../../redux/slice/filterSlice';
 const styles = theme => ({
@@ -16,32 +15,32 @@ const styles = theme => ({
         marginLeft: 0,
         width: '100%',
         [theme.breakpoints.up('sm')]: {
-            marginLeft: theme.spacing.unit,
+            marginLeft: theme.spacing(1),
             width: 'auto',
         },
     },
     searchIcon: {
-        width: theme.spacing.unit * 9,
+        width: theme.spacing(9),
         height: '100%',
         position: 'absolute',
         pointerEvents: 'none',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        zIndex:2,
+        zIndex: 2,
     },
     inputRoot: {
         color: '#000000 !important',
-        backgroundColor:"#4dabf570",
-        borderRadius:"5px",
+        backgroundColor: "#4dabf570",
+        borderRadius: "5px",
         width: '100%',
-        height:"3em"
+        height: "3em"
     },
     inputInput: {
-        paddingTop: theme.spacing.unit,
-        paddingRight: theme.spacing.unit,
-        paddingBottom: theme.spacing.unit,
-        paddingLeft: theme.spacing.unit * 10,
+        paddingTop: theme.spacing(1),
+        paddingRight: theme.spacing(1),
+        paddingBottom: theme.spacing(1),
+        paddingLeft: theme.spacing(10),
         transition: theme.transitions.create('width'),
         width: '100%',
         [theme.breakpoints.up('sm')]: {
@@ -53,12 +52,12 @@ const styles = theme => ({
     },
 });
 const SearchComponent = (props) => {
-    const [search,savesearch]=useState()
-    const dispatch=useDispatch()
-    const debounse=(e)=>{
+    // const [search, savesearch] = useState() 
+    const dispatch = useDispatch()
+    const debounse = (e) => {
         let timer
         clearTimeout(timer)
-        timer=setTimeout(() => {
+        timer = setTimeout(() => {
             dispatch(setSearch(e))
         }, 500);
     }
@@ -67,7 +66,7 @@ const SearchComponent = (props) => {
         <>
             <div className={classes.search}>
                 <div className={classes.searchIcon}>
-                    <Search sx={{color:"black "}}/>
+                    <Search sx={{ color: "black " }} />
                 </div>
                 <InputBase
                     placeholder="Search…"
@@ -75,7 +74,7 @@ const SearchComponent = (props) => {
                         root: classes.inputRoot,
                         input: classes.inputInput,
                     }}
-                    onChange={(e)=>debounse(e.target.value)}
+                    onChange={(e) => debounse(e.target.value)}
                 />
             </div>
         </>

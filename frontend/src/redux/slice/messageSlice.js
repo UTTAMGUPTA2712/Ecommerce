@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { ItemRomoved, cancelOrder, disableUser, invalidEmail, logUser, orderPlaced, orderUpdate, passwordDoNotMatch, productAdd, saveAnAddress, serverError, userAlreadyExist, userDisabled, userEmailAlreadyExist, userEnabled, userNotFound, userPhonePumberAlreadyExist, wrongPassword } from "../../data/constants";
+import { ItemRomoved, cancelOrder, disableUser, googlepopclose, invalidEmail, logUser, orderPlaced, orderUpdate, passwordDoNotMatch, productAdd, saveAnAddress, serverError, userDisabled, userEmailAlreadyExist, userEnabled, userNotFound, userPhonePumberAlreadyExist, wrongPassword } from "../../data/constants";
 
 const initialValue = {
     message: null,
@@ -18,9 +18,9 @@ export const messageSlice = createSlice({
                     break;
                 case wrongPassword: case userNotFound: state.message = { message: action.payload, severity: "error" }
                     break;
-                case userPhonePumberAlreadyExist:case userEmailAlreadyExist:case passwordDoNotMatch:case invalidEmail:case ItemRomoved: state.message = { message: action.payload, severity: "info" }
+                case userPhonePumberAlreadyExist: case userEmailAlreadyExist: case passwordDoNotMatch: case invalidEmail: case ItemRomoved:case googlepopclose: state.message = { message: action.payload, severity: "info" }
                     break;
-                case userDisabled:case userEnabled:state.message = { message: action.payload,severity:"success"}
+                case userDisabled: case userEnabled: state.message = { message: action.payload, severity: "success" }
                     break;
                 case productAdd: state.message = { message: "Product Added Successfully", severity: "success" }
                     break;
@@ -28,7 +28,7 @@ export const messageSlice = createSlice({
                     break;
                 case orderPlaced: state.message = { message: "Order Placed Sucessfully", severity: "success" }
                     break;
-                case orderUpdate:case cancelOrder: state.message = { message: "Successfully Updated", severity: "success" }
+                case orderUpdate: case cancelOrder: state.message = { message: "Successfully Updated", severity: "success" }
                     break;
                 default:
                     state.message = action.payload

@@ -17,12 +17,15 @@ const BestSellerItem = () => {
     const [products, setProducts] = useState([])
     const cart = useSelector(state => state.cart.cart)
     const navigate = useNavigate()
-    const dispatch=useDispatch()
+    const dispatch = useDispatch()
     const getData = async () => {
-        const response = await GetBestSeller()
-        if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
-
-            setProducts(response.data)
+        try {
+            const response = await GetBestSeller()
+            if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
+                setProducts(response.data)
+            }
+        } catch (error) {
+            dispatch(setMessage(serverError))
         }
     }
     useEffect(() => {
@@ -30,16 +33,17 @@ const BestSellerItem = () => {
     }, [])
     return (
         <>
-            <div id='bestseller' style={{ padding: "1rem", display: "-webkit-box", overflow: "auto hidden", width: "100%-2rem", flexWrap: "nowrap", boxShadow: "rgba(0, 0, 0, 0.56) 0px 12px 30px 1px inset" }}>
-                <Card sx={{ maxWidth: 345 }}>
-                    <CardActionArea>
+            <div id='bestseller' style={{ backgroundColor: "#f0f0f0", padding: "1rem", display: "-webkit-box", overflow: "auto hidden", width: "100%-2rem", flexWrap: "nowrap", boxShadow: "rgba(0, 0, 0, 0.56) 0px 12px 30px 1px inset" }}>
+                <Card  sx={{ maxWidth: 345 }}>
+                    <CardActionArea sx={{cursor:"default"}}>
                         <CardMedia
-                            fullWidth={true}
+                            // fullWidth={true} 
                             component="img"
+                            // sx={{cursor:"default"}}
                             height="140"
                             image={bestSellerPic}
                         />
-                        <CardContent sx={{ margin: "0.7rem" }}>
+                        <CardContent sx={{ margin: "0.7rem"}}>
                             <Typography gutterBottom variant="h5" component="div">
                                 BEST SELLING
                             </Typography>
@@ -53,15 +57,16 @@ const BestSellerItem = () => {
                     </CardActions>
                 </Card>
                 {
-
-                    products.map(product => (
-                        <ItemCard data={product} value={cart?.[product?._id]?.value} />
+                    products.map((product, index) => (
+                        <React.Fragment key={index}>
+                            <ItemCard data={product} value={cart?.[product?._id]?.value} />
+                        </React.Fragment>
                     ))
                 }
                 <Card sx={{ maxWidth: 345 }}>
                     <CardActionArea onClick={() => navigate("/home")}>
                         <CardMedia
-                            fullWidth={true}
+                            // fullWidth={true}
                             component="img"
                             height="140"
                             image={arrowpic}

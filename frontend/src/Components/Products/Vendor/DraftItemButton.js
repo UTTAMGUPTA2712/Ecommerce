@@ -15,7 +15,7 @@ const DraftItemButton = ({ data, handleCancel }) => {
                 dispatch(setMessage(productAdd))
                 handleCancel()
             } catch (err) {
-                console.log(err)
+                //console.log(err)
                 dispatch(setMessage(serverError))
             }
         } else {

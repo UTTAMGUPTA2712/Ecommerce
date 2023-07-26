@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 export const UserCard = ({ data, changeStatus }) => {
     const navigate = useNavigate()
     const userTitle = useSelector(state => state.user.user?.title)
-    const [check, setCheck] = useState(data?.status)
+    const [check, setCheck] = useState(data?.status ?? "")
     const handleUpdateStatus = async () => {
         changeStatus({ email: data?.email, status: check })
     }
@@ -27,7 +27,7 @@ export const UserCard = ({ data, changeStatus }) => {
             </TableCell>}
             <TableCell align="center">
                 <p>Address : {data?.address?.[0]?.location}</p>
-                <p>Location : {data?.address?.[0]?.city},{data?.address?.[0]?.state}</p>
+                <p >Location : {data?.address?.[0]?.city},{data?.address?.[0]?.state}</p>
                 <p>Pincode : {data?.address?.[0]?.pincode}</p>
             </TableCell>
             <TableCell align="center">
@@ -36,7 +36,7 @@ export const UserCard = ({ data, changeStatus }) => {
             <TableCell align="center">
                 {(userTitle === admin) && <span>
                     <h3>{data?.status ? "ACTIVE" : "DISABLED"}</h3>
-                    <Switch onClick={() => setCheck(!check)} defaultChecked={data?.status} />
+                    <Switch onClick={() => setCheck(!check)} checked={data?.status} />
                 </span>}
                 {(data?.status !== check) && <Button onClick={handleUpdateStatus} variant='contained' sx={{ backgroundColor: "red", fontWeight: "600" }} fullWidth>Update</Button>}
             </TableCell>

@@ -62,6 +62,10 @@ const userSchema = new Schema(
       type: Boolean,
       default: true,
     },
+    cart:{
+      type:Schema.Types.Mixed,
+      default:{}
+    }
   },
   { timestamps: true }
 );

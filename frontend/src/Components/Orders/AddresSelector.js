@@ -13,6 +13,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
 import { setAddress } from '../../redux/slice/authSlice';
+import { Typography } from '@mui/material';
 
 function ConfirmationDialogRaw(props) {
     const { onClose, value: valueProp, open, ...other } = props;
@@ -53,7 +54,7 @@ function ConfirmationDialogRaw(props) {
                     ref={radioGroupRef}
                     aria-label="ringtone"
                     name="ringtone"
-                    value={value}
+                    value={value ?? ""}
                     onChange={handleChange}
                 >
                     {options.map((option, index) => (
@@ -101,13 +102,13 @@ export const AddressSelector = () => {
         <List component="div" role="group">
             <ListItem
                 divider
-                sx={{backgroundColor:"#f0f0f0",width:"15rem",textAlign:"center"}} 
+                sx={{ backgroundColor: "#f0f0f0", width: "15rem", textAlign: "center" }}
                 aria-haspopup="true"
                 aria-controls="ringtone-menu"
                 aria-label="Address"
                 onClick={handleClickListItem}
             >
-                <ListItemText primary="Choose Address" secondary={value?.location} />
+                <ListItemText sx={{cursor:"pointer"}} primary={<Typography variant='h5'>Choose Address</Typography>} secondary={value?.location} />
             </ListItem>
             <ConfirmationDialogRaw
                 id="ringtone-menu"

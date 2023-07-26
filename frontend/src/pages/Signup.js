@@ -2,20 +2,20 @@ import React, { useState } from 'react'
 import { AddUser } from '../services/Auth/SignupService'
 import { GoogleAuth } from '../utils/googleAuth.js'
 import userIcon from "../assets/Images/user.png"
-import vendorIcon from "../assets/Images/vendor.png" 
-import shipperIcon from "../assets/Images/shipper.png" 
-
+import vendorIcon from "../assets/Images/vendor.png"
+import shipperIcon from "../assets/Images/shipper.png"
 import { Button, TextField } from '@material-ui/core'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { saveUser } from '../redux/slice/authSlice'
-import { disableUser, invalidEmail, logUser, passwordDoNotMatch, serverError, shipper, userAlreadyExist, userEmailAlreadyExist, userPhonePumberAlreadyExist, userconst, vendor } from '../data/constants'
+import { disableUser, googlepopclose, invalidEmail, logUser, passwordDoNotMatch, serverError, shipper, userEmailAlreadyExist, userPhonePumberAlreadyExist, userconst, vendor } from '../data/constants'
 import { setMessage } from '../redux/slice/messageSlice'
+import { setCart } from '../redux/slice/cartSlice'
 const titles = [userconst, vendor, shipper]
 const Signup = () => {
     const [password, setPassword] = useState("")
     const [formData, setFormData] = useState({})
-    const [choice, setChoice] = useState(1)
+    const [choice, setChoice] = useState(0)
     const [valid, setvalid] = useState(false)
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -34,6 +34,7 @@ const Signup = () => {
                     } else {
                         dispatch(setMessage(logUser))
                         dispatch(saveUser(data.data))
+                        dispatch(setCart(data.data?.cart))
                         navigate("/")
                     }
                 } else {
@@ -48,18 +49,22 @@ const Signup = () => {
     }
     const GoolgeSignup = async () => {
         const data = await GoogleAuth(titles[choice])
-        if (data.data === serverError) { dispatch(setMessage(serverError)) } else {
-            console.log(data);
+        if (data === serverError) {
+            dispatch(setMessage(serverError))
+        } else if (data === googlepopclose) {
+            dispatch(setMessage(googlepopclose))
+        } else {
+            // console.log(data);
             if (data.data === false) {
                 dispatch(setMessage(disableUser))
             } else {
                 dispatch(setMessage(logUser))
                 dispatch(saveUser(data.data))
+                dispatch(setCart(data.data?.cart))
                 navigate("/")
             }
         }
     }
-    console.log(formData)
     const handlephonenumber = (e) => {
         if (e.target.value.length <= 10) {
             ChangeFormData("phoneNumber", e.target.value)
@@ -76,24 +81,25 @@ const Signup = () => {
                             <h1>
                                 Create new account<span className="blue">.</span>
                             </h1>
-                            <h1 level={3}>
+                            <h3>
                                 Already A Member?{" "}
                                 <span className="blue" onClick={() => navigate("/")}>
                                     Log in
                                 </span>
-                            </h1>
+                            </h3>
+                            <h4>Choose a Role</h4>
                             <span>
-                                <img onClick={() => setChoice(0)} className={choice === 0 ? "selected" : ""} src={userIcon} alt="" />
-                                <img onClick={() => setChoice(1)} className={choice === 1 ? "selected" : ""} src={vendorIcon} alt="" />
-                                <img onClick={() => setChoice(2)} className={choice === 2 ? "selected" : ""} src={shipperIcon} alt="" />
-                                <h1>{titles[choice].toUpperCase()}</h1>
+                                <img onClick={() => setChoice(0)} className={choice === 0 ? "selected" : "unselected"} src={userIcon} alt="" />
+                                <img onClick={() => setChoice(1)} className={choice === 1 ? "selected" : "unselected"} src={vendorIcon} alt="" />
+                                <img onClick={() => setChoice(2)} className={choice === 2 ? "selected" : "unselected"} src={shipperIcon} alt="" />
+                                <h2>{titles[choice].toUpperCase()}</h2>
                             </span>
                             <TextField
                                 error={!formData?.name && valid}
                                 helperText={(!formData?.name && valid) ? "Name is required" : ""}
                                 id="outlined-basic"
-                                value={formData?.name}
-                                style={{ backgroundColor: "#323644" ,color:"white" }}
+                                value={formData?.name ?? ""}
+                                style={{ backgroundColor: "#323644", color: "white" }}
 
                                 onChange={(e) => ChangeFormData("name", e.target.value)}
                                 label="Enter Name"
@@ -104,8 +110,8 @@ const Signup = () => {
                                 error={!formData?.email && valid}
                                 helperText={(!formData?.email && valid) ? "Email is required" : ""}
                                 id="outlined-basic"
-                                value={formData?.email}
-                                style={{ backgroundColor: "#323644" ,color:"white" }}
+                                value={formData?.email ?? ""}
+                                style={{ backgroundColor: "#323644", color: "white" }}
 
                                 onChange={(e) => ChangeFormData("email", e.target.value)}
                                 label="Enter Email"
@@ -117,9 +123,9 @@ const Signup = () => {
                                 helperText={(!formData?.phoneNumber && valid) ? "Phone Number is required" : ""}
                                 id="outlined-basic"
                                 type='number'
-                                style={{ backgroundColor: "#323644" ,color:"white" }}
+                                style={{ backgroundColor: "#323644", color: "white" }}
 
-                                value={formData?.phoneNumber}
+                                value={formData?.phoneNumber ?? ""}
                                 onChange={(e) => handlephonenumber(e)}
                                 label="Enter Phone Number"
                                 variant="outlined"
@@ -129,9 +135,9 @@ const Signup = () => {
                                 error={!formData?.password && valid}
                                 helperText={(!formData?.password && valid) ? "Password is required" : ""}
                                 id="outlined-basic"
-                                style={{ backgroundColor: "#323644" ,color:"white" }}
+                                style={{ backgroundColor: "#323644", color: "white" }}
 
-                                value={formData?.password}
+                                value={formData?.password ?? ""}
                                 onChange={(e) => ChangeFormData("password", e.target.value)}
                                 label="Enter Password"
                                 variant="outlined"
@@ -139,40 +145,35 @@ const Signup = () => {
 
                             <TextField
                                 error={(password !== formData?.password) && valid}
-                                style={{ backgroundColor: "#323644" ,color:"white" }}
+                                style={{ backgroundColor: "#323644", color: "white" }}
 
                                 helperText={(password !== formData?.password) && valid ? "Passwords do not match" : ""}
                                 id="outlined-basic"
-                                value={password}
+                                value={password ?? ""}
                                 onChange={(e) => setPassword(e.target.value)}
                                 label="Re-Enter Password"
                                 variant="outlined"
                             />
 
                             <Button
-                                color="tertiary"
                                 disabled={false}
                                 onClick={HandleSignup}
-                                style={{ backgroundColor: "#1e90f5" ,color:"white" }}
+                                style={{ backgroundColor: "#1e90f5", color: "white" }}
                                 size="large"
                                 variant="outlined"
                             >
                                 Signup
                             </Button>
-
                             <Button
-
-                                color="tertiary"
                                 disabled={false}
-                                style={{ backgroundColor: "white" ,color:"#1e90f5" }}
+                                style={{ backgroundColor: "white", color: "#1e90f5" }}
                                 size="large"
                                 onClick={GoolgeSignup}
                                 variant="outlined"
                             >
                                 Signup With Google
                             </Button>
-                            <p style={{ textAlign: "center",color:"lightgrey" }}>please choose the type of user before signing up with google</p>
-
+                            <p style={{ textAlign: "center", color: "lightgrey" }}>Please choose the type of user before signing up with google</p>
                         </div>
                     </div>
                 </div>

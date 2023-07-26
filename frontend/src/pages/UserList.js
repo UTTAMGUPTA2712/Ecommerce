@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { GetUserList } from '../services/User/GetUserList'
-import SearchAppBar from '../utils/SearchAppBar'
+import SearchAppBar from '../Components/UserInterface/SearchAppBar'
 import { UserCard } from '../Components/Orders/UserCard'
 import { Box, Button, Skeleton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, ButtonGroup } from '@mui/material'
 import { UpdateUserStatusService } from '../services/User/UpdateUserStatusService'
@@ -23,11 +23,14 @@ const UserList = () => {
     const currentUser = useSelector(state => state.user.user)
     const dispatch = useDispatch()
     const changeStatus = async (data) => {
-        const response = await UpdateUserStatusService(data)
-        if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
-
-            dispatch(setMessage(data ? userDisabled : userEnabled))
-            getuser()
+        try {
+            const response = await UpdateUserStatusService(data)
+            if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
+                dispatch(setMessage(data ? userDisabled : userEnabled))
+                getuser()
+            }
+        } catch (error) {
+            dispatch(setMessage(serverError))
         }
     }
     const getuser = () => {
@@ -35,11 +38,14 @@ const UserList = () => {
         clearTimeout(timeout);
         timeout = setTimeout(() => {
             const getusers = async () => {
-                const response = await GetUserList()
-                if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
-
-                    console.log(response);
-                    setUserList(response.data)
+                try {
+                    const response = await GetUserList()
+                    if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
+                        // console.log(response);
+                        setUserList(response.data)
+                    }
+                } catch (error) {
+                    dispatch(setMessage(serverError))
                 }
             }
             getusers()
@@ -81,15 +87,16 @@ const UserList = () => {
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {userList.map(user => {
-                                                return <TableRow hover selected={!user?.status}>{(userType === "ALL" || user?.title === userType) && (currentUser?.email !== user?.email) &&
+                                            {userList.map((user, index) => {
+                                                return <TableRow key={index} hover selected={!user?.status}>{(userType === "ALL" || user?.title === userType) && (currentUser?.email !== user?.email) &&
                                                     <UserCard changeStatus={changeStatus} data={user} />}
                                                 </TableRow>
                                             })}
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
-                            </>}
+                            </>
+                    }
                 </div>
             </div>
         </>

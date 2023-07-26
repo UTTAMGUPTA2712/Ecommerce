@@ -10,13 +10,13 @@ export const UpdateItemButton = ({ data, handleCancel }) => {
     const handleSave = async () => {
         if ((data?.image)?.length === 4 && data.name && data.description && data.price) {
             try {
-                const saveItem = await UpdateProductService({ ...data, status: draft })
-                console.log(saveItem);
+                await UpdateProductService({ ...data, status: draft })
+                // console.log(saveItem);
                 dispatch(updateProduct({ ...data,status: draft}))
                 dispatch(setMessage(productAdd))
                 handleCancel()
             } catch (err) {
-                console.log(err)
+                //console.log(err)
                 dispatch(setMessage(serverError))
             }
         } else {

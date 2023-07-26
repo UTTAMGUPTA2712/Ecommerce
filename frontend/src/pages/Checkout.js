@@ -4,7 +4,7 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import SearchAppBar from '../utils/SearchAppBar';
+import SearchAppBar from '../Components/UserInterface/SearchAppBar';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import OrderDetail from '../Components/Orders/OrderDetail';
@@ -53,16 +53,17 @@ const Checkout = () => {
                 );
               })}
             </Stepper>
+            <br/>
             {activeStep === steps.length ? (
               <>
-                <Box sx={{width: "100%",backgroundColor:"white",height:"25rem",borderRadius:"20px",display:"flex",justifyContent:"center",alignItems:"center",marginTop:"1rem"}}>
+                <Box sx={{ width: "100%", backgroundColor: "white", height: "25rem", borderRadius: "20px", display: "flex", justifyContent: "center", alignItems: "center", marginTop: "1rem" }}>
                   <Typography variant='h1' sx={{ mt: 2, mb: 1 }}>
-                   <IconButton sx={{backgroundColor:"greenyellow"}}>< Done sx={{fontSize:"4rem"}}/></IconButton> Order Successful
+                    <IconButton sx={{ backgroundColor: "greenyellow" }}>< Done sx={{ fontSize: "4rem" }} /></IconButton> Order Successful
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                   <Box sx={{ flex: '1 1 auto' }} />
-                  <Button sx={{marginRight:"1rem"}} variant='contained' color='success' onClick={() => navigate("/userorder")}>Check Orders</Button>
+                  <Button sx={{ marginRight: "1rem" }} variant='contained' color='success' onClick={() => navigate("/userorder")}>Check Orders</Button>
                   <Button variant='contained' color='success' onClick={handleReturn}>Return Home</Button>
                 </Box>
               </>
@@ -83,7 +84,7 @@ const Checkout = () => {
                     <PlaceOrderButton handleNext={handleNext} />
                     :
                     <Button variant='contained' color='success' onClick={handleNext}>
-                      Next
+                      Confirm
                     </Button>}
                 </Box>
               </>

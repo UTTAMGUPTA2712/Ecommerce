@@ -11,7 +11,7 @@ import { GetCarousal } from '../../services/Carousal/GetCarousal';
 import { DeleteCarousal } from '../../services/Carousal/DeleteCarousal';
 import { CreateBannerService } from '../../services/Carousal/CreateBannerService';
 import UploadImage from '../../utils/UploadImage';
-import { server, serverError } from '../../data/constants';
+import { serverError } from '../../data/constants';
 import { GetCategory } from '../../services/Category/GetCategory';
 import { useDispatch } from 'react-redux';
 import { setMessage } from '../../redux/slice/messageSlice';
@@ -31,42 +31,61 @@ export const SetCarousal = () => {
         setFormdata(p => ({ ...p, image: e }))
     }
     const getData = async () => {
-        const response = await GetCarousal()
-        if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
-            setRows(response.data);
-            const response2 = await GetCategory()
-            if (response2.data === serverError) { dispatch(setMessage(serverError)) } else {
-                setCategory(response2.data)
+        try {
+            const response = await GetCarousal()
+            if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
+                setRows(response.data);
+                try {
+                    const response2 = await GetCategory()
+                    if (response2.data === serverError) { dispatch(setMessage(serverError)) } else {
+                        setCategory(response2.data)
+                    }
+                } catch (error) {
+                    dispatch(setMessage(serverError))
+                }
             }
+        } catch (error) {
+            dispatch(setMessage(serverError))
         }
+
     }
     const addCarousal = async () => {
-        const response = await CreateBannerService(formdata)
-        if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
-            setRows([...rows, response.data])
-            setFormdata({ image: "", filter: "" })
+        try {
+            const response = await CreateBannerService(formdata)
+            if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
+                setRows([...rows, response.data])
+                setFormdata({ image: "", filter: "" })
+            }
+        } catch (error) {
+            dispatch(setMessage(serverError))
         }
     }
     const deleteCarousal = async (id, index) => {
-        const response = await DeleteCarousal({ id: id })
-        if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
-            let arr = [...rows]
-            arr.splice(index, 1)
-            setRows(arr)
+        try {
+            const response = await DeleteCarousal({ id: id })
+            if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
+                let arr = [...rows]
+                arr.splice(index, 1)
+                setRows(arr)
+            }
+
+        } catch (error) {
+            dispatch(setMessage(serverError))
         }
     }
     useEffect(() => {
         getData();
     }, [])
-    console.log(formdata);
+    // console.log(formdata);
     return (
         <>
             <TableContainer sx={{ backgroundColor: "white", overflowY: "auto", height: "100%", boxShadow: "rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;" }}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
-                            {columns.map((column) => (
+                            {columns.map((column, index) => (
                                 <TableCell
+                                    key={index}
                                     align={"center"}
                                     sx={{ minWidth: column.minWidth, color: "#f0f0f0", backgroundColor: "#1769aa" }}>
                                     {column.label}
@@ -83,11 +102,11 @@ export const SetCarousal = () => {
                             <TableCell align={"center"}>
                                 <FormControl variant="filled" sx={{ m: 1, minWidth: 200 }}>
                                     <InputLabel id="demo-simple-select-filled-label">Select Category</InputLabel>
-                                    <Select label="Category" labelId='demo-simple-select-helper-label' id="demo-simple-select-helper" value={formdata?.filter}
+                                    <Select label="Category" labelId='demo-simple-select-helper-label' id="demo-simple-select-helper" value={formdata?.filter??""}
                                         onChange={(e) => setFormdata(p => ({ ...p, filter: e.target.value }))}>
                                         <MenuItem value=""><em>None</em></MenuItem>
-                                        {Category.map(data => (
-                                            <MenuItem value={data?.name}>{data?.name}</MenuItem>
+                                        {Category.map((data,index) => (
+                                            <MenuItem key={index} value={data?.name}>{data?.name}</MenuItem>
                                         ))}
                                     </Select>
                                 </FormControl>
@@ -98,11 +117,11 @@ export const SetCarousal = () => {
                         </TableRow>
                         {rows.map((row, index) => {
                             return (
-                                <TableRow sx={{ height: "7rem" }} hover>
+                                <TableRow key={index} sx={{ height: "7rem" }} hover>
                                     <TableCell align={"center"}>{index + 1}</TableCell>
                                     <TableCell align={"center"}><div className='centerimage' style={{ height: "8rem", width: "100%", backgroundImage: `url('${row?.image}')` }} /></TableCell>
                                     <TableCell align={"center"}>{row?.filter}</TableCell>
-                                    <TableCell align={"center"}><Delete onClick={() => deleteCarousal(row._id, index)} /></TableCell>
+                                    <TableCell align={"center"}><Delete sx={{cursor:"pointer"}} onClick={() => deleteCarousal(row._id, index)} /></TableCell>
                                 </TableRow>
                             );
                         })}

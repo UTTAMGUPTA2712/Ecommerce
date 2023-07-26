@@ -15,7 +15,7 @@ const listData = [
     icon: <Category />
   },
 ]
-const SetDataList = ({ setData }) => {
+const SetDataList = ({ data,setData }) => {
   return (
     <>
       <div>
@@ -31,7 +31,7 @@ const SetDataList = ({ setData }) => {
           }
         >
           {listData.map((item, index) => (
-            <ListItemButton  onClick={() => setData(index)} key={index}>
+            <ListItemButton onClick={() => setData(index)} sx={{ backgroundColor:data===index?"lightgrey":""}} key={index}>
               <ListItemIcon>
                 {item?.icon}
               </ListItemIcon>
