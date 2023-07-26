@@ -5,7 +5,7 @@ export const UpdateUserStatusService = (data) => {
     const response = axios.post(server + "user/updateuserstatus", data)
     return response;
   } catch (error) {
-    console.log(error);
+    //console.log(error);
     return serverError
   }
 }

@@ -11,12 +11,16 @@ const AllOrder = () => {
   const dispatch = useDispatch()
 
   const setStatus = async (data) => {
-    const response = await SetOrderStatusService(data)
-    if (response === serverError) {
+    try {
+      const response = await SetOrderStatusService(data)
+      if (response === serverError) {
+        dispatch(setMessage(serverError))
+      } else {
+        getOrders()
+        dispatch(setMessage(orderUpdate))
+      }
+    } catch (error) {
       dispatch(setMessage(serverError))
-    } else {
-      getOrders()
-      dispatch(setMessage(orderUpdate))
     }
   }
   const getOrders = async () => {
@@ -24,7 +28,7 @@ const AllOrder = () => {
       const response = await GetAllOrdersService()
       setOrder(response.data)
     } catch (err) {
-      console.log(err);
+      //console.log(err);
       dispatch(setMessage(serverError))
     }
   }

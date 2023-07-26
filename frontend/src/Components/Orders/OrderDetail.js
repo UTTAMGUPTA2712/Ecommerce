@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Input, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
+import { Input, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { saveCoupon } from '../../redux/slice/cartSlice';
-import { Done } from '@mui/icons-material';
+import { Cancel, Done } from '@mui/icons-material';
 
 const TAX_RATE = 0.18;
 
@@ -22,7 +22,7 @@ function createRow(desc, qty, unit, pic) {
 function subtotal(items) {
   return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0);
 }
-const OrderDetail = ({ cart, couponData }) => {
+const OrderDetail = ({ cart, couponData,order="" }) => {
   const [rows, setRows] = useState([]);
   const [data, setData] = useState({});
   const [coupon, setCoupon] = useState(couponData ?? "");
@@ -86,8 +86,8 @@ const OrderDetail = ({ cart, couponData }) => {
               </TableRow>
               <TableRow>
                 <TableCell >Coupon Discount:</TableCell>
-                <TableCell align="right"><Input variant="outlined" sx={{ border: (coupon === "FREE500") ? "2px solid greenyellow" : "2px solid tomato", borderStyle: "none none solid none", justifyContent: "center" }} placeholder='coupon...' endAdornment={(coupon === "FREE500") ? <Done style={{ color: "green" }} /> : ""} value={coupon} onChange={e => { setCoupon(e.target.value); debounce(e.target.value) }} /></TableCell>
-                <TableCell align="right">{(coupon === "FREE500") ? (data.total <= 500 ? data.total : 500) : 0}</TableCell>{console.log(coupon)}
+                <TableCell align="right"><Input disabled={order!==""} variant="outlined" sx={{ border: (coupon === "FREE500") ? "2px solid greenyellow" : "2px solid tomato", borderStyle: "none none solid none", justifyContent: "center" }} placeholder='coupon...' endAdornment={(coupon === "FREE500") ? <Done style={{ color: "green" }} /> :(coupon===""?"":<Cancel style={{color:"red"}}/>)} value={coupon} onChange={e => { setCoupon(e.target.value); debounce(e.target.value) }} /></TableCell>
+                <TableCell align="right">{(coupon === "FREE500") ? (data.total <= 500 ? data.total : 500) : 0}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell colSpan={2}>Grand Total:</TableCell>

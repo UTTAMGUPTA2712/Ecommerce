@@ -6,9 +6,9 @@ import StepContent from '@mui/material/StepContent';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import { admin, cancelOrder, orderCompleted, orderDispatched, orderOutForDelivery, orderPlaced, orderRecieved, rateProduct, serverError, shipper } from '../../data/constants';
+import { cancelOrder, orderCompleted, orderDispatched, orderOutForDelivery, orderPlaced, orderRecieved, serverError } from '../../data/constants';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { SetOrderStatusService } from '../../services/Order/SetOrderStatusService';
 import { setMessage } from '../../redux/slice/messageSlice';
 const graph = {
@@ -43,19 +43,23 @@ const steps = [
 ];
 export default function OrderLocation({ data, id, setStatus }) {
     const [activeStep, setActiveStep] = useState(graph[data]);
-    const userTitle = useSelector(state => state.user.user);
+    // const userTitle = useSelector(state => state.user.user);
     const dispatch = useDispatch()
     const handleNext = (value) => {
         setStatus({ id: id, status: value })
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
     const handleCancel = async () => {
-        const response = await SetOrderStatusService({ id: id, status: cancelOrder })
-        if (response.data === serverError) {
+        try {
+            const response = await SetOrderStatusService({ id: id, status: cancelOrder })
+            if (response.data === serverError) {
+                dispatch(setMessage(serverError))
+            } else {
+                setActiveStep(-1)
+                dispatch(setMessage(cancelOrder))
+            }
+        } catch (error) {
             dispatch(setMessage(serverError))
-        } else {
-            setActiveStep(-1)
-            dispatch(setMessage(cancelOrder))
         }
     }
     return (
@@ -83,7 +87,7 @@ export default function OrderLocation({ data, id, setStatus }) {
                     </Step>
                 ))}
             </Stepper>
-            {console.log(data)}
+            {/* {console.log(data)} */}
             {(activeStep === steps.length || activeStep === -1) && (
                 <Paper square elevation={0} sx={{ p: 3, bgcolor: "#00000000" }}>
                     {activeStep === -1 ? <Typography>{cancelOrder}</Typography> : <Typography>Order Successfully Recieved</Typography>}

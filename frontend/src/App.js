@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Login from './pages/Login';
 import "./assets/global.css"
 import Signup from './pages/Signup';
-import SnackBarUi from './utils/SnackBarUi';
 import HomePage from './pages/HomePage';
 import Cart from './pages/Cart';
 import Profile from './pages/Profile';
@@ -19,6 +18,7 @@ import SetWebsiteData from './pages/SetWebsiteData';
 import DashBoard from './pages/DashBoard';
 import DraftProduct from './pages/ProductControl';
 import VendorProduct from './pages/VendorProduct';
+import SnackBarUi from './Components/UserInterface/SnackBarUi';
 
 function App() {
   const user = useSelector(state => state.user.user)
@@ -113,20 +113,20 @@ function App() {
       <SnackBarUi />
       <BrowserRouter>
         <Routes>
-          {!user && publicRouter.map(route => {
-            return <Route path={route.path} element={route.component} />;
+          {!user && publicRouter.map((route, index) => {
+            return <Route key={index} path={route.path} element={route.component} />;
           })}
-          {user && privateRouter.map(route => {
-            return <Route path={route.path} element={route.component} />;
+          {user && privateRouter.map((route, index) => {
+            return <Route key={index} path={route.path} element={route.component} />;
           })}
-          {user && (user?.title === vendor) && vendorRouter.map(route => {
-            return <Route path={route.path} element={route.component} />;
+          {user && (user?.title === vendor) && vendorRouter.map((route, index) => {
+            return <Route key={index} path={route.path} element={route.component} />;
           })}
-          {user && (user?.title === shipper) && shipmentRouter.map(route => {
-            return <Route path={route.path} element={route.component} />;
+          {user && (user?.title === shipper) && shipmentRouter.map((route, index) => {
+            return <Route key={index} path={route.path} element={route.component} />;
           })}
-          {user && (user?.title === admin) && adminRouter.map(route => {
-            return <Route path={route.path} element={route.component} />;
+          {user && (user?.title === admin) && adminRouter.map((route, index) => {
+            return <Route key={index} path={route.path} element={route.component} />;
           })}
         </Routes>
       </BrowserRouter>

@@ -12,7 +12,7 @@ export const ItemCard = ({ data, value }) => {
             <Card sx={{ maxWidth: 345, boxShadow: " rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;" }}>
                 <CardActionArea onClick={() => navigate("/productDetail", { state: data })}>
                     <CardMedia
-                        fullWidth={true}
+                        // fullWidth={true}
                         component="img"
                         height="140"
                         image={data?.image?.[0]}

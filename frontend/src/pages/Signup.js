@@ -4,12 +4,11 @@ import { GoogleAuth } from '../utils/googleAuth.js'
 import userIcon from "../assets/Images/user.png"
 import vendorIcon from "../assets/Images/vendor.png"
 import shipperIcon from "../assets/Images/shipper.png"
-
 import { Button, TextField } from '@material-ui/core'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { saveUser } from '../redux/slice/authSlice'
-import { disableUser, invalidEmail, logUser, passwordDoNotMatch, serverError, shipper, userAlreadyExist, userEmailAlreadyExist, userPhonePumberAlreadyExist, userconst, vendor } from '../data/constants'
+import { disableUser, googlepopclose, invalidEmail, logUser, passwordDoNotMatch, serverError, shipper, userEmailAlreadyExist, userPhonePumberAlreadyExist, userconst, vendor } from '../data/constants'
 import { setMessage } from '../redux/slice/messageSlice'
 import { setCart } from '../redux/slice/cartSlice'
 const titles = [userconst, vendor, shipper]
@@ -50,8 +49,12 @@ const Signup = () => {
     }
     const GoolgeSignup = async () => {
         const data = await GoogleAuth(titles[choice])
-        if (data.data === serverError) { dispatch(setMessage(serverError)) } else {
-            console.log(data);
+        if (data === serverError) {
+            dispatch(setMessage(serverError))
+        } else if (data === googlepopclose) {
+            dispatch(setMessage(googlepopclose))
+        } else {
+            // console.log(data);
             if (data.data === false) {
                 dispatch(setMessage(disableUser))
             } else {
@@ -62,7 +65,6 @@ const Signup = () => {
             }
         }
     }
-    console.log(formData)
     const handlephonenumber = (e) => {
         if (e.target.value.length <= 10) {
             ChangeFormData("phoneNumber", e.target.value)
@@ -96,7 +98,7 @@ const Signup = () => {
                                 error={!formData?.name && valid}
                                 helperText={(!formData?.name && valid) ? "Name is required" : ""}
                                 id="outlined-basic"
-                                value={formData?.name}
+                                value={formData?.name ?? ""}
                                 style={{ backgroundColor: "#323644", color: "white" }}
 
                                 onChange={(e) => ChangeFormData("name", e.target.value)}
@@ -108,7 +110,7 @@ const Signup = () => {
                                 error={!formData?.email && valid}
                                 helperText={(!formData?.email && valid) ? "Email is required" : ""}
                                 id="outlined-basic"
-                                value={formData?.email}
+                                value={formData?.email ?? ""}
                                 style={{ backgroundColor: "#323644", color: "white" }}
 
                                 onChange={(e) => ChangeFormData("email", e.target.value)}
@@ -123,7 +125,7 @@ const Signup = () => {
                                 type='number'
                                 style={{ backgroundColor: "#323644", color: "white" }}
 
-                                value={formData?.phoneNumber}
+                                value={formData?.phoneNumber ?? ""}
                                 onChange={(e) => handlephonenumber(e)}
                                 label="Enter Phone Number"
                                 variant="outlined"
@@ -135,7 +137,7 @@ const Signup = () => {
                                 id="outlined-basic"
                                 style={{ backgroundColor: "#323644", color: "white" }}
 
-                                value={formData?.password}
+                                value={formData?.password ?? ""}
                                 onChange={(e) => ChangeFormData("password", e.target.value)}
                                 label="Enter Password"
                                 variant="outlined"
@@ -147,14 +149,13 @@ const Signup = () => {
 
                                 helperText={(password !== formData?.password) && valid ? "Passwords do not match" : ""}
                                 id="outlined-basic"
-                                value={password}
+                                value={password ?? ""}
                                 onChange={(e) => setPassword(e.target.value)}
                                 label="Re-Enter Password"
                                 variant="outlined"
                             />
 
                             <Button
-                                color="tertiary"
                                 disabled={false}
                                 onClick={HandleSignup}
                                 style={{ backgroundColor: "#1e90f5", color: "white" }}
@@ -163,10 +164,7 @@ const Signup = () => {
                             >
                                 Signup
                             </Button>
-
                             <Button
-
-                                color="tertiary"
                                 disabled={false}
                                 style={{ backgroundColor: "white", color: "#1e90f5" }}
                                 size="large"
@@ -175,8 +173,7 @@ const Signup = () => {
                             >
                                 Signup With Google
                             </Button>
-                            <p style={{ textAlign: "center", color: "lightgrey" }}>please choose the type of user before signing up with google</p>
-
+                            <p style={{ textAlign: "center", color: "lightgrey" }}>Please choose the type of user before signing up with google</p>
                         </div>
                     </div>
                 </div>

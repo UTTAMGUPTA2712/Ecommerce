@@ -33,22 +33,24 @@ export const GrossDetail = () => {
         <>
             <div id='gross'>
                 <table>
-                    <tr>
-                        <td>Total items:</td>
-                        <td>{cart?.length ?? 0}</td>
-                    </tr>
-                    <tr>
-                        <td>Gross Amount:</td>
-                        <td>₹ {(data) * 82 / 100}/- </td>
-                    </tr>
-                    <tr>
-                        <td>Tax Amount:</td>
-                        <td>₹ {(data) * 18 / 100}/- </td>
-                    </tr>
-                    <tr>
-                        <td>Grand Total:</td>
-                        <td>₹ {data}/-</td>
-                    </tr>
+                    <tbody>
+                        <tr>
+                            <td>Total items:</td>
+                            <td>{cart?.length ?? 0}</td>
+                        </tr>
+                        <tr>
+                            <td>Gross Amount:</td>
+                            <td>₹ {(data) * 82 / 100}/- </td>
+                        </tr>
+                        <tr>
+                            <td>Tax Amount:</td>
+                            <td>₹ {(data) * 18 / 100}/- </td>
+                        </tr>
+                        <tr>
+                            <td>Grand Total:</td>
+                            <td>₹ {data}/-</td>
+                        </tr>
+                    </tbody>
                 </table>
                 <Button sx={{ width: "90%" }} disabled={data === 0} variant='contained' onClick={handleClick} fullWidth>Check Out</Button>
             </div>

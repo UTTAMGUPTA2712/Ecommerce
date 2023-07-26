@@ -5,7 +5,7 @@ export const AddCouponsService = (data) => {
     const response = axios.post(server + "coupon/addcoupon", data)
     return response;
   } catch (error) {
-    console.log(error);
+    //console.log(error);
     return serverError
   }
 }

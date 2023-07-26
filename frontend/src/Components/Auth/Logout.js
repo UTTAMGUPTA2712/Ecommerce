@@ -13,12 +13,16 @@ export const LogoutUser = () => {
   const cart = useSelector(state => state.cart.cart)
   const newData = { ...user, cart: cart }
   const logout = async () => {
-    const response = await EditUserProfileService(newData)
-    if (response.data === serverError) {
+    try {
+      const response = await EditUserProfileService(newData)
+      if (response.data === serverError) {
+        dispatch(setMessage(serverError))
+      } else {
+        dispatch(logoutUser())
+        dispatch(cleancart())
+      }
+    } catch (error) {
       dispatch(setMessage(serverError))
-    } else {
-      dispatch(logoutUser())
-      dispatch(cleancart())
     }
   }
   return (

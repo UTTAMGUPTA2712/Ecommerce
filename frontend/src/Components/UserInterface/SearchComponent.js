@@ -2,7 +2,6 @@ import InputBase from '@material-ui/core/InputBase';
 import { alpha } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
 import { Search } from '@mui/icons-material';
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setSearch } from '../../redux/slice/filterSlice';
 const styles = theme => ({
@@ -16,12 +15,12 @@ const styles = theme => ({
         marginLeft: 0,
         width: '100%',
         [theme.breakpoints.up('sm')]: {
-            marginLeft: theme.spacing.unit,
+            marginLeft: theme.spacing(1),
             width: 'auto',
         },
     },
     searchIcon: {
-        width: theme.spacing.unit * 9,
+        width: theme.spacing(9),
         height: '100%',
         position: 'absolute',
         pointerEvents: 'none',
@@ -38,10 +37,10 @@ const styles = theme => ({
         height: "3em"
     },
     inputInput: {
-        paddingTop: theme.spacing.unit,
-        paddingRight: theme.spacing.unit,
-        paddingBottom: theme.spacing.unit,
-        paddingLeft: theme.spacing.unit * 10,
+        paddingTop: theme.spacing(1),
+        paddingRight: theme.spacing(1),
+        paddingBottom: theme.spacing(1),
+        paddingLeft: theme.spacing(10),
         transition: theme.transitions.create('width'),
         width: '100%',
         [theme.breakpoints.up('sm')]: {
@@ -53,7 +52,7 @@ const styles = theme => ({
     },
 });
 const SearchComponent = (props) => {
-    const [search, savesearch] = useState()
+    // const [search, savesearch] = useState() 
     const dispatch = useDispatch()
     const debounse = (e) => {
         let timer

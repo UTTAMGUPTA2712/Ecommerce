@@ -1,14 +1,14 @@
 import { TextField } from '@material-ui/core'
 import { Add, DisabledByDefault } from '@mui/icons-material'
-import { Avatar, Button, Dialog, DialogTitle, Typography } from '@mui/material'
+import { Avatar, Button, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { saveAddress, saveName, saveUser } from '../../redux/slice/authSlice'
+import { saveUser } from '../../redux/slice/authSlice'
 import { EditUserProfileService } from '../../services/User/EditUserProfileService'
 import { admin, serverError, vendor } from '../../data/constants'
-import { useLocation, useNavigate, useHistory } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import ItemList from './ItemList'
-import SearchAppBar from '../../utils/SearchAppBar'
+import SearchAppBar from './SearchAppBar'
 import { setMessage } from '../../redux/slice/messageSlice'
 import UploadImage from '../../utils/UploadImage'
 
@@ -20,7 +20,6 @@ const UserProfile = ({ data }) => {
         data = location.state
     }
     let user = useSelector(state => state.user.user)
-    const [editImage, setEditImage] = useState(false)
     const [edit, setEdit] = useState(true)
     const [address, setaddress] = useState({})
     const [username, setName] = useState(data?.name)
@@ -28,7 +27,7 @@ const UserProfile = ({ data }) => {
     const [image, setImage] = useState(data?.photo)
     const [password, setPassword] = useState(data?.password)
     const changeImage = (value) => {
-        console.log("value");
+        // console.log("value");
         setImage(value)
     }
     const changeAddress = (title, value) => {
@@ -70,8 +69,12 @@ const UserProfile = ({ data }) => {
         let sendingData = { ...data, address: dataAddress, name: username, password: password, photo: image }
         dispatch(saveUser(sendingData))
         setTimeout(async () => {
-            const response = await EditUserProfileService(sendingData)
-            if (response.data === serverError) { dispatch(setMessage(serverError)) }
+            try {
+                const response = await EditUserProfileService(sendingData)
+                if (response.data === serverError) { dispatch(setMessage(serverError)) }
+            } catch (error) {
+                dispatch(setMessage(serverError))
+            }
         }, 1000)
         dispatch(setMessage({ message: "Saved Update", severity: "success" }))
         if (location.state === "goback") {
@@ -107,8 +110,17 @@ const UserProfile = ({ data }) => {
                                     <br /><br />
                                     <TextField fullWidth onChange={(e) => setPassword(e.target.value)} value={password} label="EDIT PASSWORD" variant='outlined' />
                                 </span>}
-                            {(data.email === user?.email || user?.title === admin) && (edit) ? <Button fullWidth variant='contained' color='secondary' sx={{ gridColumn: "1/SPAN 2" }} onClick={() => setEdit(false)}>ADD/UPDATE DELIVERY ADDRESS</Button> :
-                                <><Button fullWidth variant='contained' sx={{ bgcolor: "tomato" }} onClick={handleCancel}>CANCEL</Button><Button fullWidth variant='contained' sx={{ bgcolor: "green" }} onClick={savedata}>SAVE</Button></>}
+                            {
+                                (data.email === user?.email || user?.title === admin) && (edit) ?
+                                    <Button fullWidth variant='contained' color='secondary' sx={{ gridColumn: "1/SPAN 2" }} onClick={() => setEdit(false)}>
+                                        ADD/UPDATE DELIVERY ADDRESS
+                                    </Button>
+                                    :
+                                    <>
+                                        <Button fullWidth variant='contained' sx={{ bgcolor: "tomato" }} onClick={handleCancel}>CANCEL</Button>
+                                        <Button fullWidth variant='contained' sx={{ bgcolor: "green" }} onClick={savedata}>SAVE</Button>
+                                    </>
+                            }
                         </div>
                         <div id='addressdiv'>
                             <h1 style={{
@@ -116,7 +128,7 @@ const UserProfile = ({ data }) => {
                                 boxShadow: "rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset"
                             }}>DELIVERY ADDRESS</h1>
                             {dataAddress.map((userAddress, index) => {
-                                return <>
+                                return <React.Fragment key={index}>
                                     <div className='address'>
                                         <TextField style={{ gridColumn: "1/span 2" }} disabled={edit} onChange={(e) => changeExistingAddress(index, "location", e.target.value)} label="ADDRESS" value={userAddress?.location} variant="filled" />
                                         <TextField disabled={edit} type='number' onChange={(e) => changeExistingAddress(index, "phone", e.target.value)} label="PHONE NUMBER" value={userAddress?.phone} variant="filled" />
@@ -125,7 +137,7 @@ const UserProfile = ({ data }) => {
                                         <TextField disabled={edit} onChange={(e) => changeExistingAddress(index, "state", e.target.value)} label="STATE" value={userAddress?.state} variant="filled" />
                                         {(!edit) && <Button sx={{ backgroundColor: "tomato", color: "white", gridColumn: "1/span 2" }} fullWidth onClick={(e) => { RemoveExistingAddress(index) }}>REMOVE ADDRESS<DisabledByDefault /></Button>}
                                     </div>
-                                </>
+                                </React.Fragment>
                             })}
                             {(!edit) &&
                                 <div className='address'>
@@ -140,12 +152,18 @@ const UserProfile = ({ data }) => {
                         </div>
                     </div>
                     <div>
-                        {(data?.title === vendor || data?.title === admin) && <><h1
-                            style={{
-                                textAlign: "center",
-                                backgroundColor: "#00b0ff",
-                                boxShadow: "rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset"
-                            }}>USER ITEMS</h1></>}
+                        {(data?.title === vendor || data?.title === admin) &&
+                            <>
+                                <h1 
+                                    style={{
+                                        textAlign: "center",
+                                        backgroundColor: "#00b0ff",
+                                        boxShadow: "rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset"
+                                    }}>
+                                    USER ITEMS
+                                </h1>
+                            </>
+                        }
                         <ItemList userdata={data} /></div>
                 </div>
             </div>

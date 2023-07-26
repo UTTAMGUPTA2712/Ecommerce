@@ -3,12 +3,12 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import { ShoppingBag, ShoppingCart } from '@mui/icons-material';
-import DrawerComponent from '../Components/UserInterface/DrawerComponent';
+import DrawerComponent from './DrawerComponent';
 import { Avatar, Badge, Button, IconButton } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import SearchComponent from '../Components/UserInterface/SearchComponent';
+import SearchComponent from './SearchComponent';
 
 const styles = theme => ({
   root: {
@@ -40,7 +40,7 @@ const SearchAppBar = (props) => {
       <AppBar style={{ backgroundColor: "white", color: "#0f0f0f" }} position="static">
         <Toolbar>
           <DrawerComponent />
-          <Typography onClick={() => navigate("/")} className={classes.title} variant="h6" color="inherit" noWrap>
+          <Typography style={{cursor:"pointer"}} onClick={() => navigate("/")} className={classes.title} variant="h6" color="inherit" noWrap>
             E-Commerce
           </Typography>
           <div className={classes.grow} />
@@ -53,7 +53,7 @@ const SearchAppBar = (props) => {
               <ShoppingCart sx={{ color: "black", fontSize: "2rem" }} />
             </Badge>
           </IconButton>
-          <Avatar sx={{ bgcolor: "#00b0ff" }} onClick={() => navigate("/Profile")} src={user?.image}>{user?.name?.[0]}</Avatar>
+          <Avatar sx={{ bgcolor: "#00b0ff",cursor:"pointer" }} onClick={() => navigate("/Profile")} src={user?.image}>{(user?.name?.[0]).toUpperCase()}</Avatar>
         </Toolbar>
       </AppBar>
     </div>

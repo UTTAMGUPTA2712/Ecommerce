@@ -1,5 +1,5 @@
 import { Done } from '@mui/icons-material'
-import { Button, IconButton, Rating, TextField } from '@mui/material'
+import { IconButton, Rating, TextField } from '@mui/material'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { ReviewProductService } from '../../../services/Product/ReviewProductService'
@@ -15,13 +15,17 @@ export const ReviewButton = ({ rate, size, id }) => {
             dispatch(setMessage({ message: "Please Set A value First", severity: "info" }))
         } else {
             const rating = ((rate * size) + value) / (size + 1);
-            console.log(rating, rate, size);
-            const response = await ReviewProductService({ id: id, review: { rate: value, review: review }, rate: rating })
-            if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
-                dispatch(setMessage({ message: "Rated Successfully", severity: "success" }))
-                dispatch(saveReview({ id: id, rating: rating, review: { rate: value, review: review } }))
-                setReview("")
-                setValue(0)
+            // console.log(rating, rate, size);
+            try {
+                const response = await ReviewProductService({ id: id, review: { rate: value, review: review }, rate: rating })
+                if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
+                    dispatch(setMessage({ message: "Rated Successfully", severity: "success" }))
+                    dispatch(saveReview({ id: id, rating: rating, review: { rate: value, review: review } }))
+                    setReview("")
+                    setValue(0)
+                }
+            } catch (error) {
+                dispatch(setMessage(serverError))
             }
         }
     }

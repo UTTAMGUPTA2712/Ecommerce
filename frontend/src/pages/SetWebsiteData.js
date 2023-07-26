@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import SearchAppBar from '../utils/SearchAppBar'
+import SearchAppBar from '../Components/UserInterface/SearchAppBar'
 import SetDataList from '../Components/Admin/SetDataList'
 import { SetCoupon } from '../Components/Admin/SetCoupon'
 import { SetCategory } from '../Components/Admin/SetCategory'
@@ -20,7 +20,7 @@ const SetWebsiteData = () => {
     <>
       <div id='adminpage'>
         <SearchAppBar />
-        <SetDataList setData={changeData} />
+        <SetDataList data={data} setData={changeData} />
         <div id='list'>
           {componentSelector(data)}
         </div>

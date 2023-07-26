@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Snackbar } from '@material-ui/core';
-import { cleanMessage } from '../redux/slice/messageSlice';
+import { cleanMessage } from '../../redux/slice/messageSlice';
 import { Alert } from '@mui/material';
 const SnackBarUi = () => {
     const curMessage = useSelector(state => state.message.message)
@@ -18,7 +18,6 @@ const SnackBarUi = () => {
             dispatch(cleanMessage())
         }
     }, [curMessage])
-
     const handleClose = () => {
         setState({ ...state, open: false });
     };

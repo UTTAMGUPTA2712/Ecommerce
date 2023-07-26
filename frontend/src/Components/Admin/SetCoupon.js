@@ -25,30 +25,39 @@ export const SetCoupon = () => {
     const [formdata, setFormdata] = useState("")
     const dispatch = useDispatch()
     const getData = async () => {
-        const response = await GetCoupon()
-        if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
-
-            setRows(response.data)
+        try {
+            const response = await GetCoupon()
+            if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
+                setRows(response.data)
+            }
+        } catch (error) {
+            dispatch(setMessage(serverError))
         }
     }
     const addCoupon = async () => {
-        const response = await AddCouponsService(formdata)
-        if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
-
-            setRows([...rows, response.data])
-            setFormdata({ name: "", coupon: "" })
+        try {
+            const response = await AddCouponsService(formdata)
+            if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
+                setRows([...rows, response.data])
+                setFormdata({ name: "", coupon: "" })
+            }
+        } catch (error) {
+            dispatch(setMessage(serverError))
         }
     }
     const deleteCoupon = async (id, index) => {
-        const response = await DisableCoupon({ id: id })
-        if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
-
-            let arr = [...rows]
-            arr.splice(index, 1)
-            setRows(arr)
+        try {
+            const response = await DisableCoupon({ id: id })
+            if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
+                let arr = [...rows]
+                arr.splice(index, 1)
+                setRows(arr)
+            }
+        } catch (error) {
+            dispatch(setMessage(serverError))
         }
     }
-    console.log("form", formdata);
+    // console.log("form", formdata);
     useEffect(() => {
         getData();
     }, [])
@@ -58,8 +67,9 @@ export const SetCoupon = () => {
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
-                            {columns.map((column) => (
+                            {columns.map((column, index) => (
                                 <TableCell
+                                    key={index}
                                     align={"center"}
                                     sx={{ minWidth: column.minWidth, color: "#f0f0f0", backgroundColor: "#1769aa" }}>
                                     {column.label}
@@ -71,10 +81,10 @@ export const SetCoupon = () => {
                         <TableRow>
                             <TableCell></TableCell>
                             <TableCell align={"center"}>
-                                <TextField variant='filled' label="Coupon Code" value={formdata?.name} onChange={(e) => setFormdata(p => ({ ...p, name: e.target.value }))}></TextField>
+                                <TextField variant='filled' label="Coupon Code" value={formdata?.name??""} onChange={(e) => setFormdata(p => ({ ...p, name: e.target.value }))}></TextField>
                             </TableCell >
                             <TableCell align={"center"}>
-                                <TextField variant='filled' label="Discount(in Rs.)" value={formdata?.coupon} type='number' onChange={(e) => setFormdata(p => ({ ...p, coupon: e.target.value }))}></TextField>
+                                <TextField variant='filled' label="Discount(in Rs.)" value={formdata?.coupon??""} type='number' onChange={(e) => setFormdata(p => ({ ...p, coupon: e.target.value }))}></TextField>
                             </TableCell>
                             <TableCell align={"center"}>
                                 <Button variant='contained' disabled={!(formdata?.name && formdata?.coupon)} onClick={addCoupon}>ADD</Button>
@@ -82,11 +92,11 @@ export const SetCoupon = () => {
                         </TableRow>
                         {rows.map((row, index) => {
                             return (
-                                <TableRow hover>
+                                <TableRow key={index} hover>
                                     <TableCell align={"center"}>{index + 1}</TableCell>
                                     <TableCell align={"center"}>{row?.name}</TableCell>
                                     <TableCell align={"center"}>Rs.{row?.coupon}/-</TableCell>
-                                    <TableCell align={"center"}><Delete onClick={() => deleteCoupon(row._id, index)} /></TableCell>
+                                    <TableCell align={"center"}><Delete sx={{cursor:"pointer"}} onClick={() => deleteCoupon(row._id, index)} /></TableCell>
                                 </TableRow>
                             );
                         })}

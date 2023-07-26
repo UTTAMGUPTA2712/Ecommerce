@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { setMessage } from "./messageSlice"
 
 const initialValue = {
     user: null,

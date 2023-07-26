@@ -14,9 +14,8 @@ const UserOrder = () => {
       const response = await GetUserOrdersService(user?.orders)
       setOrder(response.data)
     } catch (err) {
-      console.log("err", err);
+      // console.log("err", err);
       dispatch(setMessage(serverError))
-
     }
   }
   useEffect(() => {

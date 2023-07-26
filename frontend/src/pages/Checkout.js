@@ -4,7 +4,7 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import SearchAppBar from '../utils/SearchAppBar';
+import SearchAppBar from '../Components/UserInterface/SearchAppBar';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import OrderDetail from '../Components/Orders/OrderDetail';
@@ -53,6 +53,7 @@ const Checkout = () => {
                 );
               })}
             </Stepper>
+            <br/>
             {activeStep === steps.length ? (
               <>
                 <Box sx={{ width: "100%", backgroundColor: "white", height: "25rem", borderRadius: "20px", display: "flex", justifyContent: "center", alignItems: "center", marginTop: "1rem" }}>
@@ -83,7 +84,7 @@ const Checkout = () => {
                     <PlaceOrderButton handleNext={handleNext} />
                     :
                     <Button variant='contained' color='success' onClick={handleNext}>
-                      Next
+                      Confirm
                     </Button>}
                 </Box>
               </>

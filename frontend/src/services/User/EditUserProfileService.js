@@ -5,7 +5,7 @@ export const EditUserProfileService = (data) => {
     const response = axios.post(server + "user/editprofile", data)
     return response;
   } catch (error) {
-    console.log(error);
+    //console.log(error);
     return serverError
   }
 }

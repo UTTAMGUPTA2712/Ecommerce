@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useState } from "react"
+import React, { forwardRef, useEffect, useState } from "react"
 import Dialog from '@mui/material/Dialog';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -39,10 +39,13 @@ const AddItems = ({ itemData }) => {
         setOpen(false);
     };
     const SaveCategory = async () => {
-        const response = await GetCategory()
-        if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
-
-            setCategory(response.data)
+        try {
+            const response = await GetCategory()
+            if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
+                setCategory(response.data)
+            }
+        } catch (error) {
+            dispatch(setMessage(serverError))
         }
     }
     useEffect(() => {
@@ -77,7 +80,7 @@ const AddItems = ({ itemData }) => {
                     {itemData ? <ShowImages data={itemData?.image} /> : <UploadImage changeImage={changeImage} />}
                     <TextField
                         required
-                        value={data?.name}
+                        value={data?.name??""}
                         onChange={(e) => changeData("name", e.target.value)}
                         id="filled-required"
                         label="Name Of The Product"
@@ -92,15 +95,15 @@ const AddItems = ({ itemData }) => {
                             sx={{ textAlign: "left" }}
                             value={data?.category ?? ""}
                             onChange={(e) => changeData("category", e.target.value)}>
-                            {category.map(data => (
-                                <MenuItem value={data?.name}>{data?.name}</MenuItem>
+                            {category.map((data, index) => (
+                                <MenuItem key={index} value={data?.name}>{data?.name}</MenuItem>
                             ))}
                         </Select>
                     </FormControl>
                     <TextField
                         id="input-with-icon-textfield"
                         label="Price"
-                        value={data?.price}
+                        value={data?.price??""}
                         onChange={(e) => changeData("price", e.target.value)}
                         type="number"
                         InputProps={{
@@ -115,7 +118,7 @@ const AddItems = ({ itemData }) => {
                     <TextField
                         id="filled-multiline-static"
                         label="Description"
-                        value={data?.description}
+                        value={data?.description??""}
                         onChange={(e) => changeData("description", e.target.value)}
                         multiline
                         rows={4}

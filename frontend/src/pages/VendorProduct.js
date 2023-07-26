@@ -1,9 +1,9 @@
 import { useSelector } from 'react-redux'
 import Filter from '../Components/UserInterface/Filter'
 import ItemList from '../Components/UserInterface/ItemList'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { disableProduct, draft, enableProduct, outOfStock, published } from '../data/constants'
-import SearchAppBar from '../utils/SearchAppBar'
+import SearchAppBar from '../Components/UserInterface/SearchAppBar'
 import { List, ListItemButton, ListSubheader, ListItemIcon, ListItemText } from '@mui/material'
 import { AssignmentTurnedIn, CreditCardOff, DensitySmall, Drafts, HourglassTop, ProductionQuantityLimits } from '@mui/icons-material'
 

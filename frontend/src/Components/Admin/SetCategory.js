@@ -24,28 +24,39 @@ export const SetCategory = () => {
     const [formdata, setFormdata] = useState("")
     const dispatch = useDispatch()
     const getData = async () => {
-        const response = await GetCategory()
-        if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
-            setRows(response.data)
+        try {
+            const response = await GetCategory()
+            if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
+                setRows(response.data)
+            }
+        } catch (error) {
+            dispatch(setMessage(serverError))
         }
     }
     const addCategory = async () => {
-        const response = await AddCategory({ name: formdata })
-        if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
-
-            setRows([...rows, response.data])
-            setFormdata("")
+        try {
+            const response = await AddCategory({ name: formdata })
+            if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
+                setRows([...rows, response.data])
+                setFormdata("")
+            }
+        } catch (error) {
+            dispatch(setMessage(serverError))
         }
     }
     const deleteCategory = async (id, index) => {
-        const response = await DeleteCategory({ id: id })
-        if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
-            let arr = [...rows]
-            arr.splice(index, 1)
-            setRows(arr)
+        try {
+            const response = await DeleteCategory({ id: id })
+            if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
+                let arr = [...rows]
+                arr.splice(index, 1)
+                setRows(arr)
+            }
+        } catch (error) {
+            dispatch(setMessage(serverError))
         }
     }
-    console.log("form", formdata);
+    // console.log("form", formdata);
     useEffect(() => {
         getData();
     }, [])
@@ -55,8 +66,9 @@ export const SetCategory = () => {
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
-                            {columns.map((column) => (
+                            {columns.map((column, index) => (
                                 <TableCell
+                                    key={index}
                                     align={"center"}
                                     sx={{ minWidth: column.minWidth, color: "#f0f0f0", backgroundColor: "#1769aa" }}>
                                     {column.label}
@@ -68,7 +80,7 @@ export const SetCategory = () => {
                         <TableRow>
                             <TableCell align={"center"}></TableCell>
                             <TableCell align={"center"}>
-                                <TextField variant='filled' label="Category" value={formdata?.name} onChange={(e) => setFormdata(e.target.value)}></TextField>
+                                <TextField variant='filled' label="Category" value={formdata??""} onChange={(e) => setFormdata(e.target.value)}></TextField>
                             </TableCell>
                             <TableCell align={"center"}>
                                 <Button variant='contained' disabled={!formdata} onClick={addCategory}>ADD</Button>
@@ -76,10 +88,10 @@ export const SetCategory = () => {
                         </TableRow>
                         {rows.map((row, index) => {
                             return (
-                                <TableRow hover>
+                                <TableRow key={index} hover>
                                     <TableCell align={"center"}>{index + 1}</TableCell>
                                     <TableCell align={"center"}>{row?.name}</TableCell>
-                                    <TableCell align={"center"}><Delete onClick={() => deleteCategory(row._id, index)} /></TableCell>
+                                    <TableCell align={"center"}><Delete sx={{cursor:"pointer"}} onClick={() => deleteCategory(row._id, index)} /></TableCell>
                                 </TableRow>
                             );
                         })}

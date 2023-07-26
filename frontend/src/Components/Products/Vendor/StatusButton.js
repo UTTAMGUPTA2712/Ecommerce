@@ -12,19 +12,26 @@ export const StatusButton = ({ id, status }) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const handleStatusChange = async (data) => {
-        const response = await SetProductStatusService({ id: id, status: data })
-        if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
-
-            navigate(-1)
-            console.log(response);
+        try {
+            const response = await SetProductStatusService({ id: id, status: data })
+            if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
+                navigate(-1)
+                // console.log(response);
+            }
+        } catch (error) {
+            dispatch(setMessage(serverError))
         }
     }
     const deleteProduct = async () => {
-        const response = await DeleteProductService({ id: id })
-        if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
+        try {
+            const response = await DeleteProductService({ id: id })
+            if (response.data === serverError) { dispatch(setMessage(serverError)) } else {
 
-            console.log(response);
-            navigate(-1)
+                // console.log(response);
+                navigate(-1)
+            }
+        } catch (error) {
+            dispatch(setMessage(serverError))
         }
     }
     return (<>

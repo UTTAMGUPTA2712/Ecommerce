@@ -5,7 +5,7 @@ import { Box, Skeleton } from '@mui/material'
 import { GetItemService } from '../../services/Product/GetItemService'
 import { setProduct } from '../../redux/slice/productSlice'
 import noproduct from "../../assets/Images/noProduct.png"
-import { admin, deletedProduct, published, serverError } from '../../data/constants'
+import { deletedProduct, published, serverError } from '../../data/constants'
 import { setMessage } from '../../redux/slice/messageSlice'
 const noData =
     <Box sx={{ width: "15rem", height: "23rem" }}>
@@ -21,7 +21,7 @@ const ItemList = ({ userdata = "nouser", itemsType = "notype" }) => {
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(true)
     const [productLists, setProductLists] = useState(reduxData)
-    const user = useSelector(state => state.user.user)
+    // const user = useSelector(state => state.user.user)
     const filter = useSelector(state => state.filter.filter)
     const cart = useSelector(state => state.cart.cart)
     // to filter where i am using this component
@@ -32,7 +32,7 @@ const ItemList = ({ userdata = "nouser", itemsType = "notype" }) => {
                 const neededData = handleFilter(data)
                 return neededData
             } else if (userdata !== "nouser") {
-                console.log(listData);
+                // console.log(listData);
                 const data = listData?.filter(product => (product?.status === published) && (product?.sender === userdata?.email))
                 return data
             } else if (itemsType !== "notype") {
@@ -79,13 +79,17 @@ const ItemList = ({ userdata = "nouser", itemsType = "notype" }) => {
         if (loading) {
             setLoading(true)
             const getProducts = async () => {
-                const response = await GetItemService()
-                if (response.data === serverError) {
+                try {
+                    const response = await GetItemService()
+                    if (response.data === serverError) {
+                        dispatch(setMessage(serverError))
+                    } else {
+                        const list = FilteredData(response.data ?? [])
+                        setProductLists(list)
+                        dispatch(setProduct(response.data))
+                    }
+                } catch (error) {
                     dispatch(setMessage(serverError))
-                } else {
-                    const list = FilteredData(response.data ?? [])
-                    setProductLists(list)
-                    dispatch(setProduct(response.data))
                 }
             }
             getProducts()
@@ -110,8 +114,8 @@ const ItemList = ({ userdata = "nouser", itemsType = "notype" }) => {
                         (productLists?.length === 0 ?
                             <div className='centerimage' style={{ backgroundImage: `url('${noproduct}')` }} />
                             :
-                            productLists?.map((product) => {
-                                return <ItemCard data={product} value={cart?.[product?._id]?.value} />
+                            productLists?.map((product,index) => {
+                                return <React.Fragment key={index}><ItemCard data={product} value={cart?.[product?._id]?.value} /></React.Fragment>
                             })
                         )
                 }

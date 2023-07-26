@@ -5,7 +5,7 @@ export const UpdateProductService = (data) => {
     const response = axios.post(server + "product/updateproduct", data)
     return response;
   } catch (error) {
-    console.log(error);
+    //console.log(error);
     return serverError
   }
 }

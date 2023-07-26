@@ -1,4 +1,4 @@
-export const server = "http://localhost:1000/"
+export const server = process.env.REACT_APP_SERVER
 export const userNotFound = "USER NOT FOUND"
 export const userAlreadyExist = "USER ALREADY EXIST"
 export const userPhonePumberAlreadyExist = "USER PHONE NUMBER ALREADY EXIST"
@@ -33,3 +33,4 @@ export const userDisabled = "USER DISABLED"
 export const userEnabled = "USER SET ACTIVE"
 export const rateProduct = "RATE PRODUCT"
 export const cancelOrder = "ORDER CANCELED"
+export const googlepopclose= "GOOGLE LOGIN CANCELED"

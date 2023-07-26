@@ -1,4 +1,4 @@
-import { Drawer, ListItem, ListItemIcon, ListItemText, ListSubheader, Divider, List, Rating, Slider, Select, ListItemGroup } from '@mui/material';
+import { ListItem, ListSubheader } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSorting } from '../../redux/slice/filterSlice';
 
@@ -38,7 +38,7 @@ export const SortingComponent = () => {
         <>
             <ListSubheader>Sort</ListSubheader>
             {listItem.map((item, index) =>
-                <ListItem onClick={() => handleClick(item?.value)} sx={{ backgroundColor: filter === item?.value ? "#42424230" : "#ffffff" }}>{item.label}</ListItem>
+                <ListItem key={index} onClick={() => handleClick(item?.value)} sx={{ backgroundColor: filter === item?.value ? "#42424230" : "#ffffff", cursor: "pointer" }}>{item.label}</ListItem>
             )}
         </>
     )

@@ -5,7 +5,7 @@ export const GetCarousal = () => {
         const response = axios.get(server + "carousal/getcarousal")
         return response;
     } catch (error) {
-        console.log(error);
+        //console.log(error);
         return serverError
     }
 }
